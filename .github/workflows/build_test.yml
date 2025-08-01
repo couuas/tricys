@@ -1,0 +1,93 @@
+# 工作流名称
+name: Parallel Build, Test, and Push Docker Images
+
+# 触发条件
+on:
+  push:
+    branches: [ test_action ]
+  workflow_dispatch:
+
+# 环境变量，方便统一管理
+env:
+  # 定义一个基础镜像名称，我们会为每个服务添加后缀
+  IMAGE_NAME_BASE: ghcr.io/asipp-neutronics/tricys_openmodelica
+  # 定义一个用于测试的临时镜像标签
+  TEST_TAG: test-candidate
+
+jobs:
+  # 定义一个集构建、测试、推送于一体的任务
+  build_test_and_push:
+    name: Build, Test, and Push for ${{ matrix.service }}
+    runs-on: ubuntu-latest
+
+    # 为任务授予推送镜像到 ghcr.io 的权限
+    permissions:
+      contents: read
+      packages: write
+
+    # 核心：定义一个矩阵策略，为每个服务并行运行此任务
+    strategy:
+      fail-fast: false
+      matrix:
+        # 定义服务列表。工作流会为 'webapp' 和 'api' 分别启动一个并行的 Job
+        service: [ompython, gui]
+        # 你可以在这里定义每个服务对应的 Dockerfile 路径
+        include:
+          - service: ompython
+            dockerfile: ./docker/tricys_om_ompython_buildtest.dockerfile
+          - service: gui
+            dockerfile: ./docker/tricys_om_gui_buildtest.dockerfile
+
+    steps:
+      # 1. 检出（下载）代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. 登录到容器镜像仓库 (ghcr.io)
+      - name: Log in to the Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.MY_TOKEN }}
+
+      # 3. 提取元数据，为每个服务的镜像生成最终的标签
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # 动态生成镜像名称，例如：your-project-webapp, your-project-api
+          images: ${{ env.IMAGE_NAME_BASE }}-${{ matrix.service }}
+
+      # 4. 构建镜像，但不推送
+      - name: Build Docker image for ${{ matrix.service }}
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          # 使用矩阵中定义的 Dockerfile 路径
+          file: ${{ matrix.dockerfile }}
+          load: true
+          push: false
+          # 同时打上最终标签和用于测试的临时标签
+          tags: |
+            ${{ env.IMAGE_NAME_BASE }}-${{ matrix.service }}:${{ env.TEST_TAG }}
+            ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # 5. 在新构建的镜像中运行测试
+      - name: Run tests for ${{ matrix.service }}
+        run: |
+          echo "Starting tests in container for ${{ matrix.service }}..."
+          docker run --rm ${{ env.IMAGE_NAME_BASE }}-${{ matrix.service }}:${{ env.TEST_TAG }} make test
+
+      # 6. 如果测试成功，则推送镜像
+      - name: Push the image for ${{ matrix.service }}
+        run: |
+          echo "Tests passed for ${{ matrix.service }}. Pushing image with all tags..."
+          docker push --all-tags ${{ env.IMAGE_NAME_BASE }}-${{ matrix.service }}
+
+      # 7. 如果任何步骤失败，则开启 tmate 调试会话
+      - name: Debug with tmate on failure
+        if: failure()
+        uses: mxschmitt/action-tmate@v3

@@ -1,4 +1,4 @@
-FROM openmodelica/openmodelica:v1.24.5-gui
+FROM openmodelica/openmodelica:v1.24.5-ompython
 
 # 1. 先以 root 身份安装所有系统依赖
 USER root
@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     sudo \
-    python3-tk \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. 将应用程序代码复制到容器中
