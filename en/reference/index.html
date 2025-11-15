@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="zh" class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
@@ -16,25 +16,25 @@
       
       
         
-          <link rel="alternate" href="../en/reference/" hreflang="en">
+          <link rel="alternate" href="./" hreflang="en">
         
-          <link rel="alternate" href="./" hreflang="zh">
+          <link rel="alternate" href="../../reference/" hreflang="zh">
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>API 参考 - 氚燃料循环模拟程序 TRICYS</title>
+        <title>API Reference - TRitium Integrated CYcle Simulation</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,13 +53,11 @@
       
     
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
-    
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -85,7 +83,7 @@
       
         
         <a href="#apireference" class="md-skip">
-          跳转至
+          Skip to content
         </a>
       
     </div>
@@ -97,8 +95,8 @@
       
 
 <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href=".." title="氚燃料循环模拟程序 TRICYS" class="md-header__button md-logo" aria-label="氚燃料循环模拟程序 TRICYS" data-md-component="logo">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../" title="TRitium Integrated CYcle Simulation" class="md-header__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,13 +110,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            氚燃料循环模拟程序 TRICYS
+            TRitium Integrated CYcle Simulation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              API 参考
+              API Reference
             
           </span>
         </div>
@@ -144,20 +142,20 @@
       <div class="md-header__option">
   <div class="md-select">
     
-    <button class="md-header__button md-icon" aria-label="选择当前语言">
+    <button class="md-header__button md-icon" aria-label="Select language">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
     </button>
     <div class="md-select__inner">
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="../en/reference/" hreflang="en" class="md-select__link">
+            <a href="./" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="./" hreflang="zh" class="md-select__link">
+            <a href="../../reference/" hreflang="zh" class="md-select__link">
               简体中文
             </a>
           </li>
@@ -178,16 +176,16 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
-      <nav class="md-search__options" aria-label="查找">
+      <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
@@ -200,7 +198,7 @@
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            正在初始化搜索引擎
+            Initializing search
           </div>
           <ol class="md-search-result__list" role="presentation"></ol>
         </div>
@@ -212,7 +210,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/asipp-neutronics/tricys" title="前往仓库" class="md-source" data-md-component="source">
+        <a href="https://github.com/asipp-neutronics/tricys" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -233,7 +231,7 @@
         
           
             
-<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
       
@@ -243,7 +241,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../" class="md-tabs__link">
         
   
   
@@ -309,7 +307,7 @@
   
     
   
-  API 参考
+  API Reference
 
       </a>
     </li>
@@ -328,7 +326,7 @@
   
     
   
-  原理解说
+  Explanation
 
       </a>
     </li>
@@ -347,7 +345,7 @@
   
     
   
-  更新日志
+  Changelog
 
       </a>
     </li>
@@ -366,7 +364,7 @@
   
     
   
-  开源许可
+  License
 
       </a>
     </li>
@@ -393,19 +391,19 @@
   
 
 
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="氚燃料循环模拟程序 TRICYS" class="md-nav__button md-logo" aria-label="氚燃料循环模拟程序 TRICYS" data-md-component="logo">
+    <a href="../" title="TRitium Integrated CYcle Simulation" class="md-nav__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    氚燃料循环模拟程序 TRICYS
+    TRitium Integrated CYcle Simulation
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/asipp-neutronics/tricys" title="前往仓库" class="md-source" data-md-component="source">
+      <a href="https://github.com/asipp-neutronics/tricys" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -425,7 +423,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   
@@ -539,7 +537,7 @@
   <span class="md-ellipsis">
     
   
-    快速安装
+    Quick Installation
   
 
     
@@ -1010,7 +1008,7 @@
   <span class="md-ellipsis">
     
   
-    API 参考
+    API Reference
   
 
     
@@ -1028,7 +1026,7 @@
   <span class="md-ellipsis">
     
   
-    API 参考
+    API Reference
   
 
     
@@ -1040,7 +1038,7 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
@@ -1049,7 +1047,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -2570,7 +2568,7 @@
   <span class="md-ellipsis">
     
   
-    原理解说
+    Explanation
   
 
     
@@ -2597,7 +2595,7 @@
   <span class="md-ellipsis">
     
   
-    更新日志
+    Changelog
   
 
     
@@ -2624,7 +2622,7 @@
   <span class="md-ellipsis">
     
   
-    开源许可
+    License
   
 
     
@@ -2650,7 +2648,7 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
@@ -2659,7 +2657,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -4227,14 +4225,14 @@
 the main <code>run_simulation</code> orchestrator.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -4251,7 +4249,7 @@ the main <code>run_simulation</code> orchestrator.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -4259,7 +4257,7 @@ the main <code>run_simulation</code> orchestrator.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/simulation/simulation.py</code></summary>
+              <summary>源代码位于： <code>tricys/simulation/simulation.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1014">1014</a></span>
 <span class="normal"><a href="#__codelineno-0-1015">1015</a></span>
 <span class="normal"><a href="#__codelineno-0-1016">1016</a></span>
@@ -4333,14 +4331,14 @@ as standard or co-simulations), merges the results into a single DataFrame,
 and triggers any configured post-processing steps.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -4357,7 +4355,7 @@ and triggers any configured post-processing steps.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -4365,7 +4363,7 @@ and triggers any configured post-processing steps.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/simulation/simulation.py</code></summary>
+              <summary>源代码位于： <code>tricys/simulation/simulation.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-735"> 735</a></span>
 <span class="normal"><a href="#__codelineno-0-736"> 736</a></span>
 <span class="normal"><a href="#__codelineno-0-737"> 737</a></span>
@@ -4977,14 +4975,14 @@ and triggers any configured post-processing steps.</p>
 logging, and calls the main <code>run_simulation</code> orchestrator for analysis.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -5001,7 +4999,7 @@ logging, and calls the main <code>run_simulation</code> orchestrator for analysi
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -5009,7 +5007,7 @@ logging, and calls the main <code>run_simulation</code> orchestrator for analysi
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/simulation/simulation_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/simulation/simulation_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1807">1807</a></span>
 <span class="normal"><a href="#__codelineno-0-1808">1808</a></span>
 <span class="normal"><a href="#__codelineno-0-1809">1809</a></span>
@@ -5082,14 +5080,14 @@ run and re-triggers the AI-dependent parts of the analysis, including
 report generation and consolidation.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -5106,7 +5104,7 @@ report generation and consolidation.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -5114,7 +5112,7 @@ report generation and consolidation.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/simulation/simulation_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/simulation/simulation_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1765">1765</a></span>
 <span class="normal"><a href="#__codelineno-0-1766">1766</a></span>
 <span class="normal"><a href="#__codelineno-0-1767">1767</a></span>
@@ -5221,14 +5219,14 @@ different execution paths based on the configuration:
   generates plots, and triggers sensitivity analysis and post-processing.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -5245,7 +5243,7 @@ different execution paths based on the configuration:
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -5253,7 +5251,7 @@ different execution paths based on the configuration:
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/simulation/simulation_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/simulation/simulation_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1278">1278</a></span>
 <span class="normal"><a href="#__codelineno-0-1279">1279</a></span>
 <span class="normal"><a href="#__codelineno-0-1280">1280</a></span>
@@ -6281,7 +6279,7 @@ different execution paths based on the configuration:
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/jobs.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/jobs.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-194">194</a></span>
 <span class="normal"><a href="#__codelineno-0-195">195</a></span>
 <span class="normal"><a href="#__codelineno-0-196">196</a></span>
@@ -6401,7 +6399,7 @@ with special formats:
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/jobs.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/jobs.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-62"> 62</a></span>
 <span class="normal"><a href="#__codelineno-0-63"> 63</a></span>
 <span class="normal"><a href="#__codelineno-0-64"> 64</a></span>
@@ -6604,14 +6602,14 @@ simulation.</p>
         <p>Formats a parameter value into a string recognized by OpenModelica.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -6628,7 +6626,7 @@ simulation.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6644,19 +6642,19 @@ simulation.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -6675,7 +6673,7 @@ simulation.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/modelica.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/modelica.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-201">201</a></span>
 <span class="normal"><a href="#__codelineno-0-202">202</a></span>
 <span class="normal"><a href="#__codelineno-0-203">203</a></span>
@@ -6731,14 +6729,14 @@ simulation.</p>
         <p>Recursively retrieves detailed information for all parameters in a given model.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -6755,7 +6753,7 @@ simulation.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6771,19 +6769,19 @@ simulation.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -6803,7 +6801,7 @@ contains the detailed information of a single parameter.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/modelica.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/modelica.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-165">165</a></span>
 <span class="normal"><a href="#__codelineno-0-166">166</a></span>
 <span class="normal"><a href="#__codelineno-0-167">167</a></span>
@@ -6895,14 +6893,14 @@ parameter information and then extracts and parses the name and default value
 into a dictionary.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -6919,7 +6917,7 @@ into a dictionary.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -6935,19 +6933,19 @@ into a dictionary.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -6968,7 +6966,7 @@ dictionary if the model is not found or has no parameters.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/modelica.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/modelica.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-254">254</a></span>
 <span class="normal"><a href="#__codelineno-0-255">255</a></span>
 <span class="normal"><a href="#__codelineno-0-256">256</a></span>
@@ -7076,14 +7074,14 @@ dictionary if the model is not found or has no parameters.</p>
         <p>Parses and returns all subcomponent parameter names for a given model.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -7100,7 +7098,7 @@ dictionary if the model is not found or has no parameters.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7116,19 +7114,19 @@ dictionary if the model is not found or has no parameters.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -7147,7 +7145,7 @@ dictionary if the model is not found or has no parameters.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/modelica.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/modelica.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-45">45</a></span>
 <span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
@@ -7253,12 +7251,12 @@ dictionary if the model is not found or has no parameters.</p>
         <p>Initializes and returns a new OMCSessionZMQ session.</p>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -7277,7 +7275,7 @@ dictionary if the model is not found or has no parameters.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/modelica.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/modelica.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
 <span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
@@ -7313,14 +7311,14 @@ dictionary if the model is not found or has no parameters.</p>
         <p>Loads a Modelica package into the OpenModelica session.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -7337,7 +7335,7 @@ dictionary if the model is not found or has no parameters.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7353,19 +7351,19 @@ dictionary if the model is not found or has no parameters.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -7384,7 +7382,7 @@ dictionary if the model is not found or has no parameters.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/modelica.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/modelica.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-27">27</a></span>
 <span class="normal"><a href="#__codelineno-0-28">28</a></span>
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
@@ -7477,14 +7475,14 @@ dictionary if the model is not found or has no parameters.</p>
 4. Saves the modified system model to a new file.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -7503,7 +7501,7 @@ dictionary if the model is not found or has no parameters.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7519,7 +7517,7 @@ dictionary if the model is not found or has no parameters.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7535,7 +7533,7 @@ dictionary if the model is not found or has no parameters.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -7543,7 +7541,7 @@ dictionary if the model is not found or has no parameters.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/core/interceptor.py</code></summary>
+              <summary>源代码位于： <code>tricys/core/interceptor.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-529">529</a></span>
 <span class="normal"><a href="#__codelineno-0-530">530</a></span>
 <span class="normal"><a href="#__codelineno-0-531">531</a></span>
@@ -7705,14 +7703,14 @@ dictionary if the model is not found or has no parameters.</p>
 initial value.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -7729,7 +7727,7 @@ initial value.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7745,19 +7743,19 @@ initial value.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -7776,7 +7774,7 @@ initial value.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/metric.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/metric.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
 <span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
 <span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
@@ -7866,14 +7864,14 @@ initial value.</p>
 inventory and the minimum inventory (the turning point).</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -7890,7 +7888,7 @@ inventory and the minimum inventory (the turning point).</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -7913,12 +7911,12 @@ inventory and the minimum inventory (the turning point).</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -7937,7 +7935,7 @@ inventory and the minimum inventory (the turning point).</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/metric.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/metric.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
 <span class="normal"><a href="#__codelineno-0-24">24</a></span>
@@ -7997,14 +7995,14 @@ pivots the results into a summary DataFrame where each row corresponds
 to a unique parameter combination.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -8021,7 +8019,7 @@ to a unique parameter combination.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -8038,7 +8036,7 @@ each metric (e.g., source column, method).</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -8055,19 +8053,19 @@ to identify dependent variables.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -8087,7 +8085,7 @@ to identify dependent variables.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/metric.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/metric.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-126">126</a></span>
 <span class="normal"><a href="#__codelineno-0-127">127</a></span>
 <span class="normal"><a href="#__codelineno-0-128">128</a></span>
@@ -8349,14 +8347,14 @@ to identify dependent variables.</p>
         <p>Gets the final value of a time series.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -8373,7 +8371,7 @@ to identify dependent variables.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -8396,12 +8394,12 @@ to identify dependent variables.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -8420,7 +8418,7 @@ to identify dependent variables.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/metric.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/metric.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
@@ -8471,14 +8469,14 @@ general trend's minimum. If the smoothed minimum is not at the boundaries,
 it returns the time of the absolute minimum from the original data.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -8495,7 +8493,7 @@ it returns the time of the absolute minimum from the original data.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -8511,19 +8509,19 @@ it returns the time of the absolute minimum from the original data.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -8542,7 +8540,7 @@ it returns the time of the absolute minimum from the original data.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/metric.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/metric.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-42">42</a></span>
 <span class="normal"><a href="#__codelineno-0-43">43</a></span>
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
@@ -8696,14 +8694,14 @@ This function first generates dedicated plots for all 'Required_***' metrics,
 then handles plotting for all other standard metrics.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -8720,7 +8718,7 @@ then handles plotting for all other standard metrics.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -8736,7 +8734,7 @@ then handles plotting for all other standard metrics.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -8752,7 +8750,7 @@ then handles plotting for all other standard metrics.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -8791,12 +8789,12 @@ then handles plotting for all other standard metrics.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -8815,7 +8813,7 @@ then handles plotting for all other standard metrics.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/plot.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/plot.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-381">381</a></span>
 <span class="normal"><a href="#__codelineno-0-382">382</a></span>
 <span class="normal"><a href="#__codelineno-0-383">383</a></span>
@@ -9143,14 +9141,14 @@ then handles plotting for all other standard metrics.</p>
 term, and the Chinese translation. This data is used to format plot labels.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -9167,7 +9165,7 @@ term, and the Chinese translation. This data is used to format plot labels.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -9175,7 +9173,7 @@ term, and the Chinese translation. This data is used to format plot labels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/plot.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/plot.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
 <span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
 <span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
@@ -9285,14 +9283,14 @@ zoomed-in view around the minimum point of the curves. The time axis is in days.
 The overall view hides data points for a curve if they exceed twice its initial value.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -9309,7 +9307,7 @@ The overall view hides data points for a curve if they exceed twice its initial 
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -9325,7 +9323,7 @@ The overall view hides data points for a curve if they exceed twice its initial 
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -9341,7 +9339,7 @@ The overall view hides data points for a curve if they exceed twice its initial 
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -9357,7 +9355,7 @@ The overall view hides data points for a curve if they exceed twice its initial 
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -9413,12 +9411,12 @@ If provided, only curves matching these parameters will be plotted.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -9437,7 +9435,7 @@ If provided, only curves matching these parameters will be plotted.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/plot.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/plot.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-843"> 843</a></span>
 <span class="normal"><a href="#__codelineno-0-844"> 844</a></span>
 <span class="normal"><a href="#__codelineno-0-845"> 845</a></span>
@@ -9951,14 +9949,14 @@ If provided, only curves matching these parameters will be plotted.</p>
         <p>Sets the preferred language for plot labels and text.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -9984,7 +9982,7 @@ If provided, only curves matching these parameters will be plotted.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/plot.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/plot.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-64">64</a></span>
 <span class="normal"><a href="#__codelineno-0-65">65</a></span>
 <span class="normal"><a href="#__codelineno-0-66">66</a></span>
@@ -10079,7 +10077,7 @@ If provided, only curves matching these parameters will be plotted.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/report.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/report.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-16"> 16</a></span>
 <span class="normal"><a href="#__codelineno-0-17"> 17</a></span>
 <span class="normal"><a href="#__codelineno-0-18"> 18</a></span>
@@ -10384,7 +10382,7 @@ If provided, only curves matching these parameters will be plotted.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/report.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/report.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1407">1407</a></span>
 <span class="normal"><a href="#__codelineno-0-1408">1408</a></span>
 <span class="normal"><a href="#__codelineno-0-1409">1409</a></span>
@@ -10499,7 +10497,7 @@ If provided, only curves matching these parameters will be plotted.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/report.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/report.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1456">1456</a></span>
 <span class="normal"><a href="#__codelineno-0-1457">1457</a></span>
 <span class="normal"><a href="#__codelineno-0-1458">1458</a></span>
@@ -10680,7 +10678,7 @@ If provided, only curves matching these parameters will be plotted.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/report.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/report.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-416"> 416</a></span>
 <span class="normal"><a href="#__codelineno-0-417"> 417</a></span>
 <span class="normal"><a href="#__codelineno-0-418"> 418</a></span>
@@ -12056,7 +12054,7 @@ by sending the existing report and a glossary of terms to an LLM.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/report.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/report.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-160">160</a></span>
 <span class="normal"><a href="#__codelineno-0-161">161</a></span>
 <span class="normal"><a href="#__codelineno-0-162">162</a></span>
@@ -12587,7 +12585,7 @@ This function can be triggered by setting an environment variable.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/report.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/report.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1387">1387</a></span>
 <span class="normal"><a href="#__codelineno-0-1388">1388</a></span>
 <span class="normal"><a href="#__codelineno-0-1389">1389</a></span>
@@ -16094,14 +16092,14 @@ This function can be triggered by setting an environment variable.</p>
         <p>Initialize the analyzer</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -16118,7 +16116,7 @@ This function can be triggered by setting an environment variable.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -16126,7 +16124,7 @@ This function can be triggered by setting an environment variable.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-40">40</a></span>
 <span class="normal"><a href="#__codelineno-0-41">41</a></span>
 <span class="normal"><a href="#__codelineno-0-42">42</a></span>
@@ -16176,14 +16174,14 @@ This function can be triggered by setting an environment variable.</p>
         <p>Perform FAST sensitivity analysis</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -16222,12 +16220,12 @@ This function can be triggered by setting an environment variable.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -16252,7 +16250,7 @@ Results from Morris or Sobol sampling cannot be used.</p>
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-710">710</a></span>
 <span class="normal"><a href="#__codelineno-0-711">711</a></span>
 <span class="normal"><a href="#__codelineno-0-712">712</a></span>
@@ -16408,14 +16406,14 @@ Results from Morris or Sobol sampling cannot be used.</p>
 providing descriptive statistics and basic sensitivity indices.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -16454,12 +16452,12 @@ providing descriptive statistics and basic sensitivity indices.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -16478,7 +16476,7 @@ providing descriptive statistics and basic sensitivity indices.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-778">778</a></span>
 <span class="normal"><a href="#__codelineno-0-779">779</a></span>
 <span class="normal"><a href="#__codelineno-0-780">780</a></span>
@@ -16636,14 +16634,14 @@ providing descriptive statistics and basic sensitivity indices.</p>
         <p>Perform Morris sensitivity analysis</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -16682,12 +16680,12 @@ providing descriptive statistics and basic sensitivity indices.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -16706,7 +16704,7 @@ providing descriptive statistics and basic sensitivity indices.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-648">648</a></span>
 <span class="normal"><a href="#__codelineno-0-649">649</a></span>
 <span class="normal"><a href="#__codelineno-0-650">650</a></span>
@@ -16848,14 +16846,14 @@ providing descriptive statistics and basic sensitivity indices.</p>
         <p>Perform Sobol Sensitivity Analysis</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -16894,12 +16892,12 @@ providing descriptive statistics and basic sensitivity indices.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -16924,7 +16922,7 @@ Results from Morris or FAST sampling cannot be used.</p>
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-576">576</a></span>
 <span class="normal"><a href="#__codelineno-0-577">577</a></span>
 <span class="normal"><a href="#__codelineno-0-578">578</a></span>
@@ -17086,14 +17084,14 @@ Results from Morris or FAST sampling cannot be used.</p>
         <p>Define SALib problem space</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -17110,7 +17108,7 @@ Results from Morris or FAST sampling cannot be used.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -17134,12 +17132,12 @@ Results from Morris or FAST sampling cannot be used.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -17158,7 +17156,7 @@ Results from Morris or FAST sampling cannot be used.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-198">198</a></span>
 <span class="normal"><a href="#__codelineno-0-199">199</a></span>
 <span class="normal"><a href="#__codelineno-0-200">200</a></span>
@@ -17292,14 +17290,14 @@ Results from Morris or FAST sampling cannot be used.</p>
         <p>Generate parameter samples</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -17354,12 +17352,12 @@ Results from Morris or FAST sampling cannot be used.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -17378,7 +17376,7 @@ Results from Morris or FAST sampling cannot be used.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-256">256</a></span>
 <span class="normal"><a href="#__codelineno-0-257">257</a></span>
 <span class="normal"><a href="#__codelineno-0-258">258</a></span>
@@ -17563,14 +17561,14 @@ Results from Morris or FAST sampling cannot be used.</p>
 This function reuses the base configuration and specifically modifies simulation_parameters and analysis_case for file-based SALib runs</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -17610,12 +17608,12 @@ This function reuses the base configuration and specifically modifies simulation
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -17634,7 +17632,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-407">407</a></span>
 <span class="normal"><a href="#__codelineno-0-408">408</a></span>
 <span class="normal"><a href="#__codelineno-0-409">409</a></span>
@@ -17748,14 +17746,14 @@ This function reuses the base configuration and specifically modifies simulation
         <p>Get analysis methods compatible with the specified sampling method.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -17772,19 +17770,19 @@ This function reuses the base configuration and specifically modifies simulation
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -17803,7 +17801,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-517">517</a></span>
 <span class="normal"><a href="#__codelineno-0-518">518</a></span>
 <span class="normal"><a href="#__codelineno-0-519">519</a></span>
@@ -17861,14 +17859,14 @@ This function reuses the base configuration and specifically modifies simulation
         <p>Read simulation results from the sensitivity_analysis_summary.csv file output by Tricys</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -17885,7 +17883,7 @@ This function reuses the base configuration and specifically modifies simulation
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -17908,12 +17906,12 @@ This function reuses the base configuration and specifically modifies simulation
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -17932,7 +17930,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-455">455</a></span>
 <span class="normal"><a href="#__codelineno-0-456">456</a></span>
 <span class="normal"><a href="#__codelineno-0-457">457</a></span>
@@ -18075,7 +18073,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1451">1451</a></span>
 <span class="normal"><a href="#__codelineno-0-1452">1452</a></span>
 <span class="normal"><a href="#__codelineno-0-1453">1453</a></span>
@@ -18234,7 +18232,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1521">1521</a></span>
 <span class="normal"><a href="#__codelineno-0-1522">1522</a></span>
 <span class="normal"><a href="#__codelineno-0-1523">1523</a></span>
@@ -18435,7 +18433,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1380">1380</a></span>
 <span class="normal"><a href="#__codelineno-0-1381">1381</a></span>
 <span class="normal"><a href="#__codelineno-0-1382">1382</a></span>
@@ -18596,7 +18594,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1313">1313</a></span>
 <span class="normal"><a href="#__codelineno-0-1314">1314</a></span>
 <span class="normal"><a href="#__codelineno-0-1315">1315</a></span>
@@ -18748,14 +18746,14 @@ This function reuses the base configuration and specifically modifies simulation
         <p>Run a complete SALib sensitivity analysis from the sensitivity analysis results file output by Tricys</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -18772,7 +18770,7 @@ This function reuses the base configuration and specifically modifies simulation
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -18843,12 +18841,12 @@ This function reuses the base configuration and specifically modifies simulation
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -18867,7 +18865,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-848"> 848</a></span>
 <span class="normal"><a href="#__codelineno-0-849"> 849</a></span>
 <span class="normal"><a href="#__codelineno-0-850"> 850</a></span>
@@ -19429,14 +19427,14 @@ This function reuses the base configuration and specifically modifies simulation
         <p>Run the Tricys simulation using the generated CSV parameter file and obtain the sensitivity analysis results</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -19484,19 +19482,19 @@ This function reuses the base configuration and specifically modifies simulation
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -19515,7 +19513,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-537">537</a></span>
 <span class="normal"><a href="#__codelineno-0-538">538</a></span>
 <span class="normal"><a href="#__codelineno-0-539">539</a></span>
@@ -19611,14 +19609,14 @@ This function reuses the base configuration and specifically modifies simulation
         <p>Generate sampling parameters and output them as a CSV file, which can be subsequently read by the Tricys simulation engine.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -19650,19 +19648,19 @@ This function reuses the base configuration and specifically modifies simulation
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -19681,7 +19679,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-339">339</a></span>
 <span class="normal"><a href="#__codelineno-0-340">340</a></span>
 <span class="normal"><a href="#__codelineno-0-341">341</a></span>
@@ -19835,14 +19833,14 @@ This function reuses the base configuration and specifically modifies simulation
         <p>Save sensitivity analysis results</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -19883,7 +19881,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1612">1612</a></span>
 <span class="normal"><a href="#__codelineno-0-1613">1613</a></span>
 <span class="normal"><a href="#__codelineno-0-1614">1614</a></span>
@@ -20117,7 +20115,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1815">1815</a></span>
 <span class="normal"><a href="#__codelineno-0-1816">1816</a></span>
 <span class="normal"><a href="#__codelineno-0-1817">1817</a></span>
@@ -20428,7 +20426,7 @@ This function reuses the base configuration and specifically modifies simulation
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1716">1716</a></span>
 <span class="normal"><a href="#__codelineno-0-1717">1717</a></span>
 <span class="normal"><a href="#__codelineno-0-1718">1718</a></span>
@@ -20644,14 +20642,14 @@ This function reuses the base configuration and specifically modifies simulation
 space for SALib, and then runs the analysis.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -20668,7 +20666,7 @@ space for SALib, and then runs the analysis.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -20676,7 +20674,7 @@ space for SALib, and then runs the analysis.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/analysis/salib.py</code></summary>
+              <summary>源代码位于： <code>tricys/analysis/salib.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1962">1962</a></span>
 <span class="normal"><a href="#__codelineno-0-1963">1963</a></span>
 <span class="normal"><a href="#__codelineno-0-1964">1964</a></span>
@@ -21014,14 +21012,14 @@ space for SALib, and then runs the analysis.</p>
 3. An optional Markdown report with AI analysis.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -21038,7 +21036,7 @@ space for SALib, and then runs the analysis.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -21054,7 +21052,7 @@ space for SALib, and then runs the analysis.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -21077,7 +21075,7 @@ space for SALib, and then runs the analysis.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/postprocess/baseline_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/postprocess/baseline_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-848">848</a></span>
 <span class="normal"><a href="#__codelineno-0-849">849</a></span>
 <span class="normal"><a href="#__codelineno-0-850">850</a></span>
@@ -21301,7 +21299,7 @@ and a glossary of terms to an LLM.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/postprocess/baseline_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/postprocess/baseline_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-706">706</a></span>
 <span class="normal"><a href="#__codelineno-0-707">707</a></span>
 <span class="normal"><a href="#__codelineno-0-708">708</a></span>
@@ -21602,7 +21600,7 @@ and a glossary of terms to an LLM.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/postprocess/baseline_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/postprocess/baseline_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
 <span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
 <span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
@@ -21703,7 +21701,7 @@ Args:
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/postprocess/baseline_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/postprocess/baseline_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-67">67</a></span>
 <span class="normal"><a href="#__codelineno-0-68">68</a></span>
 <span class="normal"><a href="#__codelineno-0-69">69</a></span>
@@ -21796,14 +21794,14 @@ Args:
 that fail to exhibit the 'dip and rise' feature.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -21820,7 +21818,7 @@ that fail to exhibit the 'dip and rise' feature.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -21836,7 +21834,7 @@ that fail to exhibit the 'dip and rise' feature.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -21859,7 +21857,7 @@ that fail to exhibit the 'dip and rise' feature.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/postprocess/rise_analysis.py</code></summary>
+              <summary>源代码位于： <code>tricys/postprocess/rise_analysis.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-10"> 10</a></span>
 <span class="normal"><a href="#__codelineno-0-11"> 11</a></span>
 <span class="normal"><a href="#__codelineno-0-12"> 12</a></span>
@@ -22128,14 +22126,14 @@ that fail to exhibit the 'dip and rise' feature.</p>
 This function supports both single tasks (column name as 'var') and parameter sweep tasks (column name as 'var&amp;param=value').</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -22152,7 +22150,7 @@ This function supports both single tasks (column name as 'var') and parameter sw
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -22168,7 +22166,7 @@ This function supports both single tasks (column name as 'var') and parameter sw
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -22184,7 +22182,7 @@ This function supports both single tasks (column name as 'var') and parameter sw
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -22207,7 +22205,7 @@ This function supports both single tasks (column name as 'var') and parameter sw
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/postprocess/static_alarm.py</code></summary>
+              <summary>源代码位于： <code>tricys/postprocess/static_alarm.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-11"> 11</a></span>
 <span class="normal"><a href="#__codelineno-0-12"> 12</a></span>
 <span class="normal"><a href="#__codelineno-0-13"> 13</a></span>
@@ -22468,14 +22466,14 @@ This function supports both single tasks (column name as 'var') and parameter sw
 to a temporary output CSV.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -22492,7 +22490,7 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -22508,7 +22506,7 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -22530,12 +22528,12 @@ to a temporary output CSV.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -22552,12 +22550,12 @@ to a temporary output CSV.</p>
     </table>
 
 
-<p><span class="doc-section-title">Raises:</span></p>
+<p><span class="doc-section-title">引发：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -22586,7 +22584,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/handlers/div_handler.py</code></summary>
+              <summary>源代码位于： <code>tricys/handlers/div_handler.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
 <span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
@@ -22921,7 +22919,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/handlers/i_iss_handler.py</code></summary>
+              <summary>源代码位于： <code>tricys/handlers/i_iss_handler.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-21">21</a></span>
 <span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
@@ -22966,7 +22964,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/handlers/i_iss_handler.py</code></summary>
+              <summary>源代码位于： <code>tricys/handlers/i_iss_handler.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-77">77</a></span>
 <span class="normal"><a href="#__codelineno-0-78">78</a></span>
 <span class="normal"><a href="#__codelineno-0-79">79</a></span>
@@ -22997,7 +22995,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/handlers/i_iss_handler.py</code></summary>
+              <summary>源代码位于： <code>tricys/handlers/i_iss_handler.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-54">54</a></span>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
 <span class="normal"><a href="#__codelineno-0-56">56</a></span>
@@ -23062,7 +23060,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/handlers/i_iss_handler.py</code></summary>
+              <summary>源代码位于： <code>tricys/handlers/i_iss_handler.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-48">48</a></span>
 <span class="normal"><a href="#__codelineno-0-49">49</a></span>
 <span class="normal"><a href="#__codelineno-0-50">50</a></span>
@@ -23093,7 +23091,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/handlers/i_iss_handler.py</code></summary>
+              <summary>源代码位于： <code>tricys/handlers/i_iss_handler.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-34">34</a></span>
 <span class="normal"><a href="#__codelineno-0-35">35</a></span>
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
@@ -23148,14 +23146,14 @@ to a temporary output CSV.</p>
         <p>Runs an Aspen Plus simulation based on inputs from a Modelica simulation.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -23188,7 +23186,7 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -23204,7 +23202,7 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -23307,12 +23305,12 @@ to a temporary output CSV.</p>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -23332,7 +23330,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/handlers/i_iss_handler.py</code></summary>
+              <summary>源代码位于： <code>tricys/handlers/i_iss_handler.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
 <span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
 <span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
@@ -23888,7 +23886,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/config_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/config_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-683">683</a></span>
 <span class="normal"><a href="#__codelineno-0-684">684</a></span>
 <span class="normal"><a href="#__codelineno-0-685">685</a></span>
@@ -23983,14 +23981,14 @@ to a temporary output CSV.</p>
 4. Generate independent config.json files for each case</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -24007,19 +24005,19 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -24098,7 +24096,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/config_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/config_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-415">415</a></span>
 <span class="normal"><a href="#__codelineno-0-416">416</a></span>
 <span class="normal"><a href="#__codelineno-0-417">417</a></span>
@@ -24654,14 +24652,14 @@ to a temporary output CSV.</p>
 3. Required_TBR configuration completeness if used in dependent_variables</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -24678,19 +24676,19 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -24709,7 +24707,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/config_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/config_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-232">232</a></span>
 <span class="normal"><a href="#__codelineno-0-233">233</a></span>
 <span class="normal"><a href="#__codelineno-0-234">234</a></span>
@@ -24904,7 +24902,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/config_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/config_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-321">321</a></span>
 <span class="normal"><a href="#__codelineno-0-322">322</a></span>
 <span class="normal"><a href="#__codelineno-0-323">323</a></span>
@@ -25109,7 +25107,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/config_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/config_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-179">179</a></span>
 <span class="normal"><a href="#__codelineno-0-180">180</a></span>
 <span class="normal"><a href="#__codelineno-0-181">181</a></span>
@@ -25234,7 +25232,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/config_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/config_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-101">101</a></span>
 <span class="normal"><a href="#__codelineno-0-102">102</a></span>
 <span class="normal"><a href="#__codelineno-0-103">103</a></span>
@@ -25406,14 +25404,14 @@ to a temporary output CSV.</p>
         <p>Recursively traverse configuration data and convert relative paths to absolute paths based on the specified base directory</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -25430,7 +25428,7 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -25446,19 +25444,19 @@ to a temporary output CSV.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -25477,7 +25475,7 @@ to a temporary output CSV.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/config_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/config_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-51">51</a></span>
 <span class="normal"><a href="#__codelineno-0-52">52</a></span>
 <span class="normal"><a href="#__codelineno-0-53">53</a></span>
@@ -25634,7 +25632,7 @@ file rotation.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/file_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/file_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-42">42</a></span>
 <span class="normal"><a href="#__codelineno-0-43">43</a></span>
 <span class="normal"><a href="#__codelineno-0-44">44</a></span>
@@ -25688,14 +25686,14 @@ file rotation.</p>
         <p>Generates a unique filename by appending a counter if the file already exists.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -25712,7 +25710,7 @@ file rotation.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -25728,19 +25726,19 @@ file rotation.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
+<th>名称</th>          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -25759,7 +25757,7 @@ file rotation.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/file_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/file_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-19">19</a></span>
 <span class="normal"><a href="#__codelineno-0-20">20</a></span>
 <span class="normal"><a href="#__codelineno-0-21">21</a></span>
@@ -25823,7 +25821,7 @@ Extracts to a new folder if the current directory is not empty.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/file_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/file_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-127">127</a></span>
 <span class="normal"><a href="#__codelineno-0-128">128</a></span>
 <span class="normal"><a href="#__codelineno-0-129">129</a></span>
@@ -25964,14 +25962,14 @@ oldest ones based on modification time until the file count matches the
 <code>max_files</code> limit.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -25988,7 +25986,7 @@ oldest ones based on modification time until the file count matches the
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -26004,7 +26002,7 @@ oldest ones based on modification time until the file count matches the
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
@@ -26012,7 +26010,7 @@ oldest ones based on modification time until the file count matches the
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/log_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/log_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-14">14</a></span>
 <span class="normal"><a href="#__codelineno-0-15">15</a></span>
 <span class="normal"><a href="#__codelineno-0-16">16</a></span>
@@ -26083,7 +26081,7 @@ oldest ones based on modification time until the file count matches the
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/log_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/log_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-110">110</a></span>
 <span class="normal"><a href="#__codelineno-0-111">111</a></span>
 <span class="normal"><a href="#__codelineno-0-112">112</a></span>
@@ -26146,7 +26144,7 @@ oldest ones based on modification time until the file count matches the
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/log_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/log_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-133">133</a></span>
 <span class="normal"><a href="#__codelineno-0-134">134</a></span>
 <span class="normal"><a href="#__codelineno-0-135">135</a></span>
@@ -26317,7 +26315,7 @@ oldest ones based on modification time until the file count matches the
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/log_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/log_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-41"> 41</a></span>
 <span class="normal"><a href="#__codelineno-0-42"> 42</a></span>
 <span class="normal"><a href="#__codelineno-0-43"> 43</a></span>
@@ -26511,14 +26509,14 @@ parameter data from a SQLite database file.</p>
         <p>Creates the parameters table in the database if it does not exist.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -26535,19 +26533,19 @@ parameter data from a SQLite database file.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-<p><span class="doc-section-title">Raises:</span></p>
+<p><span class="doc-section-title">引发：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -26566,7 +26564,7 @@ parameter data from a SQLite database file.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/sqlite_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/sqlite_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
 <span class="normal"><a href="#__codelineno-0-20">20</a></span>
@@ -26646,14 +26644,14 @@ parameter data from a SQLite database file.</p>
         <p>Retrieves parameter details from the database.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -26670,19 +26668,19 @@ parameter data from a SQLite database file.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-    <p><span class="doc-section-title">Returns:</span></p>
+    <p><span class="doc-section-title">返回：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -26711,7 +26709,7 @@ parameter data from a SQLite database file.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/sqlite_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/sqlite_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-143">143</a></span>
 <span class="normal"><a href="#__codelineno-0-144">144</a></span>
 <span class="normal"><a href="#__codelineno-0-145">145</a></span>
@@ -26783,14 +26781,14 @@ parameter data from a SQLite database file.</p>
         <p>Stores or replaces a list of parameter details in the database.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -26807,7 +26805,7 @@ parameter data from a SQLite database file.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -26824,19 +26822,19 @@ dictionary contains details for a single parameter.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-<p><span class="doc-section-title">Raises:</span></p>
+<p><span class="doc-section-title">引发：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -26855,7 +26853,7 @@ dictionary contains details for a single parameter.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/sqlite_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/sqlite_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-50">50</a></span>
 <span class="normal"><a href="#__codelineno-0-51">51</a></span>
 <span class="normal"><a href="#__codelineno-0-52">52</a></span>
@@ -26971,14 +26969,14 @@ dictionary contains details for a single parameter.</p>
         <p>Updates the 'sweep_values' for specified parameters in the database.</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
+<p><span class="doc-section-title">参数：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
+          <th>名称</th>
+          <th>类型</th>
+          <th>描述</th>
+          <th>默认</th>
         </tr>
       </thead>
       <tbody>
@@ -26995,7 +26993,7 @@ dictionary contains details for a single parameter.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -27012,19 +27010,19 @@ and values are the corresponding sweep values (e.g., a list).</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                <em>必需</em>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-<p><span class="doc-section-title">Raises:</span></p>
+<p><span class="doc-section-title">引发：</span></p>
     <table>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Description</th>
+          <th>类型</th>
+          <th>描述</th>
         </tr>
       </thead>
       <tbody>
@@ -27043,7 +27041,7 @@ and values are the corresponding sweep values (e.g., a list).</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>tricys/utils/sqlite_utils.py</code></summary>
+              <summary>源代码位于： <code>tricys/utils/sqlite_utils.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-100">100</a></span>
 <span class="normal"><a href="#__codelineno-0-101">101</a></span>
 <span class="normal"><a href="#__codelineno-0-102">102</a></span>
@@ -27161,7 +27159,7 @@ and values are the corresponding sweep values (e.g., a list).</p>
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
-  回到页面顶部
+  Back to top
 </button>
         
       </main>
@@ -27170,17 +27168,17 @@ and values are the corresponding sweep values (e.g., a list).</p>
   
     
       
-      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../questions/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 常见问题">
+          <a href="../questions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 常见问题">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
             </div>
             <div class="md-footer__title">
               <span class="md-footer__direction">
-                上一页
+                Previous
               </span>
               <div class="md-ellipsis">
                 常见问题
@@ -27190,13 +27188,13 @@ and values are the corresponding sweep values (e.g., a list).</p>
         
         
           
-          <a href="../explanation/" class="md-footer__link md-footer__link--next" aria-label="下一页: 原理解说">
+          <a href="../explanation/" class="md-footer__link md-footer__link--next" aria-label="Next: Explanation">
             <div class="md-footer__title">
               <span class="md-footer__direction">
-                下一页
+                Next
               </span>
               <div class="md-ellipsis">
-                原理解说
+                Explanation
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -27233,10 +27231,10 @@ and values are the corresponding sweep values (e.g., a list).</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
