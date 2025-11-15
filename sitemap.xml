@@ -36,11 +36,46 @@
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/questions/"/>
     </url>
     <url>
-        <loc>Nonereference/</loc>
+        <loc>Noneapi/tricys_analysis/</loc>
         <lastmod>2025-11-15</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="zh" href="Nonereference/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneen/reference/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_analysis/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_analysis/"/>
+    </url>
+    <url>
+        <loc>Noneapi/tricys_core/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_core/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_core/"/>
+    </url>
+    <url>
+        <loc>Noneapi/tricys_handlers/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_handlers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_handlers/"/>
+    </url>
+    <url>
+        <loc>Noneapi/tricys_postprocess/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_postprocess/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_postprocess/"/>
+    </url>
+    <url>
+        <loc>Noneapi/tricys_simulation/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_simulation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_simulation/"/>
+    </url>
+    <url>
+        <loc>Noneapi/tricys_utils/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_utils/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_utils/"/>
     </url>
     <url>
         <loc>Noneguides/cycle/</loc>
@@ -166,7 +201,48 @@
         <lastmod>2025-11-15</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/reference/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="Nonereference/"/>
+    </url>
+    <url>
+        <loc>Noneen/api/tricys_analysis/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_analysis/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_analysis/"/>
+    </url>
+    <url>
+        <loc>Noneen/api/tricys_core/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_core/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_core/"/>
+    </url>
+    <url>
+        <loc>Noneen/api/tricys_handlers/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_handlers/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_handlers/"/>
+    </url>
+    <url>
+        <loc>Noneen/api/tricys_postprocess/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_postprocess/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_postprocess/"/>
+    </url>
+    <url>
+        <loc>Noneen/api/tricys_simulation/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_simulation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_simulation/"/>
+    </url>
+    <url>
+        <loc>Noneen/api/tricys_utils/</loc>
+        <lastmod>2025-11-15</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/tricys_utils/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneapi/tricys_utils/"/>
     </url>
     <url>
         <loc>Noneen/guides/cycle/</loc>
