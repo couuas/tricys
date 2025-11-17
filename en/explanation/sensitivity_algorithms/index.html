@@ -9,32 +9,32 @@
       
       
       
-        <link rel="prev" href="../api/tricys_handlers/">
+        <link rel="prev" href="../concurrency/">
       
       
-        <link rel="next" href="../changelog/">
+        <link rel="next" href="../data_management/">
       
       
         
           <link rel="alternate" href="./" hreflang="en">
         
-          <link rel="alternate" href="../../explanation/" hreflang="zh">
+          <link rel="alternate" href="../../../explanation/sensitivity_algorithms/" hreflang="zh">
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Explanation - TRitium Integrated CYcle Simulation</title>
+        <title>5. Sensitivity Analysis Algorithms - TRitium Integrated CYcle Simulation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,11 +53,11 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#explanation" class="md-skip">
+        <a href="#_1" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../" title="TRitium Integrated CYcle Simulation" class="md-header__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
+    <a href="../../" title="TRitium Integrated CYcle Simulation" class="md-header__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Explanation
+              5. Sensitivity Analysis Algorithms
             
           </span>
         </div>
@@ -155,7 +155,7 @@
           </li>
         
           <li class="md-select__item">
-            <a href="../../explanation/" hreflang="zh" class="md-select__link">
+            <a href="../../../explanation/sensitivity_algorithms/" hreflang="zh" class="md-select__link">
               简体中文
             </a>
           </li>
@@ -241,13 +241,13 @@
   
   
     <li class="md-tabs__item">
-      <a href="../" class="md-tabs__link">
+      <a href="../../" class="md-tabs__link">
         
   
   
     
   
-  主页
+  Home
 
       </a>
     </li>
@@ -262,11 +262,11 @@
     
     
       <li class="md-tabs__item">
-        <a href="../guides/cycle/" class="md-tabs__link">
+        <a href="../../guides/quickstart/" class="md-tabs__link">
           
   
   
-  入门指南
+  Getting Started
 
         </a>
       </li>
@@ -279,29 +279,10 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../questions/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  常见问题
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
     
     
       <li class="md-tabs__item">
-        <a href="../api/tricys_simulation/" class="md-tabs__link">
+        <a href="../../api/tricys_simulation/" class="md-tabs__link">
           
   
   
@@ -320,17 +301,38 @@
     
   
   
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
-        
-  
-  
     
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../architecture/" class="md-tabs__link">
+          
+  
   
   Explanation
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../questions/installation/" class="md-tabs__link">
+          
+  
+  
+  FAQ
+
+        </a>
+      </li>
+    
   
 
       
@@ -340,7 +342,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../changelog/" class="md-tabs__link">
+      <a href="../../changelog/" class="md-tabs__link">
         
   
   
@@ -359,7 +361,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../license/" class="md-tabs__link">
+      <a href="../../license/" class="md-tabs__link">
         
   
   
@@ -394,7 +396,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../" title="TRitium Integrated CYcle Simulation" class="md-nav__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
+    <a href="../../" title="TRitium Integrated CYcle Simulation" class="md-nav__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -424,14 +426,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    主页
+    Home
   
 
     
@@ -474,7 +476,7 @@
   <span class="md-ellipsis">
     
   
-    入门指南
+    Getting Started
   
 
     
@@ -490,7 +492,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    入门指南
+    Getting Started
   
 
           </label>
@@ -503,14 +505,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/cycle/" class="md-nav__link">
+      <a href="../../guides/quickstart/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    氚燃料循环系统模型
+    Quick Start
   
 
     
@@ -530,15 +532,67 @@
   
   
   
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Overview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Model Overview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../guides/installation/" class="md-nav__link">
+      <a href="../../../guides/model/cycle.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Quick Installation
+    0D Tritium Fuel Cycle Model
   
 
     
@@ -547,6 +601,14 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -582,7 +644,7 @@
   <span class="md-ellipsis">
     
   
-    基础仿真（TRICYS BASIC）
+    Basic Simulation (TRICYS BASIC)
   
 
     
@@ -598,7 +660,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    基础仿真（TRICYS BASIC）
+    Basic Simulation (TRICYS BASIC)
   
 
           </label>
@@ -611,14 +673,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_basic/basic_configuration/" class="md-nav__link">
+      <a href="../../guides/tricys_basic/basic_configuration/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    基础配置
+    Basic Configuration
   
 
     
@@ -639,14 +701,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_basic/parameter_sweep/" class="md-nav__link">
+      <a href="../../guides/tricys_basic/parameter_sweep/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    参数扫描
+    Parameter Sweep
   
 
     
@@ -667,14 +729,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_basic/concurrent_operation/" class="md-nav__link">
+      <a href="../../guides/tricys_basic/concurrent_operation/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    并发运行
+    Concurrent Operation
   
 
     
@@ -695,14 +757,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_basic/post_processing_module/" class="md-nav__link">
+      <a href="../../guides/tricys_basic/post_processing_module/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    后处理模块
+    Post-processing Module
   
 
     
@@ -723,14 +785,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_basic/co_simulation_module/" class="md-nav__link">
+      <a href="../../guides/tricys_basic/co_simulation_module/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    协同仿真模块
+    Co-simulation Module
   
 
     
@@ -782,7 +844,7 @@
   <span class="md-ellipsis">
     
   
-    自动分析（TRICYS ANALYSIS)
+    Automated Analysis (TRICYS ANALYSIS)
   
 
     
@@ -798,7 +860,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    自动分析（TRICYS ANALYSIS)
+    Automated Analysis (TRICYS ANALYSIS)
   
 
           </label>
@@ -811,14 +873,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_analysis/baseline_condition_analysis/" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/baseline_condition_analysis/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    基准工况分析
+    Baseline Condition Analysis
   
 
     
@@ -839,14 +901,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_analysis/single_parameter_sensitivity_analysis/" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/single_parameter_sensitivity_analysis/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    单参数敏感性分析
+    Single Parameter Sensitivity Analysis
   
 
     
@@ -867,14 +929,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_analysis/multi_parameter_sensitivity_analysis/" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/multi_parameter_sensitivity_analysis/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    多参数敏感性分析
+    Multi-parameter Sensitivity Analysis
   
 
     
@@ -895,14 +957,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_analysis/sobol_global_sensitivity_analysis/" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/sobol_global_sensitivity_analysis/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    SOBOL全局敏感性分析
+    SOBOL Global Sensitivity Analysis
   
 
     
@@ -923,14 +985,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/tricys_analysis/latin_uncertainty_analysis/" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/latin_uncertainty_analysis/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Latin不确定性量化分析
+    Latin Uncertainty Analysis
   
 
     
@@ -955,33 +1017,6 @@
           </ul>
         </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../questions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    常见问题
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1006,10 +1041,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -1027,8 +1062,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1045,7 +1080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tricys_simulation/" class="md-nav__link">
+      <a href="../../api/tricys_simulation/" class="md-nav__link">
         
   
   
@@ -1073,7 +1108,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tricys_core/" class="md-nav__link">
+      <a href="../../api/tricys_core/" class="md-nav__link">
         
   
   
@@ -1101,7 +1136,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tricys_utils/" class="md-nav__link">
+      <a href="../../api/tricys_utils/" class="md-nav__link">
         
   
   
@@ -1129,7 +1164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tricys_analysis/" class="md-nav__link">
+      <a href="../../api/tricys_analysis/" class="md-nav__link">
         
   
   
@@ -1157,7 +1192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/tricys_postprocessing.md" class="md-nav__link">
+      <a href="../../api/tricys_postprocess/" class="md-nav__link">
         
   
   
@@ -1185,7 +1220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/tricys_handlers/" class="md-nav__link">
+      <a href="../../api/tricys_handlers/" class="md-nav__link">
         
   
   
@@ -1221,12 +1256,179 @@
   
   
   
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Explanation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Explanation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simulation_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Simulation Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../co_simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Co-simulation Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Concurrency Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
-      
-        
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
@@ -1236,7 +1438,7 @@
   <span class="md-ellipsis">
     
   
-    Explanation
+    5. Sensitivity Analysis Algorithms
   
 
     
@@ -1254,7 +1456,7 @@
   <span class="md-ellipsis">
     
   
-    Explanation
+    5. Sensitivity Analysis Algorithms
   
 
     
@@ -1270,8 +1472,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1283,27 +1483,279 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        核心工作流
+        敏感性分析算法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="敏感性分析算法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sobol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sobol 敏感性指数
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#cli" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#latin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        命令行 (CLI) 工作流程图
+        Latin 超立方采样
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.Data Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FAQ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Installation & Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Configuration & Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/advanced_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Best Practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -1316,7 +1768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   
@@ -1343,7 +1795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../license/" class="md-nav__link">
+      <a href="../../license/" class="md-nav__link">
         
   
   
@@ -1380,8 +1832,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1393,21 +1843,38 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        核心工作流
+        敏感性分析算法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="敏感性分析算法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sobol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sobol 敏感性指数
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#cli" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#latin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        命令行 (CLI) 工作流程图
+        Latin 超立方采样
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1431,67 +1898,35 @@
   
 
 
-<h1 id="explanation">原理解说（Explanation)<a class="headerlink" href="#explanation" title="Permanent link">&para;</a></h1>
-<h2 id="_1">核心工作流<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p><code>tricys</code> 主要支持两种工作流程：</p>
-<ol>
-<li>
-<p><strong>标准参数扫描 (Standard Parameter Sweep)</strong>:</p>
-<ul>
-<li><strong>目的</strong>: 研究一个或多个模型参数变化对系统行为的影响。</li>
-<li><strong>方式</strong>: <code>tricys</code> 自动生成所有参数组合，并行或顺序地执行每一次仿真，并最后汇总结果。</li>
-</ul>
-</li>
-<li>
-<p><strong>混合协同仿真 (Hybrid Co-Simulation)</strong>:</p>
-<ul>
-<li><strong>目的</strong>: 集成外部程序（如 Aspen Plus、MATLAB、Python脚本），实现更复杂的系统级仿真。</li>
-<li><strong>方式</strong>: 通过“运行-处理-再运行”的流程。<code>tricys</code> 首先运行一次初步仿真，然后将结果交给用户定义的“处理器”(Handler)进行外部计算，最后将处理器的结果“注入”回 Modelica 模型，运行一次最终的完整仿真。</li>
-</ul>
-</li>
-</ol>
-<h2 id="cli">命令行 (CLI) 工作流程图<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h2>
-<pre class="mermaid"><code>graph TB
-    Start[程序启动] --&gt; LoadConfig[加载JSON配置]
-    LoadConfig --&gt; GenJobs[生成仿真任务列表]
-    GenJobs --&gt; CheckCoSim{协同仿真?}
+  <h1>5. Sensitivity Analysis Algorithms</h1>
 
-    CheckCoSim --&gt;|是| CoSimPath[协同仿真流程]
-    CheckCoSim --&gt;|否| StdSimPath[标准仿真流程]
-
-    StdSimPath --&gt; CheckConcurrent1{并发?}
-    CheckConcurrent1 --&gt;|是| ConcurrentRun[并行执行所有任务]
-    CheckConcurrent1 --&gt;|否| SequentialRun[顺序执行所有任务]
-
-    CoSimPath --&gt; CheckConcurrent2{并发?}
-    CheckConcurrent2 --&gt;|是| ConcurrentCoSim[并行执行协同仿真]
-    CheckConcurrent2 --&gt;|否| SequentialCoSim[顺序执行协同仿真]
-
-    ConcurrentRun --&gt; RunSingleJob[_run_single_job]
-    SequentialRun --&gt; RunSingleJob
-
-    ConcurrentCoSim --&gt; RunCoSim[_run_co_simulation]
-    SequentialCoSim --&gt; RunCoSim
-
-    RunSingleJob --&gt; Simulate[OMC执行仿真]
-
-    RunCoSim --&gt; SimulatePrimary[1. 运行初步仿真]
-    SimulatePrimary --&gt; CallHandlers[2. 调用外部Handler]
-    CallHandlers --&gt; IntegrateInterceptor[3. 动态生成集成模型]
-    IntegrateInterceptor --&gt; FinalSimulation[4. 运行最终仿真]
-
-    Simulate --&gt; CollectResults[收集结果]
-    FinalSimulation --&gt; CollectResults
-
-    CollectResults --&gt; PostProcess{有后处理?}
-    PostProcess --&gt;|是| RunPostProcess[执行后处理脚本]
-    PostProcess --&gt;|否| End[结束]
-    RunPostProcess --&gt; End
-
-    style Start fill:#90EE90
-    style End fill:#FFB6C1
-    style RunCoSim fill:#DDA0DD
-    style RunSingleJob fill:#DDA0DD</code></pre>
+<h2 id="_1">敏感性分析算法<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="sobol">Sobol 敏感性指数<a class="headerlink" href="#sobol" title="Permanent link">&para;</a></h3>
+<p>Sobol 方法基于方差分解，将模型输出的总方差分解为各输入参数的独立贡献和交互贡献。</p>
+<p><strong>一阶敏感性指数（S1）</strong>：</p>
+<p>$$
+S_i = \frac{V_{X_i}[E_{X_{\sim i}}(Y|X_i)]}{V(Y)}
+$$</p>
+<p>表示参数 $X_i$ 独立变化对输出 $Y$ 方差的贡献。</p>
+<p><strong>总阶敏感性指数（ST）</strong>：</p>
+<p>$$
+ST_i = 1 - \frac{V_{X_{\sim i}}[E_{X_i}(Y|X_{\sim i})]}{V(Y)}
+$$</p>
+<p>表示参数 $X_i$ 及其与其他参数的所有交互作用对输出方差的总贡献。</p>
+<p><strong>交互作用</strong>：</p>
+<p>$$
+\text{Interaction} = ST_i - S_i
+$$</p>
+<h3 id="latin">Latin 超立方采样<a class="headerlink" href="#latin" title="Permanent link">&para;</a></h3>
+<p>Latin 超立方采样（LHS）是一种分层采样技术，确保每个参数的整个取值范围都被均匀覆盖。</p>
+<p><strong>算法步骤</strong>：
+1. 将每个参数的取值范围划分为 N 个等概率区间
+2. 从每个区间中随机抽取一个样本
+3. 随机打乱各参数的样本顺序，形成 N 组参数组合</p>
+<p><strong>优势</strong>：
+- 样本分布更均匀
+- 用更少的样本获得更好的参数空间覆盖</p>
+<hr />
 
 
 
@@ -1527,7 +1962,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../api/tricys_handlers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: tricys.handlers">
+          <a href="../concurrency/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4. Concurrency Model">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1537,20 +1972,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                tricys.handlers
+                4. Concurrency Model
               </div>
             </div>
           </a>
         
         
           
-          <a href="../changelog/" class="md-footer__link md-footer__link--next" aria-label="Next: Changelog">
+          <a href="../data_management/" class="md-footer__link md-footer__link--next" aria-label="Next: 6.Data Management">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Changelog
+                6.Data Management
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1587,10 +2022,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>

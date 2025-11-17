@@ -12,7 +12,7 @@
         <link rel="prev" href="../tricys_utils/">
       
       
-        <link rel="next" href="../tricys_handlers/">
+        <link rel="next" href="../tricys_postprocess/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>tricys.analysis - 氚燃料循环模拟程序 TRICYS</title>
+        <title>tricys.analysis - 氚燃料循环集成仿真平台</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#analysis" class="md-skip">
+        <a href="#api-analysis" class="md-skip">
           跳转至
         </a>
       
@@ -98,7 +98,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="氚燃料循环模拟程序 TRICYS" class="md-header__button md-logo" aria-label="氚燃料循环模拟程序 TRICYS" data-md-component="logo">
+    <a href="../.." title="氚燃料循环集成仿真平台" class="md-header__button md-logo" aria-label="氚燃料循环集成仿真平台" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +112,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            氚燃料循环模拟程序 TRICYS
+            氚燃料循环集成仿真平台
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -264,7 +264,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../guides/cycle/" class="md-tabs__link">
+        <a href="../../guides/quickstart/" class="md-tabs__link">
           
   
   
@@ -273,25 +273,6 @@
         </a>
       </li>
     
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../questions/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  常见问题
-
-      </a>
-    </li>
   
 
       
@@ -322,17 +303,38 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../explanation/" class="md-tabs__link">
-        
-  
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../../explanation/architecture/" class="md-tabs__link">
+          
+  
   
   原理解说
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../questions/installation/" class="md-tabs__link">
+          
+  
+  
+  常见问题
+
+        </a>
+      </li>
+    
   
 
       
@@ -385,6 +387,8 @@
           
             
               
+                
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -396,13 +400,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="氚燃料循环模拟程序 TRICYS" class="md-nav__button md-logo" aria-label="氚燃料循环模拟程序 TRICYS" data-md-component="logo">
+    <a href="../.." title="氚燃料循环集成仿真平台" class="md-nav__button md-logo" aria-label="氚燃料循环集成仿真平台" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    氚燃料循环模拟程序 TRICYS
+    氚燃料循环集成仿真平台
   </label>
   
     <div class="md-nav__source">
@@ -505,14 +509,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/cycle/" class="md-nav__link">
+      <a href="../../guides/quickstart/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    氚燃料循环系统模型
+    快速开始
   
 
     
@@ -532,15 +536,67 @@
   
   
   
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型概述
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    模型概述
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../guides/installation/" class="md-nav__link">
+      <a href="../../guides/model/cycle.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    快速安装
+    氚燃料循环0维系统模型
   
 
     
@@ -549,6 +605,14 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -965,33 +1029,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../../questions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    常见问题
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -1013,10 +1050,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -1034,8 +1071,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1142,6 +1179,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -1184,40 +1223,14 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       目录
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        分析模块 (Analysis)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="分析模块 (Analysis)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysismetric" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.metric
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#tricys.analysis.metric" class="md-nav__link">
@@ -1283,23 +1296,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="time_of_turning_point">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysisplot" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.plot
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1354,23 +1350,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="set_plot_language">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysisreport" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.report
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1448,23 +1427,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="retry_ai_analysis">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysissalib" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.salib
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1743,7 +1705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tricys_postprocessing.md" class="md-nav__link">
+      <a href="../tricys_postprocess/" class="md-nav__link">
         
   
   
@@ -1805,9 +1767,25 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../explanation/" class="md-nav__link">
+    
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -1821,7 +1799,390 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    原理解说
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. 系统架构设计
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/simulation_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. 仿真执行流程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/co_simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. 协同仿真原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/concurrency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. 并发计算模式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/sensitivity_algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. 敏感性分析算法
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../explanation/data_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. 数据管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    常见问题
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. 安装环境
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. 配置运行
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/advanced_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. 高级功能
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. 故障排除
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../questions/best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. 最佳实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1888,7 +2249,9 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1897,40 +2260,14 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       目录
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        分析模块 (Analysis)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="分析模块 (Analysis)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysismetric" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.metric
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#tricys.analysis.metric" class="md-nav__link">
@@ -1996,23 +2333,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="time_of_turning_point">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysisplot" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.plot
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -2067,23 +2387,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="set_plot_language">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysisreport" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.report
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2161,23 +2464,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="retry_ai_analysis">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tricysanalysissalib" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        tricys.analysis.salib
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2454,16 +2740,23 @@
               <article class="md-content__inner md-typeset">
                 
                   
+  
+
 
 
   
   
 
 
-  <h1>tricys.analysis</h1>
-
-<h2 id="analysis">分析模块 (Analysis)<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h2>
-<h3 id="tricysanalysismetric"><code>tricys.analysis.metric</code><a class="headerlink" href="#tricysanalysismetric" title="Permanent link">&para;</a></h3>
+<h1 id="api-analysis">API 参考 - 分析模块 (Analysis)<a class="headerlink" href="#api-analysis" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">分析模块 (Analysis)</p>
+<p>分析模块 (Analysis) 提供了用于处理、可视化和报告 TRICYS 仿真结果的工具。
+请在下方的标签页中选择您感兴趣的特定模块。</p>
+</div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Metric (指标)</label><label for="__tabbed_1_2">Plot (绘图)</label><label for="__tabbed_1_3">Report (报告)</label><label for="__tabbed_1_4">SALib (敏感性)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 
 
 <div class="doc doc-object doc-module">
@@ -3451,7 +3744,8 @@ it returns the time of the absolute minimum from the original data.</p>
 
     </div>
 
-</div><h3 id="tricysanalysisplot"><code>tricys.analysis.plot</code><a class="headerlink" href="#tricysanalysisplot" title="Permanent link">&para;</a></h3>
+</div></div>
+<div class="tabbed-block">
 
 
 <div class="doc doc-object doc-module">
@@ -4839,7 +5133,8 @@ If provided, only curves matching these parameters will be plotted.</p>
 
     </div>
 
-</div><h3 id="tricysanalysisreport"><code>tricys.analysis.report</code><a class="headerlink" href="#tricysanalysisreport" title="Permanent link">&para;</a></h3>
+</div></div>
+<div class="tabbed-block">
 
 
 <div class="doc doc-object doc-module">
@@ -7440,7 +7735,8 @@ This function can be triggered by setting an environment variable.</p>
 
     </div>
 
-</div><h3 id="tricysanalysissalib"><code>tricys.analysis.salib</code><a class="headerlink" href="#tricysanalysissalib" title="Permanent link">&para;</a></h3>
+</div></div>
+<div class="tabbed-block">
 
 
 <div class="doc doc-object doc-module">
@@ -15769,6 +16065,8 @@ space for SALib, and then runs the analysis.</p>
 
     </div>
 
+</div></div>
+</div>
 </div>
 
 
@@ -15777,8 +16075,13 @@ space for SALib, and then runs the analysis.</p>
 
 
 
+  
+  
 
 
+
+
+  
 
 
 
@@ -15802,6 +16105,8 @@ space for SALib, and then runs the analysis.</p>
   
     
       
+        
+      
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
@@ -15822,13 +16127,13 @@ space for SALib, and then runs the analysis.</p>
         
         
           
-          <a href="../tricys_handlers/" class="md-footer__link md-footer__link--next" aria-label="下一页: tricys.handlers">
+          <a href="../tricys_postprocess/" class="md-footer__link md-footer__link--next" aria-label="下一页: tricys.postprocessing">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                tricys.handlers
+                tricys.postprocessing
               </div>
             </div>
             <div class="md-footer__button md-icon">
