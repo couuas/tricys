@@ -113,6 +113,13 @@
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/guides/quickstart/"/>
     </url>
     <url>
+        <loc>Noneguides/models/cycle/</loc>
+        <lastmod>2025-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneguides/models/cycle/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/guides/models/cycle/"/>
+    </url>
+    <url>
         <loc>Noneguides/tricys_analysis/baseline_condition_analysis/</loc>
         <lastmod>2025-11-17</lastmod>
         <changefreq>daily</changefreq>
@@ -328,6 +335,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Noneen/guides/quickstart/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="Noneguides/quickstart/"/>
+    </url>
+    <url>
+        <loc>Noneen/guides/models/cycle/</loc>
+        <lastmod>2025-11-17</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Noneen/guides/models/cycle/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="Noneguides/models/cycle/"/>
     </url>
     <url>
         <loc>Noneen/guides/tricys_analysis/baseline_condition_analysis/</loc>
