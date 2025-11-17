@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#data-management" class="md-skip">
           Skip to content
         </a>
       
@@ -1508,22 +1508,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#data-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        数据管理
+        Data Management
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="数据管理">
+    <nav class="md-nav" aria-label="Data Management">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sqlite" class="md-nav__link">
+  <a href="#sqlite-database-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        SQLite 数据库结构
+        SQLite Database Structure
       
     </span>
   </a>
@@ -1531,10 +1531,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#result-file-format" class="md-nav__link">
     <span class="md-ellipsis">
       
-        结果文件格式
+        Result File Format
       
     </span>
   </a>
@@ -1840,22 +1840,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#data-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        数据管理
+        Data Management
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="数据管理">
+    <nav class="md-nav" aria-label="Data Management">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sqlite" class="md-nav__link">
+  <a href="#sqlite-database-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        SQLite 数据库结构
+        SQLite Database Structure
       
     </span>
   </a>
@@ -1863,10 +1863,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#result-file-format" class="md-nav__link">
     <span class="md-ellipsis">
       
-        结果文件格式
+        Result File Format
       
     </span>
   </a>
@@ -1900,9 +1900,9 @@
 
   <h1>6.Data Management</h1>
 
-<h2 id="_1">数据管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="sqlite">SQLite 数据库结构<a class="headerlink" href="#sqlite" title="Permanent link">&para;</a></h3>
-<p>TRICYS 使用 SQLite 存储模型参数信息：</p>
+<h2 id="data-management">Data Management<a class="headerlink" href="#data-management" title="Permanent link">&para;</a></h2>
+<h3 id="sqlite-database-structure">SQLite Database Structure<a class="headerlink" href="#sqlite-database-structure" title="Permanent link">&para;</a></h3>
+<p>TRICYS uses SQLite to store model parameter information:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">parameters</span><span class="w"> </span><span class="p">(</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
@@ -1913,24 +1913,23 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">max_value</span><span class="w"> </span><span class="nb">REAL</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">);</span>
 </code></pre></div>
-<p><strong>优势</strong>：
-- 快速查询和过滤参数
-- 支持参数元数据管理
-- 轻量级，无需外部数据库服务</p>
-<h3 id="_2">结果文件格式<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p><strong>单次仿真结果</strong>（<code>simulation_result.csv</code>）：
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>time, sds.I[1], blanket.I[1], ...
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>0.0,  10.5,     2.3,          ...
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>0.5,  10.4,     2.35,         ...
+<p><strong>Advantages</strong>:
+- Fast querying and filtering of parameters
+- Supports parameter metadata management
+- Lightweight, no external database service required</p>
+<h3 id="result-file-format">Result File Format<a class="headerlink" href="#result-file-format" title="Permanent link">&para;</a></h3>
+<p><strong>Single Simulation Result</strong> (<code>simulation_result.csv</code>):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>time,sds.I[1],blanket.I[1],...
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>0.0,10.5,2.3,...
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>0.5,10.4,2.35,...
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>...
 </code></pre></div></p>
-<p><strong>参数扫描结果</strong>（<code>sweep_results.csv</code>）：
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>time, blanket.TBR=1.05_sds.I[1], blanket.TBR=1.1_sds.I[1], ...
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>0.0,  10.5,                      11.2,                      ...
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>0.5,  10.4,                      11.1,                      ...
+<p><strong>Parameter Sweep Result</strong> (<code>sweep_results.csv</code>):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>time,blanket.TBR=1.05_sds.I[1],blanket.TBR=1.1_sds.I[1],...
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>0.0,10.5,11.2,...
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>0.5,10.4,11.1,...
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>...
 </code></pre></div></p>
-<hr />
 
 
 

@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#sensitivity-analysis-algorithms" class="md-skip">
           Skip to content
         </a>
       
@@ -1480,22 +1480,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#sensitivity-analysis-algorithms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        敏感性分析算法
+        Sensitivity Analysis Algorithms
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="敏感性分析算法">
+    <nav class="md-nav" aria-label="Sensitivity Analysis Algorithms">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sobol" class="md-nav__link">
+  <a href="#sobol-sensitivity-indices" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sobol 敏感性指数
+        Sobol Sensitivity Indices
       
     </span>
   </a>
@@ -1503,10 +1503,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#latin" class="md-nav__link">
+  <a href="#latin-hypercube-sampling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Latin 超立方采样
+        Latin Hypercube Sampling
       
     </span>
   </a>
@@ -1840,22 +1840,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#sensitivity-analysis-algorithms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        敏感性分析算法
+        Sensitivity Analysis Algorithms
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="敏感性分析算法">
+    <nav class="md-nav" aria-label="Sensitivity Analysis Algorithms">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#sobol" class="md-nav__link">
+  <a href="#sobol-sensitivity-indices" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sobol 敏感性指数
+        Sobol Sensitivity Indices
       
     </span>
   </a>
@@ -1863,10 +1863,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#latin" class="md-nav__link">
+  <a href="#latin-hypercube-sampling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Latin 超立方采样
+        Latin Hypercube Sampling
       
     </span>
   </a>
@@ -1900,33 +1900,32 @@
 
   <h1>5. Sensitivity Analysis Algorithms</h1>
 
-<h2 id="_1">敏感性分析算法<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="sobol">Sobol 敏感性指数<a class="headerlink" href="#sobol" title="Permanent link">&para;</a></h3>
-<p>Sobol 方法基于方差分解，将模型输出的总方差分解为各输入参数的独立贡献和交互贡献。</p>
-<p><strong>一阶敏感性指数（S1）</strong>：</p>
+<h2 id="sensitivity-analysis-algorithms">Sensitivity Analysis Algorithms<a class="headerlink" href="#sensitivity-analysis-algorithms" title="Permanent link">&para;</a></h2>
+<h3 id="sobol-sensitivity-indices">Sobol Sensitivity Indices<a class="headerlink" href="#sobol-sensitivity-indices" title="Permanent link">&para;</a></h3>
+<p>The Sobol method is based on variance decomposition, which decomposes the total output variance into contributions from individual input parameters and their interactions.</p>
+<p><strong>First-order Sensitivity Index (S1)</strong>:</p>
 <p>$$
 S_i = \frac{V_{X_i}[E_{X_{\sim i}}(Y|X_i)]}{V(Y)}
 $$</p>
-<p>表示参数 $X_i$ 独立变化对输出 $Y$ 方差的贡献。</p>
-<p><strong>总阶敏感性指数（ST）</strong>：</p>
-<p>$$
+<p>This represents the contribution of parameter $X_i$'s independent variation to the variance of output $Y$.</p>
+<p><strong>Total-order Sensitivity Index (ST)</strong>:</p>
+<p>$$ 
 ST_i = 1 - \frac{V_{X_{\sim i}}[E_{X_i}(Y|X_{\sim i})]}{V(Y)}
-$$</p>
-<p>表示参数 $X_i$ 及其与其他参数的所有交互作用对输出方差的总贡献。</p>
-<p><strong>交互作用</strong>：</p>
-<p>$$
+$$ </p>
+<p>This represents the total contribution of parameter $X_i$ and all its interactions with other parameters to the output variance.</p>
+<p><strong>Interaction</strong>:</p>
+<p>$$ 
 \text{Interaction} = ST_i - S_i
-$$</p>
-<h3 id="latin">Latin 超立方采样<a class="headerlink" href="#latin" title="Permanent link">&para;</a></h3>
-<p>Latin 超立方采样（LHS）是一种分层采样技术，确保每个参数的整个取值范围都被均匀覆盖。</p>
-<p><strong>算法步骤</strong>：
-1. 将每个参数的取值范围划分为 N 个等概率区间
-2. 从每个区间中随机抽取一个样本
-3. 随机打乱各参数的样本顺序，形成 N 组参数组合</p>
-<p><strong>优势</strong>：
-- 样本分布更均匀
-- 用更少的样本获得更好的参数空间覆盖</p>
-<hr />
+$$ </p>
+<h3 id="latin-hypercube-sampling">Latin Hypercube Sampling<a class="headerlink" href="#latin-hypercube-sampling" title="Permanent link">&para;</a></h3>
+<p>Latin Hypercube Sampling (LHS) is a stratified sampling technique that ensures the entire range of each parameter is uniformly covered.</p>
+<p><strong>Algorithm Steps</strong>:
+1.  Divide the range of each parameter into N equiprobable intervals.
+2.  Randomly draw one sample from each interval.
+3.  Randomly shuffle the samples for each parameter to form N parameter sets.</p>
+<p><strong>Advantages</strong>:
+- More uniform sample distribution.
+- Achieves better coverage of the parameter space with fewer samples.</p>
 
 
 

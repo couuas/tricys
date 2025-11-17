@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#concurrent-operation" class="md-skip">
           Skip to content
         </a>
       
@@ -802,10 +802,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#1-how-to-enable-concurrency" class="md-nav__link">
     <span class="md-ellipsis">
       
-        如何启用并发
+        1. How to Enable Concurrency
       
     </span>
   </a>
@@ -813,22 +813,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#2-configuration-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置项详解
+        2. Configuration Details
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="配置项详解">
+    <nav class="md-nav" aria-label="2. Configuration Details">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#simulationconcurrent" class="md-nav__link">
+  <a href="#21-simulationconcurrent" class="md-nav__link">
     <span class="md-ellipsis">
       
-        simulation.concurrent
+        2.1. simulation.concurrent
       
     </span>
   </a>
@@ -836,10 +836,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#simulationmax_workers" class="md-nav__link">
+  <a href="#22-simulationmax_workers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        simulation.max_workers
+        2.2. simulation.max_workers
       
     </span>
   </a>
@@ -1868,10 +1868,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#1-how-to-enable-concurrency" class="md-nav__link">
     <span class="md-ellipsis">
       
-        如何启用并发
+        1. How to Enable Concurrency
       
     </span>
   </a>
@@ -1879,22 +1879,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#2-configuration-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置项详解
+        2. Configuration Details
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="配置项详解">
+    <nav class="md-nav" aria-label="2. Configuration Details">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#simulationconcurrent" class="md-nav__link">
+  <a href="#21-simulationconcurrent" class="md-nav__link">
     <span class="md-ellipsis">
       
-        simulation.concurrent
+        2.1. simulation.concurrent
       
     </span>
   </a>
@@ -1902,10 +1902,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#simulationmax_workers" class="md-nav__link">
+  <a href="#22-simulationmax_workers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        simulation.max_workers
+        2.2. simulation.max_workers
       
     </span>
   </a>
@@ -1937,10 +1937,10 @@
   
 
 
-<h1 id="_1">并发运行<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>对于包含大量仿真任务的参数扫描，逐个顺序执行可能会非常耗时。<code>tricys</code> 支持并发运行（并行计算），可以充分利用您计算机的多个 CPU 核心，显著缩短总仿真时间。</p>
-<h2 id="_2">如何启用并发<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>启用并发非常简单，只需在配置文件的 <code>simulation</code> 部分将 <code>concurrent</code> 标志设置为 <code>true</code>。</p>
+<h1 id="concurrent-operation">Concurrent Operation<a class="headerlink" href="#concurrent-operation" title="Permanent link">&para;</a></h1>
+<p>For parameter sweeps involving a large number of simulation tasks, executing them sequentially can be very time-consuming. <code>tricys</code> supports concurrent operation (parallel computing) to fully utilize your computer's multiple CPU cores, significantly reducing the total simulation time.</p>
+<h2 id="1-how-to-enable-concurrency">1. How to Enable Concurrency<a class="headerlink" href="#1-how-to-enable-concurrency" title="Permanent link">&para;</a></h2>
+<p>Enabling concurrency is very simple. Just set the <code>concurrent</code> flag to <code>true</code> in the <code>simulation</code> section of your configuration file.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">&quot;paths&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="err">...</span>
@@ -1956,29 +1956,29 @@
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_3">配置项详解<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<h3 id="simulationconcurrent"><code>simulation.concurrent</code><a class="headerlink" href="#simulationconcurrent" title="Permanent link">&para;</a></h3>
+<h2 id="2-configuration-details">2. Configuration Details<a class="headerlink" href="#2-configuration-details" title="Permanent link">&para;</a></h2>
+<h3 id="21-simulationconcurrent">2.1. <code>simulation.concurrent</code><a class="headerlink" href="#21-simulationconcurrent" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>描述</strong>: 是否启用并发运行。</li>
-<li><strong>类型</strong>: 布尔值 (<code>true</code> 或 <code>false</code>)。</li>
-<li><strong>默认值</strong>: <code>false</code>。</li>
-<li><strong>工作原理</strong>: 当设置为 <code>true</code> 时，<code>tricys</code> 会启动一个进程池，将仿真任务（例如参数扫描中的每一次运行）分配给不同的进程并行执行。</li>
+<li><strong>Description</strong>: Whether to enable concurrent operation.</li>
+<li><strong>Type</strong>: Boolean (<code>true</code> or <code>false</code>).</li>
+<li><strong>Default</strong>: <code>false</code>.</li>
+<li><strong>How it works</strong>: When set to <code>true</code>, <code>tricys</code> will start a process pool and distribute the simulation tasks (e.g., each run in a parameter sweep) to different processes for parallel execution.</li>
 </ul>
-<h3 id="simulationmax_workers"><code>simulation.max_workers</code><a class="headerlink" href="#simulationmax_workers" title="Permanent link">&para;</a></h3>
+<h3 id="22-simulationmax_workers">2.2. <code>simulation.max_workers</code><a class="headerlink" href="#22-simulationmax_workers" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>描述</strong>: 控制用于并发执行的最大进程数（或称“工作进程”数量）。</li>
-<li><strong>类型</strong>: 整数 (选填)。</li>
-<li><strong>默认值</strong>: 如果不指定该参数，<code>tricys</code> 将默认使用您计算机上的 <strong>所有可用 CPU 核心数</strong>。</li>
-<li><strong>建议</strong>:<ul>
-<li>对于计算密集型任务，建议将此值设置为不超过您计算机的物理核心数，以获得最佳性能。</li>
-<li>如果在仿真过程中遇到内存不足的问题，可以适当调低 <code>max_workers</code> 的值，因为每个进程都会独立加载模型并消耗一定的内存。</li>
+<li><strong>Description</strong>: Controls the maximum number of processes (or "workers") used for concurrent execution.</li>
+<li><strong>Type</strong>: Integer (optional).</li>
+<li><strong>Default</strong>: If this parameter is not specified, <code>tricys</code> will default to using <strong>all available CPU cores</strong> on your machine.</li>
+<li><strong>Recommendations</strong>:<ul>
+<li>For compute-intensive tasks, it is recommended to set this value to no more than the number of physical cores on your machine for optimal performance.</li>
+<li>If you encounter memory shortage issues during the simulation, you can try lowering the value of <code>max_workers</code>, as each process loads the model independently and consumes a certain amount of memory.</li>
 </ul>
 </li>
 </ul>
-<p>在上面的示例中，<code>"concurrent": true</code> 和 <code>"max_workers": 4</code> 意味着 <code>tricys</code> 会创建一个包含 4 个工作进程的进程池，来并行处理由参数扫描生成的 10 个仿真任务。</p>
+<p>In the example above, <code>"concurrent": true</code> and <code>"max_workers": 4</code> mean that <code>tricys</code> will create a process pool with 4 worker processes to handle the 10 simulation tasks generated by the parameter sweep in parallel.</p>
 <div class="admonition success">
-<p class="admonition-title">适用场景</p>
-<p>并发运行不仅适用于标准的参数扫描，也同样适用于<a href="../co_simulation_module/">协同仿真</a>和<a href="../../tricys_analysis/baseline_condition_analysis/">自动分析</a>流程，能够全面提升 <code>tricys</code> 的执行效率。</p>
+<p class="admonition-title">Applicable Scenarios</p>
+<p>Concurrent operation is not only applicable to standard parameter sweeps but also to <a href="../co_simulation_module/">Co-Simulation</a> and <a href="../../tricys_analysis/baseline_condition_analysis/">Automated Analysis</a> workflows, comprehensively improving the execution efficiency of <code>tricys</code>.</p>
 </div>
 
 

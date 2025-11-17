@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sobol" class="md-skip">
+        <a href="#sobol-global-sensitivity-analysis" class="md-skip">
           Skip to content
         </a>
       
@@ -1033,10 +1033,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#1-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        运行命令
+        1. Command
       
     </span>
   </a>
@@ -1044,10 +1044,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#2-configuration-file-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置文件示例
+        2. Configuration File Example
       
     </span>
   </a>
@@ -1055,22 +1055,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#3-configuration-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置项详解
+        3. Configuration Details
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="配置项详解">
+    <nav class="md-nav" aria-label="3. Configuration Details">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#analysis_cases" class="md-nav__link">
+  <a href="#31-analysis_cases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        analysis_cases
+        3.1. analysis_cases
       
     </span>
   </a>
@@ -1078,10 +1078,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#metrics_definition-glossary_path-unit_map" class="md-nav__link">
+  <a href="#32-metrics_definition-glossary_path-unit_map" class="md-nav__link">
     <span class="md-ellipsis">
       
-        metrics_definition, glossary_path, unit_map
+        3.2. metrics_definition, glossary_path, unit_map
       
     </span>
   </a>
@@ -1094,10 +1094,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#4-analysis-report-output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        分析报告输出
+        4. Analysis Report Output
       
     </span>
   </a>
@@ -1890,10 +1890,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#1-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        运行命令
+        1. Command
       
     </span>
   </a>
@@ -1901,10 +1901,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#2-configuration-file-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置文件示例
+        2. Configuration File Example
       
     </span>
   </a>
@@ -1912,22 +1912,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#3-configuration-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置项详解
+        3. Configuration Details
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="配置项详解">
+    <nav class="md-nav" aria-label="3. Configuration Details">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#analysis_cases" class="md-nav__link">
+  <a href="#31-analysis_cases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        analysis_cases
+        3.1. analysis_cases
       
     </span>
   </a>
@@ -1935,10 +1935,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#metrics_definition-glossary_path-unit_map" class="md-nav__link">
+  <a href="#32-metrics_definition-glossary_path-unit_map" class="md-nav__link">
     <span class="md-ellipsis">
       
-        metrics_definition, glossary_path, unit_map
+        3.2. metrics_definition, glossary_path, unit_map
       
     </span>
   </a>
@@ -1951,10 +1951,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#4-analysis-report-output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        分析报告输出
+        4. Analysis Report Output
       
     </span>
   </a>
@@ -1981,15 +1981,15 @@
   
 
 
-<h1 id="sobol">SOBOL全局敏感性分析<a class="headerlink" href="#sobol" title="Permanent link">&para;</a></h1>
-<p>SOBOL 全局敏感性分析 (Global Sensitivity Analysis, GSA) 是一种强大的工具，用于量化模型输入参数（以及它们之间的交互作用）对模型输出方差的贡献。与传统的单参数敏感性分析不同，SOBOL 方法能够同时考虑所有参数的变化，并揭示参数间的非线性关系和交互作用。</p>
-<p><code>tricys</code> 集成了 <code>SALib</code> 库，提供了对 SOBOL 敏感性分析的直接支持。</p>
-<h2 id="_1">运行命令<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>SOBOL 全局敏感性分析任务由 <code>tricys analysis</code> 命令执行：</p>
+<h1 id="sobol-global-sensitivity-analysis">SOBOL Global Sensitivity Analysis<a class="headerlink" href="#sobol-global-sensitivity-analysis" title="Permanent link">&para;</a></h1>
+<p>SOBOL Global Sensitivity Analysis (GSA) is a powerful tool used to quantify the contribution of model input parameters (and their interactions) to the variance of the model output. Unlike traditional single-parameter sensitivity analysis, the SOBOL method simultaneously considers the variation of all parameters and can reveal non-linear relationships and interactions between them.</p>
+<p><code>tricys</code> integrates the <code>SALib</code> library to provide direct support for SOBOL sensitivity analysis.</p>
+<h2 id="1-command">1. Command<a class="headerlink" href="#1-command" title="Permanent link">&para;</a></h2>
+<p>The SOBOL Global Sensitivity Analysis task is executed by the <code>tricys analysis</code> command:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tricys<span class="w"> </span>analysis<span class="w"> </span>-c<span class="w"> </span>sobol_global_sensitivity_analysis.json
 </code></pre></div>
-<h2 id="_2">配置文件示例<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>SOBOL 分析的配置与之前的敏感性分析有所不同，主要体现在 <code>independent_variable</code> 和 <code>independent_variable_sampling</code> 的结构，以及新增的 <code>analyzer</code> 字段。</p>
+<h2 id="2-configuration-file-example">2. Configuration File Example<a class="headerlink" href="#2-configuration-file-example" title="Permanent link">&para;</a></h2>
+<p>The configuration for SOBOL analysis differs from previous sensitivity analyses, mainly in the structure of <code>independent_variable</code> and <code>independent_variable_sampling</code>, and the addition of the <code>analyzer</code> field.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&quot;paths&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
@@ -2023,55 +2023,55 @@
 <a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_3">配置项详解<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<h3 id="analysis_cases"><code>analysis_cases</code><a class="headerlink" href="#analysis_cases" title="Permanent link">&para;</a></h3>
+<h2 id="3-configuration-details">3. Configuration Details<a class="headerlink" href="#3-configuration-details" title="Permanent link">&para;</a></h2>
+<h3 id="31-analysis_cases">3.1. <code>analysis_cases</code><a class="headerlink" href="#31-analysis_cases" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>independent_variable</code> (列表, 必填):</li>
+<li><code>independent_variable</code> (list, required):</li>
 <li>
-<p><strong>描述</strong>: 一个包含所有要进行敏感性分析的输入参数完整路径的列表。这些参数将同时在定义的范围内进行采样。</p>
+<p><strong>Description</strong>: A list of full paths to the input parameters to be included in the sensitivity analysis. These parameters will be sampled simultaneously within their defined ranges.</p>
 </li>
 <li>
-<p><code>independent_variable_sampling</code> (对象, 必填):</p>
+<p><code>independent_variable_sampling</code> (object, required):</p>
 </li>
-<li><strong>描述</strong>: 一个字典，为每个 <code>independent_variable</code> 中的参数定义其采样范围和分布。</li>
-<li><strong>键</strong>: 参数的完整路径。</li>
+<li><strong>Description</strong>: A dictionary that defines the sampling range and distribution for each parameter in <code>independent_variable</code>.</li>
+<li><strong>Key</strong>: The full path of the parameter.</li>
 <li>
-<p><strong>值</strong>: 一个对象，包含：</p>
+<p><strong>Value</strong>: An object containing:</p>
 <ul>
-<li><code>bounds</code> (列表 <code>[min, max]</code>, 必填): 该参数的采样下限和上限。</li>
-<li><code>distribution</code> (字符串, 必填): 采样分布类型，目前主要支持 <code>"unif"</code> (均匀分布)。</li>
+<li><code>bounds</code> (list <code>[min, max]</code>, required): The lower and upper bounds for sampling this parameter.</li>
+<li><code>distribution</code> (string, required): The sampling distribution type, currently mainly supports <code>"unif"</code> (uniform distribution).</li>
 </ul>
 </li>
 <li>
-<p><code>analyzer</code> (对象, 必填):</p>
+<p><code>analyzer</code> (object, required):</p>
 </li>
-<li><strong>描述</strong>: 定义要使用的全局敏感性分析方法及其参数。</li>
-<li><code>method</code>: 固定为 <code>"sobol"</code>。</li>
-<li><code>sample_N</code>: Sobol 采样所需的基数 <code>N</code>。<ul>
-<li><strong>重要</strong>: 实际运行的仿真次数将是 <code>(D + 2) * N</code>，其中 <code>D</code> 是 <code>independent_variable</code> 的数量。例如，如果 <code>D=5</code>, <code>N=256</code>，则总仿真次数为 <code>(5 + 2) * 256 = 1792</code> 次。请根据计算资源合理设置 <code>N</code> 值。</li>
+<li><strong>Description</strong>: Defines the global sensitivity analysis method to be used and its parameters.</li>
+<li><code>method</code>: Fixed to <code>"sobol"</code>.</li>
+<li><code>sample_N</code>: The base number of samples <code>N</code> required for Sobol sampling.<ul>
+<li><strong>Important</strong>: The actual number of simulations run will be <code>(D + 2) * N</code>, where <code>D</code> is the number of <code>independent_variable</code>s. For example, if <code>D=5</code> and <code>N=256</code>, the total number of simulations will be <code>(5 + 2) * 256 = 1792</code>. Please set the <code>N</code> value reasonably based on your computational resources.</li>
 </ul>
 </li>
 </ul>
-<h3 id="metrics_definition-glossary_path-unit_map"><code>metrics_definition</code>, <code>glossary_path</code>, <code>unit_map</code><a class="headerlink" href="#metrics_definition-glossary_path-unit_map" title="Permanent link">&para;</a></h3>
-<p>这些字段的功能与单参数和多参数敏感性分析中相同，用于定义性能指标、美化报告中的术语和单位。</p>
-<h2 id="_4">分析报告输出<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>SOBOL 全局敏感性分析会为 <code>analysis_cases</code> 中的每个案例生成一份独立的 HTML 报告，例如 <code>SALIB_SOBOL_Analysis_sobol_report.html</code>。</p>
-<p>报告中将包含每个 <code>dependent_variable</code> (性能指标) 的敏感性分析结果，主要以条形图的形式展示：</p>
+<h3 id="32-metrics_definition-glossary_path-unit_map">3.2. <code>metrics_definition</code>, <code>glossary_path</code>, <code>unit_map</code><a class="headerlink" href="#32-metrics_definition-glossary_path-unit_map" title="Permanent link">&para;</a></h3>
+<p>The functions of these fields are the same as in single- and multi-parameter sensitivity analyses, used to define performance metrics and enhance the terminology and units in the report.</p>
+<h2 id="4-analysis-report-output">4. Analysis Report Output<a class="headerlink" href="#4-analysis-report-output" title="Permanent link">&para;</a></h2>
+<p>SOBOL Global Sensitivity Analysis generates a separate HTML report for each case in <code>analysis_cases</code>, for example, <code>SALIB_SOBOL_Analysis_sobol_report.html</code>.</p>
+<p>The report will contain the sensitivity analysis results for each <code>dependent_variable</code> (performance metric), mainly displayed as bar charts:</p>
 <ol>
-<li><strong>一阶敏感性指数 (First-order index, S1)</strong>:<ul>
-<li>量化了单个输入参数独立变化对输出方差的贡献。S1 值越高，表示该参数的独立影响越大。</li>
+<li><strong>First-order index (S1)</strong>:<ul>
+<li>Quantifies the contribution of a single input parameter's independent variation to the output variance. A higher S1 value indicates a greater independent effect of that parameter.</li>
 </ul>
 </li>
-<li><strong>总阶敏感性指数 (Total-order index, ST)</strong>:<ul>
-<li>量化了单个输入参数及其与所有其他参数的交互作用对输出方差的总贡献。ST 值越高，表示该参数（包括其交互作用）对输出的影响越大。</li>
+<li><strong>Total-order index (ST)</strong>:<ul>
+<li>Quantifies the total contribution of a single input parameter and its interactions with all other parameters to the output variance. A higher ST value indicates a greater overall impact of that parameter (including its interactions).</li>
 </ul>
 </li>
-<li><strong>交互作用</strong>:<ul>
-<li><code>ST - S1</code> 的差值可以近似表示该参数与其他参数的交互作用对输出方差的贡献。</li>
+<li><strong>Interaction</strong>:<ul>
+<li>The difference <code>ST - S1</code> can approximate the contribution of that parameter's interactions with other parameters to the output variance.</li>
 </ul>
 </li>
 </ol>
-<p>通过这些指数，您可以识别出对模型输出影响最大的参数，无论是独立影响还是通过与其他参数的交互作用。</p>
+<p>With these indices, you can identify the parameters that have the greatest impact on the model output, whether through independent effects or through interactions with other parameters.</p>
 
 
 

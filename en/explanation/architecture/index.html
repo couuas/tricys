@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#system-architecture-design" class="md-skip">
           Skip to content
         </a>
       
@@ -1368,22 +1368,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#system-architecture-design" class="md-nav__link">
     <span class="md-ellipsis">
       
-        系统架构设计
+        System Architecture Design
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="系统架构设计">
+    <nav class="md-nav" aria-label="System Architecture Design">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#overall-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        整体架构
+        Overall Architecture
       
     </span>
   </a>
@@ -1391,10 +1391,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#design-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        设计原则
+        Design Principles
       
     </span>
   </a>
@@ -1840,22 +1840,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#system-architecture-design" class="md-nav__link">
     <span class="md-ellipsis">
       
-        系统架构设计
+        System Architecture Design
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="系统架构设计">
+    <nav class="md-nav" aria-label="System Architecture Design">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#overall-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        整体架构
+        Overall Architecture
       
     </span>
   </a>
@@ -1863,10 +1863,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#design-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        设计原则
+        Design Principles
       
     </span>
   </a>
@@ -1900,48 +1900,47 @@
 
   <h1>1. System Architecture</h1>
 
-<h2 id="_1">系统架构设计<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="_2">整体架构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>TRICYS 采用分层架构设计，主要包含以下几层：</p>
+<h2 id="system-architecture-design">System Architecture Design<a class="headerlink" href="#system-architecture-design" title="Permanent link">&para;</a></h2>
+<h3 id="overall-architecture">Overall Architecture<a class="headerlink" href="#overall-architecture" title="Permanent link">&para;</a></h3>
+<p>TRICYS is designed with a layered architecture, primarily comprising the following layers:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│          用户界面层（CLI / GUI）              │
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│          User Interface Layer (CLI / GUI)     │
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   tricys, tricys analysis, tricys-gui       │
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└─────────────────────────────────────────────┘
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                    ↓
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│           仿真执行层                         │
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   simulation.py, simulation_analysis.py      │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│           Simulation Execution Layer          │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   simulation.py, simulation_analysis.py     │
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└─────────────────────────────────────────────┘
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>                    ↓
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│           核心功能层                         │
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   Jobs, Modelica, Interceptor               │
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│               Core Function Layer             │
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│      Jobs, Modelica, Interceptor            │
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>└─────────────────────────────────────────────┘
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>                    ↓
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│         分析与后处理层                       │
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│   Metric, Plot, Report, SALib               │
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│      Analysis &amp; Post-processing Layer         │
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│       Metric, Plot, Report, SALib           │
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>└─────────────────────────────────────────────┘
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>                    ↓
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│           工具函数层                         │
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│   Config, File, Log, SQLite Utils           │
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│             Utility Function Layer            │
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│      Config, File, Log, SQLite Utils        │
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>└─────────────────────────────────────────────┘
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>                    ↓
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>┌─────────────────────────────────────────────┐
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│         外部依赖层                           │
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│   OpenModelica, Pandas, NumPy, SALib        │
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│            External Dependency Layer          │
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│     OpenModelica, Pandas, NumPy, SALib      │
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>└─────────────────────────────────────────────┘
 </code></pre></div>
-<h3 id="_3">设计原则<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>模块化</strong>：每个功能模块职责单一，相互独立</li>
-<li><strong>可扩展</strong>：易于添加新的后处理模块、性能指标和协同仿真处理器</li>
-<li><strong>配置驱动</strong>：所有仿真任务通过 JSON 配置文件定义</li>
-<li><strong>自动化</strong>：从仿真到分析报告生成的全流程自动化</li>
-<li><strong>开放性</strong>：开源设计，支持社区贡献</li>
+<li><strong>Modularity</strong>: Each functional module has a single responsibility and is independent.</li>
+<li><strong>Extensibility</strong>: Easy to add new post-processing modules, performance metrics, and co-simulation handlers.</li>
+<li><strong>Configuration-Driven</strong>: All simulation tasks are defined via JSON configuration files.</li>
+<li><strong>Automation</strong>: Fully automated workflow from simulation to analysis report generation.</li>
+<li><strong>Openness</strong>: Open-source design, supporting community contributions.</li>
 </ol>
-<hr />
 
 
 

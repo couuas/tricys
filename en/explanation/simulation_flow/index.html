@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#simulation-execution-flow" class="md-skip">
           Skip to content
         </a>
       
@@ -1396,22 +1396,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#simulation-execution-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        仿真执行流程
+        Simulation Execution Flow
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="仿真执行流程">
+    <nav class="md-nav" aria-label="Simulation Execution Flow">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#standard-simulation-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        标准仿真流程
+        Standard Simulation Flow
       
     </span>
   </a>
@@ -1419,10 +1419,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#co-simulation-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        协同仿真流程
+        Co-simulation Flow
       
     </span>
   </a>
@@ -1840,22 +1840,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#simulation-execution-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        仿真执行流程
+        Simulation Execution Flow
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="仿真执行流程">
+    <nav class="md-nav" aria-label="Simulation Execution Flow">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#standard-simulation-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        标准仿真流程
+        Standard Simulation Flow
       
     </span>
   </a>
@@ -1863,10 +1863,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#co-simulation-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        协同仿真流程
+        Co-simulation Flow
       
     </span>
   </a>
@@ -1900,76 +1900,44 @@
 
   <h1>2. Simulation Flow</h1>
 
-<h2 id="_1">仿真执行流程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="_2">标准仿真流程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h2 id="simulation-execution-flow">Simulation Execution Flow<a class="headerlink" href="#simulation-execution-flow" title="Permanent link">&para;</a></h2>
+<h3 id="standard-simulation-flow">Standard Simulation Flow<a class="headerlink" href="#standard-simulation-flow" title="Permanent link">&para;</a></h3>
 <pre class="mermaid"><code>graph TB
-    A[读取配置文件] --&gt; B[初始化日志系统]
-    B --&gt; C[加载 Modelica 模型]
-    C --&gt; D{是否有参数扫描?}
-    D --&gt;|是| E[生成参数组合]
-    D --&gt;|否| F[单次仿真]
-    E --&gt; G{是否启用并发?}
-    G --&gt;|是| H[并行执行仿真]
-    G --&gt;|否| I[串行执行仿真]
-    H --&gt; J[收集所有结果]
+    A[Read Config File] --&gt; B[Initialize Logging System]
+    B --&gt; C[Load Modelica Model]
+    C --&gt; D{Parameter Sweep?}
+    D --&gt;|Yes| E[Generate Parameter Sets]
+    D --&gt;|No| F[Single Simulation]
+    E --&gt; G{Concurrency Enabled?}
+    G --&gt;|Yes| H[Execute Simulations in Parallel]
+    G --&gt;|No| I[Execute Simulations in Series]
+    H --&gt; J[Collect All Results]
     I --&gt; J
-    F --&gt; K[保存单次结果]
-    J --&gt; L[生成 sweep_results.csv]
-    L --&gt; M{是否有后处理?}
+    F --&gt; K[Save Single Result]
+    J --&gt; L[Generate sweep_results.csv]
+    L --&gt; M{Post-processing?}
     K --&gt; M
-    M --&gt;|是| N[执行后处理模块]
-    M --&gt;|否| O[完成]
+    M --&gt;|Yes| N[Execute Post-processing Modules]
+    M --&gt;|No| O[Finish]
     N --&gt; O</code></pre>
-<h3 id="_3">协同仿真流程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>协同仿真是 TRICYS 的一大特色，其执行流程如下：</p>
+<h3 id="co-simulation-flow">Co-simulation Flow<a class="headerlink" href="#co-simulation-flow" title="Permanent link">&para;</a></h3>
+<p>Co-simulation is a key feature of TRICYS. Its execution flow is as follows:</p>
 <pre class="mermaid"><code>graph TB
-    A[开始] --&gt; B[配置协同仿真]
-    B --&gt; C[运行初步仿真&lt;br/&gt;Primary Run]
-    C --&gt; D[提取初步结果]
-    D --&gt; E{遍历每个处理器}
-    E --&gt; F[调用处理器函数]
-    F --&gt; G[外部计算&lt;br/&gt;如 Aspen Plus]
-    G --&gt; H[返回新数据]
-    H --&gt; I[生成拦截器模型]
-    I --&gt; J[注入 CSV 数据]
-    J --&gt; K[修改模型连接]
-    K --&gt; L[运行最终仿真&lt;br/&gt;Final Run]
-    L --&gt; M[保存完整结果]
-    M --&gt; N{还有处理器?}
-    N --&gt;|是| E
-    N --&gt;|否| O[完成]</code></pre>
-<p><strong>关键步骤说明</strong>：</p>
-<ol>
-<li><strong>初步仿真（Primary Run）</strong>：</li>
-<li>运行一个简化的模型，该模型可能不包含某些复杂子系统</li>
-<li>目的是获得初步的系统状态和边界条件</li>
-<li>
-<p>结果传递给外部处理器</p>
-</li>
-<li>
-<p><strong>处理器调用</strong>：</p>
-</li>
-<li>处理器是用户定义的 Python 函数</li>
-<li>接收初步仿真结果作为输入</li>
-<li>调用外部软件（如 Aspen Plus）或执行复杂计算</li>
-<li>
-<p>返回新的时间序列数据</p>
-</li>
-<li>
-<p><strong>模型注入</strong>：</p>
-</li>
-<li>TRICYS 动态生成拦截器模型或直接替换子模型</li>
-<li>将处理器返回的数据转换为 <code>CombiTimeTable</code> 组件</li>
-<li>
-<p>修改 Modelica 模型的连接关系</p>
-</li>
-<li>
-<p><strong>最终仿真（Final Run）</strong>：</p>
-</li>
-<li>运行包含注入数据的完整模型</li>
-<li>获得考虑了外部计算结果的最终仿真结果</li>
-</ol>
-<hr />
+    A[Start] --&gt; B[Configure Co-simulation]
+    B --&gt; C[Run Primary Simulation&lt;br/&gt;Primary Run]
+    C --&gt; D[Extract Primary Results]
+    D --&gt; E{For each handler}
+    E --&gt; F[Call Handler Function]
+    F --&gt; G[External Computation&lt;br/&gt;e.g., Aspen Plus]
+    G --&gt; H[Return New Data]
+    H --&gt; I[Generate Interceptor Model]
+    I --&gt; J[Inject CSV Data]
+    J --&gt; K[Modify Model Connections]
+    K --&gt; L[Run Final Simulation&lt;br/&gt;Final Run]
+    L --&gt; M[Save Complete Result]
+    M --&gt; N{More handlers?}
+    N --&gt;|Yes|E
+    N --&gt;|No|O[Finish]</code></pre>
 
 
 

@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#parameter-sweep" class="md-skip">
           Skip to content
         </a>
       
@@ -774,10 +774,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#1-configuration-file-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置文件示例
+        1. Configuration File Example
       
     </span>
   </a>
@@ -785,49 +785,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#2-configuration-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置项详解
+        2. Configuration Details
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="配置项详解">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simulation_parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        simulation_parameters (扫描参数配置)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        多参数扫描
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#3-result-output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        结果输出
+        3. Result Output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Next Steps
       
     </span>
   </a>
@@ -1879,10 +1862,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#1-configuration-file-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置文件示例
+        1. Configuration File Example
       
     </span>
   </a>
@@ -1890,49 +1873,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#2-configuration-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        配置项详解
+        2. Configuration Details
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="配置项详解">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simulation_parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        simulation_parameters (扫描参数配置)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        多参数扫描
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#3-result-output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        结果输出
+        3. Result Output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Next Steps
       
     </span>
   </a>
@@ -1959,10 +1925,10 @@
   
 
 
-<h1 id="_1">参数扫描<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>参数扫描是 <code>tricys</code> 的核心功能之一，它允许您系统地研究一个或多个模型参数的变化对仿真结果的影响。您只需为每个感兴趣的参数提供一组值，<code>tricys</code> 会自动创建并运行所有可能的参数组合。</p>
-<h2 id="_2">配置文件示例<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>在基础配置之上，我们只需添加一个 <code>simulation_parameters</code> 字段，即可定义参数扫描。</p>
+<h1 id="parameter-sweep">Parameter Sweep<a class="headerlink" href="#parameter-sweep" title="Permanent link">&para;</a></h1>
+<p>Parameter sweep is one of the core features of <code>tricys</code>, allowing you to systematically study the effect of changes in one or more model parameters on the simulation results. You simply provide a set of values for each parameter of interest, and <code>tricys</code> will automatically create and run all possible combinations.</p>
+<h2 id="1-configuration-file-example">1. Configuration File Example<a class="headerlink" href="#1-configuration-file-example" title="Permanent link">&para;</a></h2>
+<p>On top of the basic configuration, we just need to add a <code>simulation_parameters</code> field to define the parameter sweep.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">&quot;paths&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="nt">&quot;package_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;../../example_model_single/example_model.mo&quot;</span>
@@ -1979,27 +1945,27 @@
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_3">配置项详解<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<h3 id="simulation_parameters"><code>simulation_parameters</code> (扫描参数配置)<a class="headerlink" href="#simulation_parameters" title="Permanent link">&para;</a></h3>
+<h2 id="2-configuration-details">2. Configuration Details<a class="headerlink" href="#2-configuration-details" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>描述</strong>: 这是一个字典（键值对集合），用于定义要扫描的参数及其对应的值。</li>
-<li><strong>键 (Key)</strong>: 必须是 Modelica 模型中变量的<strong>完整路径</strong>。例如 <code>blanket.TBR</code> 或 <code>tep_fep.to_SDS_Fraction[1]</code>。</li>
+<li><strong>Description</strong>: The <code>simulation_parameters</code> item is a dictionary (a collection of key-value pairs) used to define the parameters to be swept and their corresponding values.</li>
+<li><strong>Key</strong>: Must be the <strong>full path</strong> of a variable in the Modelica model. For example, <code>blanket.TBR</code> or <code>tep_fep.to_SDS_Fraction[1]</code>.</li>
 <li>
-<p><strong>值 (Value)</strong>: 可以是以下几种格式：</p>
+<p><strong>Value</strong>: Can be in one of the following formats:</p>
 <ol>
 <li>
-<p><strong>离散值列表 (List)</strong>:</p>
+<p><strong>List of Discrete Values</strong>:</p>
 <ul>
-<li><strong>格式</strong>: <code>[v1, v2, v3, ...]</code></li>
-<li><strong>示例</strong>: <code>[0.1, 0.15, 0.2]</code></li>
-<li><strong>说明</strong>: 程序将依次使用列表中的每一个值进行仿真。</li>
+<li><strong>Format</strong>: <code>[v1, v2, v3, ...]</code></li>
+<li><strong>Example</strong>: <code>[0.1, 0.15, 0.2]</code></li>
+<li><strong>Description</strong>: The program will run a simulation for each value in the list.</li>
 </ul>
 </li>
 <li>
-<p><strong>高级扫描格式 (String)</strong>:</p>
+<p><strong>Advanced Sweep Format (String)</strong>:</p>
 <ul>
-<li><strong>描述</strong>: <code>tricys</code> 支持多种紧凑的字符串格式来生成数值序列，非常适合定义线性、对数等序列。所有格式的关键字均不区分大小写。</li>
-<li><strong>支持的格式</strong>:</li>
+<li><strong>Description</strong>: <code>tricys</code> supports several compact string formats for generating numerical sequences, which are very suitable for defining linear, logarithmic, and other series.</li>
+<li><strong>Example</strong>: <code>"linspace:1.05:1.15:3"</code> means generate 3 equally spaced numbers between 1.05 and 1.15.</li>
+<li><strong>Supported Formats</strong>:</li>
 </ul>
 </li>
 </ol>
@@ -2008,53 +1974,78 @@
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">格式</th>
-<th style="text-align: left;">语法</th>
-<th style="text-align: left;">描述</th>
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Syntax</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">线性序列 (Range)</td>
+<td style="text-align: left;">Range</td>
 <td style="text-align: left;"><code>"start:stop:step"</code></td>
-<td style="text-align: left;">从 <code>start</code> 到 <code>stop</code> 生成一个步长为 <code>step</code> 的等差序列。例如: <code>"1:5:2"</code> 会生成 <code>[1, 3, 5]</code>。</td>
+<td style="text-align: left;">Generates an arithmetic sequence from <code>start</code> to <code>stop</code> with a step of <code>step</code>. E.g., <code>"1:5:2"</code> generates <code>[1, 3, 5]</code>.</td>
 </tr>
 <tr>
-<td style="text-align: left;">线性间隔 (Linspace)</td>
+<td style="text-align: left;">Linspace</td>
 <td style="text-align: left;"><code>"linspace:start:stop:num"</code></td>
-<td style="text-align: left;">在 <code>start</code> 和 <code>stop</code> 之间生成 <code>num</code> 个等间距的数值。例如: <code>"linspace:0:10:3"</code> 会生成 <code>[0, 5, 10]</code>。</td>
+<td style="text-align: left;">Generates <code>num</code> equally spaced values between <code>start</code> and <code>stop</code>. E.g., <code>"linspace:0:10:3"</code> generates <code>[0, 5, 10]</code>.</td>
 </tr>
 <tr>
-<td style="text-align: left;">对数间隔 (Logspace)</td>
+<td style="text-align: left;">Logspace</td>
 <td style="text-align: left;"><code>"log:start:stop:num"</code></td>
-<td style="text-align: left;">在 <code>start</code> 和 <code>stop</code> 之间生成 <code>num</code> 个对数等距的数值，适合跨数量级的扫描。例如: <code>"log:1:100:3"</code> 会生成 <code>[1, 10, 100]</code>。</td>
+<td style="text-align: left;">Generates <code>num</code> logarithmically spaced values between <code>start</code> and <code>stop</code>, suitable for sweeps across orders of magnitude. E.g., <code>"log:1:100:3"</code> generates <code>[1, 10, 100]</code>.</td>
 </tr>
 <tr>
-<td style="text-align: left;">随机数 (Random)</td>
+<td style="text-align: left;">Random</td>
 <td style="text-align: left;"><code>"rand:min:max:count"</code></td>
-<td style="text-align: left;">在 <code>min</code> 和 <code>max</code> 之间生成 <code>count</code> 个均匀分布的随机数。例如: <code>"rand:0:1:2"</code> 可能会生成 <code>[0.23, 0.87]</code>。</td>
+<td style="text-align: left;">Generates <code>count</code> uniformly distributed random numbers between <code>min</code> and <code>max</code>. E.g., <code>"rand:0:1:2"</code> might generate <code>[0.23, 0.87]</code>.</td>
 </tr>
 <tr>
-<td style="text-align: left;">从文件读取 (From File)</td>
+<td style="text-align: left;">From File</td>
 <td style="text-align: left;"><code>"file:path/to/data.csv:column_name"</code></td>
-<td style="text-align: left;">从指定的 CSV 文件中的 <code>column_name</code> 列读取数值作为扫描列表。</td>
+<td style="text-align: left;">Reads numerical values from the <code>column_name</code> column of the specified CSV file to use as the sweep list.</td>
 </tr>
 <tr>
-<td style="text-align: left;">数组展开 (Array Expansion)</td>
+<td style="text-align: left;">Array Expansion</td>
 <td style="text-align: left;"><code>"{val1, val2, ...}"</code></td>
-<td style="text-align: left;">用于一次性设置 Modelica 数组中多个元素的特殊格式。例如，为参数 <code>my_array</code> 设置值 <code>"{10, 25, 50}"</code>，将会被自动展开为 <code>my_array[1]=10</code>, <code>my_array[2]=25</code>, <code>my_array[3]=50</code>。花括号内的值本身也可以是其他高级格式的字符串。</td>
+<td style="text-align: left;">A special format for setting multiple elements of a Modelica array at once. For example, setting the value <code>"{10, 25, 50}"</code> for a parameter <code>my_array</code> will be automatically expanded to <code>my_array[1]=10</code>, <code>my_array[2]=25</code>, <code>my_array[3]=50</code>. The values inside the curly braces can themselves be strings in other advanced formats.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="_4">多参数扫描<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>您可以同时定义多个参数进行扫描。<code>tricys</code> 会计算所有参数值的<strong>笛卡尔积</strong>，生成一个包含所有可能组合的仿真任务列表。</p>
-<p>在上面的示例中，<code>tep_fep.to_SDS_Fraction[1]</code> 有 7 个值，<code>blanket.TBR</code> 有 3 个值，因此程序总共会运行 <code>7 * 3 = 21</code> 次仿真。</p>
-<h2 id="_5">结果输出<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>对于参数扫描任务，除了每次单独运行的 <code>simulation_result.csv</code> 文件外，<code>tricys</code> 还会生成一个汇总文件 <code>sweep_results.csv</code>。</p>
+<div class="admonition tip">
+<p class="admonition-title">Multi-Parameter Sweep</p>
+<ul>
+<li>You can define multiple parameters to sweep simultaneously. <code>tricys</code> will calculate the <strong>Cartesian product</strong> of all parameter values to generate a list of simulation tasks covering all possible combinations.</li>
+<li>In the example above, <code>tep_fep.to_SDS_Fraction[1]</code> has 7 values, and <code>blanket.TBR</code> has 3 values, so the program will run a total of <code>7 * 3 = 21</code> simulations.</li>
+</ul>
+</div>
+<h2 id="3-result-output">3. Result Output<a class="headerlink" href="#3-result-output" title="Permanent link">&para;</a></h2>
+<p>For a parameter sweep task, in addition to the <code>simulation_result.csv</code> file for each individual run, <code>tricys</code> will also generate a summary file <code>sweep_results.csv</code>, as shown below:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Working Directory/
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>└── {timestamp}/
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    ├── log/        
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        └── simulation_{timestamp}.log      # Run log
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    ├── result/                 
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        └── sweep_results.csv               # Aggregated simulation result data
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    └── temp/
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        ├── job_1/                      
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>            └── job_1_simulation_result.csv # Simulation result for task 1
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        ├── job_2/                      
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            └── job_2_simulation_result.csv # Simulation result for task 2
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        └── ......
+</code></pre></div>
 <ul>
 <li><strong><code>sweep_results.csv</code></strong>:</li>
-<li><strong>第一列</strong>: <code>time</code>，表示时间轴。</li>
-<li><strong>其余列</strong>: 每一列代表一次特定参数组合下的仿真结果。列标题清晰地标明了该次运行所使用的参数及其值，例如 <code>tep_fep.to_SDS_Fraction[1]=0.1_blanket.TBR=1.05_sds.I[1]</code>，方便您直接在 CSV 文件中比较不同工况下的结果。</li>
+<li><strong>First column</strong>: <code>time</code>, representing the time axis.</li>
+<li><strong>Other columns</strong>: Each column represents the simulation result for a specific parameter combination. The column headers clearly indicate the parameters and their values used for that run, for example, <code>sds.I[1]&amp;tep_fep.to_SDS_Fraction[1]=0.1&amp;blanket.TBR=1.05</code>, making it easy to compare results from different conditions directly in the CSV file.</li>
+</ul>
+<hr />
+<h2 id="4-next-steps">4. Next Steps<a class="headerlink" href="#4-next-steps" title="Permanent link">&para;</a></h2>
+<p>After mastering parameter sweeps, you can explore more advanced features to improve efficiency and analysis depth:</p>
+<ul>
+<li><strong><a href="../concurrent_operation/">Concurrent Operation</a></strong>: Learn how to use multi-core processors to execute a large number of sweep tasks in parallel, significantly reducing simulation time.</li>
+<li><strong><a href="../post_processing_module/">Post-Processing Module</a></strong>: Learn how to automatically analyze sweep results, such as calculating the maximum value, average value, or number of alarms for each condition.</li>
+<li><strong><a href="../../../explanation/sensitivity_algorithms/">Sensitivity Analysis</a></strong>: Conduct more systematic studies of parameter impacts, such as Sobol global sensitivity analysis.</li>
 </ul>
 
 

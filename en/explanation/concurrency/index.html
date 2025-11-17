@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#concurrency-principles" class="md-skip">
           Skip to content
         </a>
       
@@ -1452,22 +1452,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#concurrency-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        并发计算原理
+        Concurrency Principles
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="并发计算原理">
+    <nav class="md-nav" aria-label="Concurrency Principles">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#process-pool-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        进程池模型
+        Process Pool Model
       
     </span>
   </a>
@@ -1475,10 +1475,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#advantages-and-limitations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        优势与限制
+        Advantages and Limitations
       
     </span>
   </a>
@@ -1486,10 +1486,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#performance-optimization-suggestions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        性能优化建议
+        Performance Optimization Suggestions
       
     </span>
   </a>
@@ -1851,22 +1851,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#concurrency-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        并发计算原理
+        Concurrency Principles
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="并发计算原理">
+    <nav class="md-nav" aria-label="Concurrency Principles">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#process-pool-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        进程池模型
+        Process Pool Model
       
     </span>
   </a>
@@ -1874,10 +1874,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#advantages-and-limitations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        优势与限制
+        Advantages and Limitations
       
     </span>
   </a>
@@ -1885,10 +1885,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#performance-optimization-suggestions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        性能优化建议
+        Performance Optimization Suggestions
       
     </span>
   </a>
@@ -1922,45 +1922,48 @@
 
   <h1>4. Concurrency Model</h1>
 
-<h2 id="_1">并发计算原理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="_2">进程池模型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>TRICYS 使用 Python 的 <code>concurrent.futures.ProcessPoolExecutor</code> 实现并发计算：</p>
+<h2 id="concurrency-principles">Concurrency Principles<a class="headerlink" href="#concurrency-principles" title="Permanent link">&para;</a></h2>
+<h3 id="process-pool-model">Process Pool Model<a class="headerlink" href="#process-pool-model" title="Permanent link">&para;</a></h3>
+<p>TRICYS uses Python's <code>concurrent.futures.ProcessPoolExecutor</code> to achieve concurrent computation:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessPoolExecutor</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">run_simulation</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">param_list</span><span class="p">]</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">]</span>
 </code></pre></div>
-<h3 id="_3">优势与限制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p><strong>优势</strong>：
-- 真正的并行执行（绕过 Python GIL）
-- 充分利用多核 CPU
-- 进程隔离，避免状态污染</p>
-<p><strong>限制</strong>：
-- 进程创建开销
-- 内存占用增加（每个进程独立）
-- 不适合小型快速任务</p>
-<h3 id="_4">性能优化建议<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="advantages-and-limitations">Advantages and Limitations<a class="headerlink" href="#advantages-and-limitations" title="Permanent link">&para;</a></h3>
+<p><strong>Advantages</strong>:
+- True parallel execution (bypasses Python's GIL)
+- Fully utilizes multi-core CPUs
+- Process isolation, preventing state contamination</p>
+<p><strong>Limitations</strong>:
+- Process creation overhead
+- Increased memory consumption (each process is independent)
+- Not suitable for small, fast tasks</p>
+<h3 id="performance-optimization-suggestions">Performance Optimization Suggestions<a class="headerlink" href="#performance-optimization-suggestions" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>合理设置 <code>max_workers</code></strong>：</li>
-<li>通常设为 CPU 核心数</li>
 <li>
-<p>考虑内存限制，可适当减少</p>
+<p><strong>Reasonably set <code>max_workers</code></strong>:</p>
+<ul>
+<li>Usually set to the number of CPU cores.</li>
+<li>Consider memory limits; it can be reduced appropriately.</li>
+</ul>
 </li>
 <li>
-<p><strong>任务粒度</strong>：</p>
+<p><strong>Task Granularity</strong>:</p>
+<ul>
+<li>Each task should have a sufficient computational load (at least a few seconds).</li>
+<li>Avoid excessively fine-grained tasks.</li>
+</ul>
 </li>
-<li>每个任务应有足够的计算量（至少几秒）</li>
 <li>
-<p>避免过度细分任务</p>
+<p><strong>Memory Management</strong>:</p>
+<ul>
+<li>Monitor memory usage.</li>
+<li>Execute in batches if necessary.</li>
+</ul>
 </li>
-<li>
-<p><strong>内存管理</strong>：</p>
-</li>
-<li>监控内存使用</li>
-<li>必要时分批执行</li>
 </ol>
-<hr />
 
 
 

@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#troubleshooting" class="md-skip">
           Skip to content
         </a>
       
@@ -1679,22 +1679,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#troubleshooting" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🐛 故障排除
+        🐛 Troubleshooting
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🐛 故障排除">
+    <nav class="md-nav" aria-label="🐛 Troubleshooting">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#q-simulation-failed-how-to-debug" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：仿真失败，如何调试？
+        Q: Simulation failed, how to debug?
       
     </span>
   </a>
@@ -1702,10 +1702,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gui" class="md-nav__link">
+  <a href="#q-gui-fails-to-start-or-displays-incorrectly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：GUI 无法启动或显示不正常？
+        Q: GUI fails to start or displays incorrectly?
       
     </span>
   </a>
@@ -1713,10 +1713,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#q-parameter-sweep-results-are-incomplete" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：参数扫描结果不完整？
+        Q: Parameter sweep results are incomplete?
       
     </span>
   </a>
@@ -1724,10 +1724,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bug" class="md-nav__link">
+  <a href="#q-how-to-report-a-bug" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：如何报告 Bug？
+        Q: How to report a bug?
       
     </span>
   </a>
@@ -1862,22 +1862,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#troubleshooting" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🐛 故障排除
+        🐛 Troubleshooting
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="🐛 故障排除">
+    <nav class="md-nav" aria-label="🐛 Troubleshooting">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#q-simulation-failed-how-to-debug" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：仿真失败，如何调试？
+        Q: Simulation failed, how to debug?
       
     </span>
   </a>
@@ -1885,10 +1885,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gui" class="md-nav__link">
+  <a href="#q-gui-fails-to-start-or-displays-incorrectly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：GUI 无法启动或显示不正常？
+        Q: GUI fails to start or displays incorrectly?
       
     </span>
   </a>
@@ -1896,10 +1896,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#q-parameter-sweep-results-are-incomplete" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：参数扫描结果不完整？
+        Q: Parameter sweep results are incomplete?
       
     </span>
   </a>
@@ -1907,10 +1907,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#bug" class="md-nav__link">
+  <a href="#q-how-to-report-a-bug" class="md-nav__link">
     <span class="md-ellipsis">
       
-        问：如何报告 Bug？
+        Q: How to report a bug?
       
     </span>
   </a>
@@ -1944,116 +1944,123 @@
 
   <h1>4. Troubleshooting</h1>
 
-<h2 id="_1">🐛 故障排除<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="_2">问：仿真失败，如何调试？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p><strong>1. 查看日志文件</strong>：
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 查看最新运行的日志</span>
+<h2 id="troubleshooting">🐛 Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="q-simulation-failed-how-to-debug">Q: Simulation failed, how to debug?<a class="headerlink" href="#q-simulation-failed-how-to-debug" title="Permanent link">&para;</a></h3>
+<p><strong>1. Check the log file</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># View the log of the latest run</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>tail<span class="w"> </span>-f<span class="w"> </span>results/&lt;timestamp&gt;/tricys.log
 </code></pre></div></p>
-<p><strong>2. 常见错误及解决方法</strong>：</p>
+<p><strong>2. Common Errors and Solutions</strong>:</p>
 <table>
 <thead>
 <tr>
-<th>错误信息</th>
-<th>可能原因</th>
-<th>解决方法</th>
+<th>Error Message</th>
+<th>Possible Cause</th>
+<th>Solution</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>Model not found</code></td>
-<td>模型路径错误</td>
-<td>检查 <code>package_path</code> 是否正确</td>
+<td>Incorrect model path</td>
+<td>Check if <code>package_path</code> is correct</td>
 </tr>
 <tr>
 <td><code>Failed to compile</code></td>
-<td>Modelica 语法错误</td>
-<td>在 OMEdit 中打开模型检查错误</td>
+<td>Modelica syntax error</td>
+<td>Open the model in OMEdit to check for errors</td>
 </tr>
 <tr>
 <td><code>Variable not found</code></td>
-<td><code>variableFilter</code> 中的变量不存在</td>
-<td>检查变量名拼写，使用正确的路径</td>
+<td>Variable in <code>variableFilter</code> does not exist</td>
+<td>Check variable spelling, use the correct path</td>
 </tr>
 <tr>
 <td><code>Out of memory</code></td>
-<td>并发进程过多或模型太大</td>
-<td>减少 <code>max_workers</code> 或增加系统内存</td>
+<td>Too many concurrent processes or model is too large</td>
+<td>Reduce <code>max_workers</code> or increase system memory</td>
 </tr>
 <tr>
 <td><code>Permission denied</code></td>
-<td>文件权限问题</td>
-<td>检查工作目录的读写权限</td>
+<td>File permission issue</td>
+<td>Check read/write permissions of the working directory</td>
 </tr>
 </tbody>
 </table>
-<p><strong>3. 启用详细日志</strong>：
+<p><strong>3. Enable Detailed Logging</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&quot;logging&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="nt">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DEBUG&quot;</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
 </code></pre></div></p>
-<h3 id="gui">问：GUI 无法启动或显示不正常？<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h3>
-<p><strong>Windows/Linux 本地</strong>：
-- 确保安装了 Tkinter：<code>pip install tk</code>
-- 检查显示环境变量：<code>echo $DISPLAY</code></p>
-<p><strong>Docker 容器</strong>：
-- Windows 11：确保 WSL2 的 WSLg 功能已启用
-- Linux：运行 <code>xhost +local:</code> 允许容器访问 X11
-- 使用包含 GUI 支持的镜像：<code>tricys_openmodelica_gui</code></p>
-<h3 id="_3">问：参数扫描结果不完整？<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>可能的原因：</p>
+<h3 id="q-gui-fails-to-start-or-displays-incorrectly">Q: GUI fails to start or displays incorrectly?<a class="headerlink" href="#q-gui-fails-to-start-or-displays-incorrectly" title="Permanent link">&para;</a></h3>
+<p><strong>Windows/Linux Local</strong>:
+- Ensure Tkinter is installed: <code>pip install tk</code>
+- Check the display environment variable: <code>echo $DISPLAY</code></p>
+<p><strong>Docker Container</strong>:
+- Windows 11: Ensure WSLg feature of WSL2 is enabled.
+- Linux: Run <code>xhost +local:</code> to allow the container to access X11.
+- Use an image that includes GUI support: <code>tricys_openmodelica_gui</code></p>
+<h3 id="q-parameter-sweep-results-are-incomplete">Q: Parameter sweep results are incomplete?<a class="headerlink" href="#q-parameter-sweep-results-are-incomplete" title="Permanent link">&para;</a></h3>
+<p>Possible reasons:</p>
 <ol>
-<li><strong>某些仿真失败</strong>：</li>
-<li>查看日志文件中的错误信息</li>
 <li>
-<p>检查参数值是否合理（如避免除零、负值等）</p>
+<p><strong>Some simulations failed</strong>:</p>
+<ul>
+<li>Check the error messages in the log file.</li>
+<li>Check if parameter values are reasonable (e.g., avoid division by zero, negative values, etc.).</li>
+</ul>
 </li>
 <li>
-<p><strong>输出变量过滤器太严格</strong>：</p>
+<p><strong>The output variable filter is too strict</strong>:</p>
+<ul>
+<li>Check if <code>variableFilter</code> matches the required variables.</li>
+</ul>
 </li>
 <li>
-<p>检查 <code>variableFilter</code> 是否匹配了所需变量</p>
+<p><strong>Concurrency issues</strong>:</p>
+<ul>
+<li>Try disabling concurrency: <code>"concurrent": false</code>.</li>
+<li>Check if any processes have crashed.</li>
+</ul>
 </li>
-<li>
-<p><strong>并发问题</strong>：</p>
-</li>
-<li>尝试禁用并发：<code>"concurrent": false</code></li>
-<li>查看是否有进程崩溃</li>
 </ol>
-<h3 id="bug">问：如何报告 Bug？<a class="headerlink" href="#bug" title="Permanent link">&para;</a></h3>
-<p>请在 <a href="https://github.com/asipp-neutronics/tricys/issues">GitHub Issues</a> 中创建新 Issue，并提供：</p>
+<h3 id="q-how-to-report-a-bug">Q: How to report a bug?<a class="headerlink" href="#q-how-to-report-a-bug" title="Permanent link">&para;</a></h3>
+<p>Please create a new Issue on <a href="https://github.com/asipp-neutronics/tricys/issues">GitHub Issues</a> and provide:</p>
 <ol>
-<li><strong>环境信息</strong>：</li>
-<li>操作系统和版本</li>
-<li>Python 版本</li>
-<li>OpenModelica 版本</li>
 <li>
-<p>TRICYS 版本</p>
+<p><strong>Environment Information</strong>:</p>
+<ul>
+<li>Operating system and version</li>
+<li>Python version</li>
+<li>OpenModelica version</li>
+<li>TRICYS version</li>
+</ul>
 </li>
 <li>
-<p><strong>重现步骤</strong>：</p>
-</li>
-<li>完整的配置文件</li>
-<li>运行的命令</li>
-<li>
-<p>使用的模型（如果可能）</p>
-</li>
-<li>
-<p><strong>错误信息</strong>：</p>
-</li>
-<li>完整的错误堆栈</li>
-<li>
-<p>相关的日志片段</p>
+<p><strong>Steps to Reproduce</strong>:</p>
+<ul>
+<li>The complete configuration file</li>
+<li>The command that was run</li>
+<li>The model used (if possible)</li>
+</ul>
 </li>
 <li>
-<p><strong>预期行为</strong>：</p>
+<p><strong>Error Message</strong>:</p>
+<ul>
+<li>The full error stack trace</li>
+<li>Relevant log snippets</li>
+</ul>
 </li>
-<li>您期望发生什么</li>
-<li>实际发生了什么</li>
+<li>
+<p><strong>Expected Behavior</strong>:</p>
+<ul>
+<li>What you expected to happen</li>
+<li>What actually happened</li>
+</ul>
+</li>
 </ol>
-<hr />
 
 
 
