@@ -657,10 +657,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        模型概述
+        1. 氚循环系统介绍
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 氚循环系统介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. 内部燃料循环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. 外部燃料循环
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-modelica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Modelica示例模型
       
     </span>
   </a>
@@ -668,21 +707,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        系统架构
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        进一步学习
+        3. 进一步学习
       
     </span>
   </a>
@@ -1297,7 +1325,7 @@
   <span class="md-ellipsis">
     
   
-    tricys.postprocessing
+    tricys.postprocess
   
 
     
@@ -1853,10 +1881,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        模型概述
+        1. 氚循环系统介绍
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 氚循环系统介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. 内部燃料循环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. 外部燃料循环
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-modelica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Modelica示例模型
       
     </span>
   </a>
@@ -1864,21 +1931,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        系统架构
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        进一步学习
+        3. 进一步学习
       
     </span>
   </a>
@@ -1906,7 +1962,25 @@
 
 
 <h1 id="0">氚燃料循环 0 维系统模型<a class="headerlink" href="#0" title="Permanent link">&para;</a></h1>
-<h2 id="_1">模型概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="1">1. 氚循环系统介绍<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>聚变堆氚燃料循环在架构上分为两个高度耦合的系统：内部燃料循环和外部燃料循环。</p>
+<p><img alt="cycle.svg" src="../../../assets/cycle_system.png" /></p>
+<h3 id="11">1.1. 内部燃料循环<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>这是一个处理未燃燃料的高通量、快速闭环回路 。其物质流路径如下：</p>
+<p>1)  <strong>注入 (Fuelling):</strong> 循环始于燃料储存与输送系统 (SDS)。高纯 D-T 燃料经由加料系统 (FS) 注入托卡马克真空室 (Plasma) 。</p>
+<p>2)  <strong>排出 (Exhaust):</strong> 在等离子体中，仅有少量燃料发生聚变, 大部分未燃燃料、聚变产物（氦灰）及杂质被引导至偏滤器 (Divertor) 区域 。</p>
+<p>3)  <strong>泵送 (Pumping):</strong> 真空泵系统 (Pump_System) 将这些排出的高温废气抽出 。</p>
+<p>4)  <strong>净化 (TEP):</strong> 废气被送至托卡马克排气处理系统 (TEP)。TEP 在此进行关键的化学净化，以从杂质（如氚化水 Q2O 和氚化甲烷 CQ4）中回收氢同位素 。</p>
+<p>5)  <strong>分离 (ISS):</strong> 净化后的氢同位素 (Q2) 混合气流被送至内部同位素分离系统 (I-ISS)，通常通过低温精馏技术进行同位素分离 。</p>
+<p>6) <strong>回流 (Return):</strong> 最终，分离出的高纯度 D2 和 T2 燃料被送回 SDS，实现燃料的再循环，完成内部闭环 。</p>
+<h3 id="12">1.2. 外部燃料循环<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>这是一个负责生产新燃料以实现氚自持的低通量、慢速回路 。其物质流路径如下：</p>
+<p>1)  <strong>增殖 (Breeding):</strong> 聚变产生的高能中子进入增殖包层 (Blanket)，与包层中的锂 (Li) 发生核反应以增殖新的氚 。</p>
+<p>2)  <strong>提取 (Extraction):</strong> 新生的氚通过增殖剂氚提取系统 (TES) 从包层材料中移出 。</p>
+<p>3)  <strong>泄漏与净化 (Permeation &amp; Purification):</strong> 与此同时，少量氚会不可避免地渗透进入冷却剂回路 (CL) 。冷却剂净化系统 (CPS) 负责从冷却剂中捕获并回收这部分渗透的氚 。</p>
+<p>4)  <strong>汇集与分离 (Collection &amp; Separation):</strong> 来自 TES 的富氚流（例如，固态包层的氦气吹扫气或液态包层的渗透器产气 ）与来自 CPS 的回收氚流汇合，一同被输送至外部同位素分离系统 (O-ISS) 进行提纯。</p>
+<p>5)  <strong>补充 (Replenish):</strong> O-ISS 将氦气及其他杂质去除后，把高纯度氚送入 SDS，补充到主燃料循环中，完成全厂的燃料闭环 。</p>
+<h2 id="2-modelica">2. Modelica示例模型<a class="headerlink" href="#2-modelica" title="Permanent link">&para;</a></h2>
 <p>TRICYS 的核心是一个氚燃料循环 0 维系统模型，该模型将聚变堆的氚燃料循环系统抽象为一系列相互连接的子系统，每个子系统代表实际工厂中的一个关键功能模块。</p>
 <p>0 维模型意味着我们关注的是系统级的物质流动和库存变化，而不是详细的空间分布。这种建模方法特别适合用于：</p>
 <ul>
@@ -1917,18 +1991,103 @@
 <li>安全性评估</li>
 </ul>
 <p><img alt="cycle.svg" src="../../../assets/cycle.svg" /></p>
-<h2 id="_2">系统架构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>上图展示了 TRICYS 氚燃料循环示例模型的系统架构，主要包括以下子系统：</p>
-<div class="admonition warning">
-<p class="admonition-title">TODO</p>
-</div>
-<hr />
-<h2 id="_3">进一步学习<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">模型缩写 (Abbreviation)</th>
+<th style="text-align: left;">中文全称 (Chinese Full Name)</th>
+<th style="text-align: left;">英文全称 (English Full Name)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>Plasma</code></td>
+<td style="text-align: left;">等离子体</td>
+<td style="text-align: left;">Plasma</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Fueling_System</code></td>
+<td style="text-align: left;">燃料注入系统</td>
+<td style="text-align: left;">Fueling System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Pump_System</code></td>
+<td style="text-align: left;">真空泵系统</td>
+<td style="text-align: left;">Vacuum Pumping System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TEP_FEP</code></td>
+<td style="text-align: left;">托卡马克排气处理 - 前端</td>
+<td style="text-align: left;">Tokamak Exhaust Processing - Front-End Processing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TEP_IP</code></td>
+<td style="text-align: left;">托卡马克排气处理 - 中间处理</td>
+<td style="text-align: left;">Tokamak Exhaust Processing - Intermediate Processing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TEP_FCU</code></td>
+<td style="text-align: left;">托卡马克排气处理 - 最终净化单元</td>
+<td style="text-align: left;">Tokamak Exhaust Processing - Final Cleanup Unit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I_ISS</code></td>
+<td style="text-align: left;">内部同位素分离系统</td>
+<td style="text-align: left;">Inner Isotope Separation System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SDS</code></td>
+<td style="text-align: left;">储存与输送系统</td>
+<td style="text-align: left;">Storage and Delivery System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Blanket</code></td>
+<td style="text-align: left;">增殖包层</td>
+<td style="text-align: left;">Breeding Blanket</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TES</code></td>
+<td style="text-align: left;">氚提取系统</td>
+<td style="text-align: left;">Tritium Extraction System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>O_ISS</code></td>
+<td style="text-align: left;">外部同位素分离系统</td>
+<td style="text-align: left;">Outer Isotope Separation System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FW</code></td>
+<td style="text-align: left;">第一壁</td>
+<td style="text-align: left;">First Wall</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DIV</code></td>
+<td style="text-align: left;">偏滤器</td>
+<td style="text-align: left;">Divertor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Coolant_Pipe</code></td>
+<td style="text-align: left;">冷却剂回路</td>
+<td style="text-align: left;">Coolant Pipe</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CPS</code></td>
+<td style="text-align: left;">冷却剂净化系统</td>
+<td style="text-align: left;">Coolant Purification System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WDS</code></td>
+<td style="text-align: left;">水去氚系统</td>
+<td style="text-align: left;">Water Detritiation System</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3">3. 进一步学习<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../quickstart/">快速开始</a>：运行您的第一个仿真</li>
-<li><a href="../../tricys_basic/basic_configuration/">基础配置</a>：了解如何配置模型参数</li>
-<li><a href="../../tricys_basic/parameter_sweep/">参数扫描</a>：系统地研究参数空间</li>
-<li><a href="../../tricys_analysis/single_parameter_sensitivity_analysis/">敏感性分析</a>：识别关键参数</li>
+<li><strong><a href="../../quickstart/">快速开始</a></strong>：运行您的第一个仿真</li>
+<li><strong><a href="../../tricys_basic/basic_configuration/">基础配置</a></strong>：了解如何配置模型参数</li>
+<li><strong><a href="../../tricys_basic/parameter_sweep/">参数扫描</a></strong>：系统地研究参数空间</li>
+<li><strong><a href="../../tricys_analysis/single_parameter_sensitivity_analysis/">敏感性分析</a></strong>：识别关键参数</li>
 </ul>
 
 

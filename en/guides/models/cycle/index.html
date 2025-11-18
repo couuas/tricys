@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tritium-fuel-cycle-0d-system-model" class="md-skip">
+        <a href="#tritium-fuel-cycle-0-d-system-model" class="md-skip">
           Skip to content
         </a>
       
@@ -655,10 +655,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#model-overview" class="md-nav__link">
+  <a href="#1-introduction-to-the-tritium-cycle-system" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model Overview
+        1. Introduction to the Tritium Cycle System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction to the Tritium Cycle System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-inner-fuel-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Inner Fuel Cycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-outer-fuel-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Outer Fuel Cycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-modelica-example-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Modelica Example Model
       
     </span>
   </a>
@@ -666,21 +705,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#system-architecture" class="md-nav__link">
+  <a href="#3-further-learning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        System Architecture
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-learning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Further Learning
+        3. Further Learning
       
     </span>
   </a>
@@ -1295,7 +1323,7 @@
   <span class="md-ellipsis">
     
   
-    tricys.postprocessing
+    tricys.postprocess
   
 
     
@@ -1851,10 +1879,49 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#model-overview" class="md-nav__link">
+  <a href="#1-introduction-to-the-tritium-cycle-system" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model Overview
+        1. Introduction to the Tritium Cycle System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction to the Tritium Cycle System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-inner-fuel-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Inner Fuel Cycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-outer-fuel-cycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Outer Fuel Cycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-modelica-example-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Modelica Example Model
       
     </span>
   </a>
@@ -1862,21 +1929,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#system-architecture" class="md-nav__link">
+  <a href="#3-further-learning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        System Architecture
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-learning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Further Learning
+        3. Further Learning
       
     </span>
   </a>
@@ -1903,10 +1959,28 @@
   
 
 
-<h1 id="tritium-fuel-cycle-0d-system-model">Tritium Fuel Cycle 0D System Model<a class="headerlink" href="#tritium-fuel-cycle-0d-system-model" title="Permanent link">&para;</a></h1>
-<h2 id="model-overview">Model Overview<a class="headerlink" href="#model-overview" title="Permanent link">&para;</a></h2>
-<p>At the core of TRICYS is a 0D system model of the tritium fuel cycle. This model abstracts the fusion reactor's tritium fuel cycle system into a series of interconnected subsystems, with each subsystem representing a key functional module in an actual plant.</p>
-<p>A 0D model means we focus on system-level material flow and inventory changes, rather than detailed spatial distribution. This modeling approach is particularly suitable for:</p>
+<h1 id="tritium-fuel-cycle-0-d-system-model">Tritium Fuel Cycle 0-D System Model<a class="headerlink" href="#tritium-fuel-cycle-0-d-system-model" title="Permanent link">&para;</a></h1>
+<h2 id="1-introduction-to-the-tritium-cycle-system">1. Introduction to the Tritium Cycle System<a class="headerlink" href="#1-introduction-to-the-tritium-cycle-system" title="Permanent link">&para;</a></h2>
+<p>The fusion reactor's tritium fuel cycle is architecturally divided into two highly coupled systems: the inner fuel cycle and the outer fuel cycle.</p>
+<p><img alt="cycle.svg" src="../../../assets/cycle_system.png" /></p>
+<h3 id="11-inner-fuel-cycle">1.1. Inner Fuel Cycle<a class="headerlink" href="#11-inner-fuel-cycle" title="Permanent link">&para;</a></h3>
+<p>This is a high-throughput, fast closed-loop circuit that processes unburnt fuel. Its material flow path is as follows:</p>
+<p>1)  <strong>Fuelling:</strong> The cycle begins at the Storage and Delivery System (SDS). High-purity D-T fuel is injected into the Tokamak vacuum chamber (Plasma) via the Fueling System (FS).</p>
+<p>2)  <strong>Exhaust:</strong> In the plasma, only a small amount of fuel undergoes fusion. The majority of unburnt fuel, fusion products (helium ash), and impurities are directed to the Divertor area.</p>
+<p>3)  <strong>Pumping:</strong> The Vacuum Pumping System (Pump_System) extracts these hot exhaust gases.</p>
+<p>4)  <strong>Purification (TEP):</strong> The exhaust gas is sent to the Tokamak Exhaust Processing (TEP) system. Here, TEP performs crucial chemical purification to recover hydrogen isotopes from impurities such as tritiated water (Q2O) and tritiated methane (CQ4).</p>
+<p>5)  <strong>Separation (ISS):</strong> The purified hydrogen isotope (Q2) gas mixture is sent to the Inner Isotope Separation System (I-ISS), where isotope separation is typically performed using cryogenic distillation.</p>
+<p>6) <strong>Return:</strong> Finally, the separated high-purity D2 and T2 fuels are returned to the SDS, enabling fuel recycling and completing the inner closed loop.</p>
+<h3 id="12-outer-fuel-cycle">1.2. Outer Fuel Cycle<a class="headerlink" href="#12-outer-fuel-cycle" title="Permanent link">&para;</a></h3>
+<p>This is a low-throughput, slow loop responsible for producing new fuel to achieve tritium self-sufficiency. Its material flow path is as follows:</p>
+<p>1)  <strong>Breeding:</strong> High-energy neutrons from fusion enter the Breeding Blanket, where they react with lithium (Li) in the blanket to breed new tritium.</p>
+<p>2)  <strong>Extraction:</strong> The newly bred tritium is removed from the blanket material by the Tritium Extraction System (TES).</p>
+<p>3)  <strong>Permeation &amp; Purification:</strong> Simultaneously, a small amount of tritium inevitably permeates into the coolant loop (CL). The Coolant Purification System (CPS) is responsible for capturing and recovering this permeated tritium from the coolant.</p>
+<p>4)  <strong>Collection &amp; Separation:</strong> The tritium-rich stream from the TES (e.g., helium purge gas from a solid blanket or permeator product gas from a liquid blanket) merges with the recovered tritium stream from the CPS. Both are transported to the Outer Isotope Separation System (O-ISS) for purification.</p>
+<p>5)  <strong>Replenish:</strong> After removing helium and other impurities, the O-ISS sends high-purity tritium to the SDS to replenish the main fuel cycle, completing the plant-wide fuel closed loop.</p>
+<h2 id="2-modelica-example-model">2. Modelica Example Model<a class="headerlink" href="#2-modelica-example-model" title="Permanent link">&para;</a></h2>
+<p>The core of TRICYS is a 0-D system model of the tritium fuel cycle. This model abstracts the fusion reactor's tritium fuel cycle system into a series of interconnected subsystems, each representing a key functional module in the actual plant.</p>
+<p>A 0-D model means we focus on system-level material flow and inventory changes, rather than detailed spatial distribution. This modeling approach is particularly suitable for:</p>
 <ul>
 <li>System-level tritium inventory analysis</li>
 <li>Fuel self-sufficiency time assessment</li>
@@ -1914,18 +1988,104 @@
 <li>Operational strategy studies</li>
 <li>Safety assessment</li>
 </ul>
-<h2 id="system-architecture">System Architecture<a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h2>
-<p>The figure above shows the system architecture of the TRICYS example model for the tritium fuel cycle, which mainly includes the following subsystems:</p>
-<div class="admonition warning">
-<p class="admonition-title">TODO</p>
-</div>
-<hr />
-<h2 id="further-learning">Further Learning<a class="headerlink" href="#further-learning" title="Permanent link">&para;</a></h2>
+<p><img alt="cycle.svg" src="../../../assets/cycle.svg" /></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Abbreviation</th>
+<th style="text-align: left;">Chinese Full Name</th>
+<th style="text-align: left;">English Full Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>Plasma</code></td>
+<td style="text-align: left;">等离子体</td>
+<td style="text-align: left;">Plasma</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Fueling_System</code></td>
+<td style="text-align: left;">燃料注入系统</td>
+<td style="text-align: left;">Fueling System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Pump_System</code></td>
+<td style="text-align: left;">真空泵系统</td>
+<td style="text-align: left;">Vacuum Pumping System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TEP_FEP</code></td>
+<td style="text-align: left;">托卡马克排气处理 - 前端</td>
+<td style="text-align: left;">Tokamak Exhaust Processing - Front-End Processing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TEP_IP</code></td>
+<td style="text-align: left;">托卡马克排气处理 - 中间处理</td>
+<td style="text-align: left;">Tokamak Exhaust Processing - Intermediate Processing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TEP_FCU</code></td>
+<td style="text-align: left;">托卡马克排气处理 - 最终净化单元</td>
+<td style="text-align: left;">Tokamak Exhaust Processing - Final Cleanup Unit</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I_ISS</code></td>
+<td style="text-align: left;">内部同位素分离系统</td>
+<td style="text-align: left;">Inner Isotope Separation System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SDS</code></td>
+<td style="text-align: left;">储存与输送系统</td>
+<td style="text-align: left;">Storage and Delivery System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Blanket</code></td>
+<td style="text-align: left;">增殖包层</td>
+<td style="text-align: left;">Breeding Blanket</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TES</code></td>
+<td style="text-align: left;">氚提取系统</td>
+<td style="text-align: left;">Tritium Extraction System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>O_ISS</code></td>
+<td style="text-align: left;">外部同位素分离系统</td>
+<td style="text-align: left;">Outer Isotope Separation System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FW</code></td>
+<td style="text-align: left;">第一壁</td>
+<td style="text-align: left;">First Wall</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DIV</code></td>
+<td style="text-align: left;">偏滤器</td>
+<td style="text-align: left;">Divertor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Coolant_Pipe</code></td>
+<td style="text-align: left;">冷却剂回路</td>
+<td style="text-align: left;">Coolant Pipe</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CPS</code></td>
+<td style="text-align: left;">冷却剂净化系统</td>
+<td style="text-align: left;">Coolant Purification System</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WDS</code></td>
+<td style="text-align: left;">水去氚系统</td>
+<td style="text-align: left;">Water Detritiation System</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-further-learning">3. Further Learning<a class="headerlink" href="#3-further-learning" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://www.google.com/search?q=../quickstart.md">Quick Start</a>: Run your first simulation</li>
-<li><a href="https://www.google.com/search?q=../tricys_basic/basic_configuration.md">Basic Configuration</a>: Learn how to configure model parameters</li>
-<li><a href="https://www.google.com/search?q=../tricys_basic/parameter_sweep.md">Parameter Sweep</a>: Systematically study the parameter space</li>
-<li><a href="https://www.google.com/search?q=../tricys_analysis/single_parameter_sensitivity_analysis.md">Sensitivity Analysis</a>: Identify key parameters</li>
+<li><strong><a href="../../quickstart/">Quickstart</a></strong>: Run your first simulation</li>
+<li><strong><a href="../../tricys_basic/basic_configuration/">Basic Configuration</a></strong>: Learn how to configure model parameters</li>
+<li><strong><a href="../../tricys_basic/parameter_sweep/">Parameter Sweep</a></strong>: Systematically study the parameter space</li>
+<li><strong><a href="../../tricys_analysis/single_parameter_sensitivity_analysis/">Sensitivity Analysis</a></strong>: Identify key parameters</li>
 </ul>
 
 
