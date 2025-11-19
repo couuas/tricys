@@ -9,16 +9,16 @@
       
       
       
-        <link rel="prev" href="../tricys_basic/co_simulation_module.html">
+        <link rel="prev" href="single_parameter_sensitivity_analysis.html">
       
       
-        <link rel="next" href="baseline_condition_analysis.html">
+        <link rel="next" href="sobol_global_sensitivity_analysis.html">
       
       
         
-          <link rel="alternate" href="index.html" hreflang="en">
+          <link rel="alternate" href="multi_parameter_sensitivity_analysis.html" hreflang="en">
         
-          <link rel="alternate" href="../../../guides/tricys_analysis/index.html" hreflang="zh">
+          <link rel="alternate" href="../../../guides/tricys_analysis/multi_parameter_sensitivity_analysis.html" hreflang="zh">
         
       
       
@@ -27,7 +27,7 @@
     
     
       
-        <title>Introduction & Common Config - TRitium Integrated CYcle Simulation</title>
+        <title>Multi-parameter Sensitivity Analysis - TRitium Integrated CYcle Simulation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#automated-analysis-tricys-analysis" class="md-skip">
+        <a href="#multi-parameter-sensitivity-analysis" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction & Common Config
+              Multi-parameter Sensitivity Analysis
             
           </span>
         </div>
@@ -151,13 +151,13 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="index.html" hreflang="en" class="md-select__link">
+            <a href="multi_parameter_sensitivity_analysis.html" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="../../../guides/tricys_analysis/index.html" hreflang="zh" class="md-select__link">
+            <a href="../../../guides/tricys_analysis/multi_parameter_sensitivity_analysis.html" hreflang="zh" class="md-select__link">
               简体中文
             </a>
           </li>
@@ -888,37 +888,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Introduction & Common Config
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
         
   
   
@@ -934,159 +907,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-common-configuration-items" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Common Configuration Items
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1. Common Configuration Items">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#11-multi-case-concurrent-execution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.1. Multi-Case Concurrent Execution
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#12-metrics_definition-metric-definitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.2. metrics_definition (Metric Definitions)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#13-glossary_path-glossary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.3. glossary_path (Glossary)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#14-unit_map-unit-map" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.4. unit_map (Unit Map)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#15-ai-enhanced-analysis-ai-true" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.5. AI-Enhanced Analysis ("ai": true)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#16-common-configuration-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.6. Common Configuration Example
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-common-analysis-report-output" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Common Analysis Report Output
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Common Analysis Report Output">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-core-analysis-report" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2.1. Core Analysis Report
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-optional-ai-enhanced-report" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2.2. (Optional) AI-Enhanced Report
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-analysis-type-navigation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Analysis Type Navigation
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1152,10 +972,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="multi_parameter_sensitivity_analysis.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-parameter Sensitivity Analysis
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="multi_parameter_sensitivity_analysis.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1171,6 +1018,176 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-core-concept-parameter-interaction-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Core Concept: Parameter Interaction Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Core Concept: Parameter Interaction Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-configuration-file-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Configuration File Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-advanced-usage-goal-seeking-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Advanced Usage: Goal-Seeking Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Advanced Usage: Goal-Seeking Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-configuration-file-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Configuration File Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-analysis-report-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Analysis Report Output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-full-example-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Full Example Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-ai-enhanced-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. AI-Enhanced Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. AI-Enhanced Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-how-to-enable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. How to Enable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-output-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Output Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2157,22 +2174,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-common-configuration-items" class="md-nav__link">
+  <a href="#1-core-concept-parameter-interaction-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Common Configuration Items
+        1. Core Concept: Parameter Interaction Analysis
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. Common Configuration Items">
+    <nav class="md-nav" aria-label="1. Core Concept: Parameter Interaction Analysis">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#11-multi-case-concurrent-execution" class="md-nav__link">
+  <a href="#11-configuration-file-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.1. Multi-Case Concurrent Execution
+        1.1. Configuration File Example
       
     </span>
   </a>
@@ -2180,54 +2197,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#12-metrics_definition-metric-definitions" class="md-nav__link">
+  <a href="#12-how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.2. metrics_definition (Metric Definitions)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#13-glossary_path-glossary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.3. glossary_path (Glossary)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#14-unit_map-unit-map" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.4. unit_map (Unit Map)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#15-ai-enhanced-analysis-ai-true" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.5. AI-Enhanced Analysis ("ai": true)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#16-common-configuration-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.6. Common Configuration Example
+        1.2. How It Works
       
     </span>
   </a>
@@ -2240,22 +2213,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-common-analysis-report-output" class="md-nav__link">
+  <a href="#2-advanced-usage-goal-seeking-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Common Analysis Report Output
+        2. Advanced Usage: Goal-Seeking Analysis
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Common Analysis Report Output">
+    <nav class="md-nav" aria-label="2. Advanced Usage: Goal-Seeking Analysis">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-core-analysis-report" class="md-nav__link">
+  <a href="#21-configuration-file-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.1. Core Analysis Report
+        2.1. Configuration File Example
       
     </span>
   </a>
@@ -2263,10 +2236,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-optional-ai-enhanced-report" class="md-nav__link">
+  <a href="#22-how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2. (Optional) AI-Enhanced Report
+        2.2. How It Works
       
     </span>
   </a>
@@ -2279,13 +2252,74 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-analysis-type-navigation" class="md-nav__link">
+  <a href="#3-analysis-report-output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Analysis Type Navigation
+        3. Analysis Report Output
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-full-example-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Full Example Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-ai-enhanced-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. AI-Enhanced Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. AI-Enhanced Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-how-to-enable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. How to Enable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-output-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Output Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2309,154 +2343,222 @@
   
 
 
-<h1 id="automated-analysis-tricys-analysis">Automated Analysis (TRICYS ANALYSIS)<a class="headerlink" href="#automated-analysis-tricys-analysis" title="Permanent link">&para;</a></h1>
-<p><code>TRICYS ANALYSIS</code> is the advanced analysis module of <code>tricys</code>, designed to automate a series of complex simulation, post-processing, and report generation tasks. Unlike <code>TRICYS BASIC</code>, which executes a single simulation, the <code>ANALYSIS</code> module uses a unified configuration file to perform various advanced analysis tasks, from parameter sweeps and sensitivity analysis to uncertainty quantification.</p>
-<p>This chapter will first introduce the core configuration items common to all analysis tasks, and then provide a detailed introduction to each specific analysis mode in separate sections.</p>
-<h2 id="1-common-configuration-items">1. Common Configuration Items<a class="headerlink" href="#1-common-configuration-items" title="Permanent link">&para;</a></h2>
-<p>In the <code>tricys</code> analysis configuration file, the <code>sensitivity_analysis</code> object is at the core of all analysis tasks. The following are the key fields that are common across multiple analysis types.</p>
-<h3 id="11-multi-case-concurrent-execution">1.1. Multi-Case Concurrent Execution<a class="headerlink" href="#11-multi-case-concurrent-execution" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong><code>analysis_cases</code> (List of Analysis Cases)</strong></li>
-<li><strong>Description</strong>: This is an array and the core of the <code>TRICYS ANALYSIS</code> mode. It allows you to define <strong>multiple independent analysis tasks</strong> in a single configuration file. Each element in the array is a complete analysis case object, which can have its own independent <code>name</code>, <code>independent_variable</code>, <code>dependent_variables</code>, etc. <code>tricys</code> will execute each case in this list sequentially.</li>
-<li>
-<p><strong>Application</strong>: This feature is very useful when you need to compare different model versions, different initial conditions, or different analysis methods (for example, running a single-parameter sensitivity analysis and a SOBOL analysis in the same batch).</p>
-</li>
-<li>
-<p><strong><code>concurrent_cases</code> (Concurrent Case Execution)</strong></p>
-</li>
-<li><strong>Description</strong>: A boolean value (<code>true</code> or <code>false</code>), defaulting to <code>false</code>. When set to <code>true</code>, <code>tricys</code> will enable <strong>multi-process parallel computing</strong> to execute multiple cases from the <code>analysis_cases</code> list simultaneously.</li>
-<li>
-<p><strong>Application</strong>: For configuration files containing a large number of independent analysis cases, enabling this option can leverage the power of multi-core CPUs to <strong>significantly reduce the total analysis time</strong>.</p>
-</li>
-<li>
-<p><strong><code>max_case_workers</code> (Maximum Number of Concurrent Workers)</strong></p>
-</li>
-<li><strong>Description</strong>: An integer that is effective only when <code>concurrent_cases</code> is <code>true</code>. It is used to specify the maximum number of processes for parallel execution.</li>
-<li><strong>Default Value</strong>: If not set, <code>tricys</code> will default to the number of CPU cores on your machine.</li>
-<li><strong>Recommendation</strong>: It is recommended to set this to a value no greater than the number of physical CPU cores on your computer for optimal performance.</li>
-</ul>
-<h3 id="12-metrics_definition-metric-definitions">1.2. <code>metrics_definition</code> (Metric Definitions)<a class="headerlink" href="#12-metrics_definition-metric-definitions" title="Permanent link">&para;</a></h3>
-<p>This is the most critical part, used to define the Key Performance Indicators (KPIs) you care about, which are the <strong>dependent variables</strong> in the analysis results.</p>
-<ul>
-<li><strong>Structure</strong>: A dictionary where each <strong>key</strong> is a unique name you assign to the metric (e.g., <code>Startup_Inventory</code>).</li>
-<li><strong>Value</strong>: An object describing how to calculate that metric.<ul>
-<li><code>source_column</code>: The source of the raw data for the calculation, i.e., the column name in the simulation results (<code>.csv</code>).</li>
-<li><code>method</code>: The name of the function in the <code>tricys.analysis.metric</code> module used for the calculation.</li>
-</ul>
-</li>
-<li><strong>Details</strong>: <code>tricys</code> has several built-in functions for common metric calculations. For a detailed explanation of the physical meaning and calculation methods of core performance metrics (like <code>Startup_Inventory</code>, <code>Doubling_Time</code>, etc.), please refer to <a href="../../explanation/performance_metrics.md">Core Performance Metrics Explained</a>.</li>
-</ul>
-<h3 id="13-glossary_path-glossary">1.3. <code>glossary_path</code> (Glossary)<a class="headerlink" href="#13-glossary_path-glossary" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Description</strong>: A path to a "glossary" CSV file. Providing this file can greatly enhance the readability of the report, as it maps abbreviated variable names from the code (e.g., <code>sds.I[1]</code>) to easy-to-understand names and descriptions.</li>
-<li><strong>Format</strong>: This is a standard CSV file, and its headers should include <code>Model Parameter</code> (required), <code>English Term</code>, <code>Chinese Translation</code>, etc.</li>
-</ul>
-<h3 id="14-unit_map-unit-map">1.4. <code>unit_map</code> (Unit Map)<a class="headerlink" href="#14-unit_map-unit-map" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Description</strong>: A dictionary used to customize the units in the report charts, making the results more intuitive.</li>
-<li><strong>Key</strong>: The variable or metric name.</li>
-<li><strong>Value</strong>: An object containing <code>unit</code> (the unit string) and <code>conversion_factor</code> (the conversion factor from the original simulation unit to the target unit). For example, if the simulation time unit is hours, a <code>"conversion_factor": 24</code> can convert the unit of <code>Doubling_Time</code> to days.</li>
-</ul>
-<h3 id="15-ai-enhanced-analysis-ai-true">1.5. AI-Enhanced Analysis (<code>"ai": true</code>)<a class="headerlink" href="#15-ai-enhanced-analysis-ai-true" title="Permanent link">&para;</a></h3>
-<p>All analysis modules in <code>tricys</code> have powerful built-in <strong>AI analysis capabilities</strong>.</p>
-<ul>
-<li><strong>How to Enable</strong>: Add <code>"ai": true</code> to the configuration of a specific analysis case (e.g., within an element of <code>analysis_cases</code>, or in the <code>params</code> of a <code>post_processing</code> task) to activate it.</li>
-<li><strong>Environment Setup</strong>: Before using this feature, you must create a file named <code>.env</code> in the project's <strong>root directory</strong> and fill in your Large Language Model (LLM) API credentials.
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># .env file
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>API_KEY=&quot;sk-your_api_key_here&quot;
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>BASE_URL=&quot;https://your_api_base_url/v1&quot;
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>AI_MODEL=&quot;your_model_name_here&quot;
-</code></pre></div></li>
-<li><strong>Functionality</strong>: When enabled, <code>tricys</code> will, in addition to generating standard charts and data reports, make an extra call to the LLM to:<ol>
-<li>Provide an in-depth interpretation of the analysis results and append it to the core Markdown report.</li>
-<li>Generate a well-structured <strong>academic-style report</strong> (<code>academic_report.md</code>) written entirely by the AI, which can be used directly for presentations or as a draft for a paper.</li>
-</ol>
-</li>
-</ul>
-<h3 id="16-common-configuration-example">1.6. Common Configuration Example<a class="headerlink" href="#16-common-configuration-example" title="Permanent link">&para;</a></h3>
-<p>The following JSON snippet shows how the above common configuration items are used in the <code>sensitivity_analysis</code> object.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">&quot;sensitivity_analysis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;concurrent_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">&quot;max_case_workers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">&quot;analysis_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="c1">// ... Definition of specific analysis cases here, see docs for each analysis type ...</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">],</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">&quot;metrics_definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="nt">&quot;Startup_Inventory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">            </span><span class="nt">&quot;source_column&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sds.I[1]&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;calculate_startup_inventory&quot;</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="p">},</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="nt">&quot;Doubling_Time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">            </span><span class="nt">&quot;source_column&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sds.I[1]&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;calculate_doubling_time&quot;</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span><span class="p">},</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">        </span><span class="nt">&quot;Required_TBR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bisection_search&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">            </span><span class="nt">&quot;parameter_to_optimize&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blanket.TBR&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">            </span><span class="nt">&quot;search_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">]</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="p">},</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="nt">&quot;glossary_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;../../example_glossary/example_glossary.csv&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="nt">&quot;unit_map&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span><span class="nt">&quot;Doubling_Time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">            </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;days&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">            </span><span class="nt">&quot;conversion_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">        </span><span class="p">},</span>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">        </span><span class="nt">&quot;Startup_Inventory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">            </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;kg&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">            </span><span class="nt">&quot;conversion_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span>
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="p">}</span>
+<h1 id="multi-parameter-sensitivity-analysis">Multi-Parameter Sensitivity Analysis<a class="headerlink" href="#multi-parameter-sensitivity-analysis" title="Permanent link">&para;</a></h1>
+<p>Building on single-parameter sensitivity analysis, <code>tricys</code> offers a more powerful <strong>multi-parameter sensitivity analysis</strong>. This feature allows you to study the impact of a primary independent parameter (X-axis) on performance metrics (Y-axis) while <strong>simultaneously sweeping one or more background parameters</strong>.</p>
+<p>This enables you to generate a "family of sensitivity curves" on a single chart, where each curve represents a specific value of a background parameter. In this way, you can gain a deep understanding of the <strong>interaction and coupling effects</strong> between parameters. Additionally, this feature supports a powerful "goal-seeking" analysis mode.</p>
+<p>For common configurations such as metric definitions, glossaries, and unit maps, please refer to the <a href="index.html">Automated Analysis Main Page</a>.</p>
+<h2 id="1-core-concept-parameter-interaction-analysis">1. Core Concept: Parameter Interaction Analysis<a class="headerlink" href="#1-core-concept-parameter-interaction-analysis" title="Permanent link">&para;</a></h2>
+<p>This is the most common use of multi-parameter analysis, and its core is to embed a <code>simulation_parameters</code> field inside a case within <code>analysis_cases</code>.</p>
+<h3 id="11-configuration-file-example">1.1. Configuration File Example<a class="headerlink" href="#11-configuration-file-example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">&quot;sensitivity_analysis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">&quot;analysis_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIR_PLASMA_Analysis&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">                </span><span class="nt">&quot;independent_variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tep_fep.to_SDS_Fraction[1]&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Primary independent parameter (X-axis)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">                </span><span class="nt">&quot;independent_variable_sampling&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.3</span><span class="p">,</span><span class="w"> </span><span class="mf">0.6</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">],</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">                </span><span class="nt">&quot;dependent_variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;Startup_Inventory&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Required_TBR&quot;</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="c1">// Dependent variables (Y-axis)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">                </span><span class="nt">&quot;simulation_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">                    </span><span class="nt">&quot;plasma.fb&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">,</span><span class="w"> </span><span class="mf">0.08</span><span class="p">,</span><span class="w"> </span><span class="mf">0.09</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">],</span><span class="w"> </span><span class="c1">// Background sweep parameter (generates multiple curves)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">                    </span><span class="nt">&quot;plasma.nf&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="c1">// Fixed background parameter</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">                </span><span class="p">}</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="p">],</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">        </span><span class="c1">// ... (Common configurations)</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="2-common-analysis-report-output">2. Common Analysis Report Output<a class="headerlink" href="#2-common-analysis-report-output" title="Permanent link">&para;</a></h2>
-<p>Regardless of the type of analysis performed, <code>tricys</code> will create a folder named with a timestamp in the current working directory to store all results. For each analysis case defined in the <code>analysis_cases</code> configuration, a subfolder named after the case's <code>name</code> will be created inside the timestamp folder.</p>
-<p>A typical output directory structure is as follows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;run_timestamp&gt;/
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├── Case_A_Name/
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>│   ├── report/
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│   │   ├── analysis_report_Case_A_Name.md              # Core analysis report
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│   │   ├── academic_report_Case_A_Name_gpt-4.md      # (Optional) AI academic report
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│   │   ├── analysis_plot_1.svg                         # Analysis plot 1
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│   │   └── analysis_plot_2.svg                         # Analysis plot 2
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│   └── results/
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│       └── ... (Intermediate data files)
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>│
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>├── Case_B_Name/
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│   ├── report/
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>│   │   └── ...
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>│   └── results/
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>│       └── ...
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>│
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>└── execution_report.md (Global execution report)
-</code></pre></div>
-<p>The core output of each case subfolder is located in its internal <code>report</code> folder, which usually contains the following:</p>
-<h3 id="21-core-analysis-report">2.1. Core Analysis Report<a class="headerlink" href="#21-core-analysis-report" title="Permanent link">&para;</a></h3>
+<h3 id="12-how-it-works">1.2. How It Works<a class="headerlink" href="#12-how-it-works" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>File</strong>: <code>analysis_report_{case_name}.md</code></li>
-<li><strong>Format</strong>: Markdown</li>
-<li><strong>Content</strong>: This is a summary of the analysis results, integrating configuration, charts, and data in a structured way. Its common content includes:<ul>
-<li><strong>Analysis Case Configuration Details</strong>: A detailed list of all configuration parameters used for this analysis, ensuring the transparency and reproducibility of the analysis process.</li>
-<li><strong>Summary Table of Performance Metrics</strong>: A clear Markdown table listing each value of the independent variable and the corresponding calculated values of all dependent variables (performance metrics). This is the raw data source for all analysis charts.</li>
-<li><strong>Analysis Charts</strong>: Embedded vector graphics in <strong>SVG format</strong>. The specific type and content of the charts depend on the analysis mode (e.g., trend line charts for single-parameter analysis, bar charts of sensitivity indices for SOBOL analysis, etc.). Please refer to the documentation for each analysis type for details.</li>
+<li><strong>Primary Independent Parameter (<code>independent_variable</code>)</strong>: <code>tep_fep.to_SDS_Fraction[1]</code>, serves as the <strong>X-axis</strong> of the chart.</li>
+<li><strong>Background Sweep Parameters (<code>simulation_parameters</code>)</strong>:<ul>
+<li>The value of <code>plasma.fb</code> is a <strong>list</strong>, which will become the <strong>Legend</strong> in the chart. Each curve corresponds to one value of <code>plasma.fb</code>.</li>
+<li>The value of <code>plasma.nf</code> is a <strong>scalar</strong>, which will remain constant across all simulations.</li>
 </ul>
 </li>
+<li><strong>Execution Logic</strong>: The program executes a "nested loop". For each value of the <code>independent_variable</code>, the program runs a simulation for each value of <code>plasma.fb</code>. The total number of runs is <code>len(independent_variable_sampling) * len(plasma.fb)</code>.</li>
 </ul>
-<h3 id="22-optional-ai-enhanced-report">2.2. (Optional) AI-Enhanced Report<a class="headerlink" href="#22-optional-ai-enhanced-report" title="Permanent link">&para;</a></h3>
-<p>If <code>"ai": true</code> is configured, the <code>report</code> folder will additionally contain:</p>
+<h2 id="2-advanced-usage-goal-seeking-analysis">2. Advanced Usage: Goal-Seeking Analysis<a class="headerlink" href="#2-advanced-usage-goal-seeking-analysis" title="Permanent link">&para;</a></h2>
+<p>This feature supports a "reverse" analysis mode, known as <strong>Goal-Seeking</strong>. You can specify a performance metric as a target and solve for the required value of an input parameter to achieve that target.</p>
+<h3 id="21-configuration-file-example">2.1. Configuration File Example<a class="headerlink" href="#21-configuration-file-example" title="Permanent link">&para;</a></h3>
+<p>The key is that <code>simulation_parameters</code> contains a special object with the same name as an optimization metric in <code>metrics_definition</code> (in this case, <code>Required_TBR</code>).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DoubleTime_PLASMA_Analysis&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;independent_variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;plasma.fb&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Primary independent parameter (X-axis)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">&quot;dependent_variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;Startup_Inventory&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Required_TBR&quot;</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="c1">// Dependent variables (Y-axis)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">&quot;simulation_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="nt">&quot;plasma.nf&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="nt">&quot;Required_TBR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Special goal-seeking configuration</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">            </span><span class="nt">&quot;metric_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Doubling_Time&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Target metric</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">            </span><span class="nt">&quot;metric_max_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">4380</span><span class="p">,</span><span class="w"> </span><span class="mi">8760</span><span class="p">,</span><span class="w"> </span><span class="mi">13140</span><span class="p">,</span><span class="w"> </span><span class="mi">17530</span><span class="p">]</span><span class="w"> </span><span class="c1">// List of target values (unit: hours)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">&quot;metrics_definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="c1">// ...</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span><span class="nt">&quot;Required_TBR&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">            </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bisection_search&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">            </span><span class="nt">&quot;parameter_to_optimize&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blanket.TBR&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Parameter to be solved for</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">            </span><span class="c1">// ... (other configurations for bisection_search)</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="22-how-it-works">2.2. How It Works<a class="headerlink" href="#22-how-it-works" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><code>analysis_report_{case_name}_{model_name}.md</code></strong>: An in-depth interpretation of the data and charts generated by the AI, appended to the end of the core report.</li>
-<li><strong><code>academic_report_{case_name}_{model_name}.md</code></strong>: A well-structured, academic-style report written entirely by the AI, which can be used directly for presentations or as a draft for a paper.</li>
+<li><strong>Problem Description</strong>: This configuration aims to answer the question: "As <code>plasma.fb</code> changes, what is the required <code>blanket.TBR</code> to achieve different <code>Doubling_Time</code> targets (4380h, 8760h, ...)?"</li>
+<li><strong>Execution Logic</strong>: For each value of <code>plasma.fb</code> on the X-axis, the program initiates a <code>bisection_search</code> optimization loop for <strong>each target value</strong> in the <code>metric_max_value</code> list to solve for the corresponding <code>blanket.TBR</code> value.</li>
+<li><strong>Result Interpretation</strong>: The final chart will show how the required TBR changes with <code>plasma.fb</code> under different doubling time target constraints.</li>
 </ul>
-<h2 id="3-analysis-type-navigation">3. Analysis Type Navigation<a class="headerlink" href="#3-analysis-type-navigation" title="Permanent link">&para;</a></h2>
-<p>Depending on your research objectives, you can choose from the following different analysis modes. Please click the links to view detailed configuration methods and application scenarios for each mode.</p>
+<h2 id="3-analysis-report-output">3. Analysis Report Output<a class="headerlink" href="#3-analysis-report-output" title="Permanent link">&para;</a></h2>
+<p>The main difference from single-parameter analysis lies in the <strong>performance metric analysis chart</strong>:</p>
 <ul>
-<li><strong><a href="baseline_condition_analysis.html">Baseline Condition Analysis</a></strong>: For a comprehensive evaluation of a single, fixed parameter configuration.</li>
-<li><strong><a href="single_parameter_sensitivity_analysis.html">Single-Parameter Sensitivity Analysis</a></strong>: To study how changes in a single independent parameter affect system performance.</li>
-<li><strong><a href="multi_parameter_sensitivity_analysis.html">Multi-Parameter Sensitivity Analysis</a></strong>: To analyze the interaction and coupling effects between multiple parameters, or to perform "goal-seeking" analysis.</li>
-<li><strong><a href="sobol_global_sensitivity_analysis.html">SOBOL Global Sensitivity Analysis</a></strong>: To quantify the contribution of multiple input parameters and their interactions to the variance of the model output.</li>
-<li><strong><a href="latin_uncertainty_analysis.html">Latin Uncertainty Quantification Analysis</a></strong>: To assess how uncertainty in input parameters propagates to the model output and to analyze the probability distribution of the output.</li>
+<li>For <strong>parameter interaction analysis</strong>, the chart will contain a set of curves, with the legend corresponding to different values of the background parameter (e.g., <code>plasma.fb</code>).</li>
+<li>For <strong>goal-seeking analysis</strong>, the chart will also contain multiple curves, but the legend will correspond to different performance target constraints (e.g., <code>Doubling_Time = 4380h</code>).</li>
+</ul>
+<p>This allows multi-dimensional data relationships to be clearly presented in a single two-dimensional chart. The rest of the report follows the common structure.</p>
+<h2 id="4-full-example-configuration">4. Full Example Configuration<a class="headerlink" href="#4-full-example-configuration" title="Permanent link">&para;</a></h2>
+<details>
+<summary>example/analysis/3_multi_parameter_sensitivity_analysis/multi_parameter_sensitivity_analysis.json</summary>
+
+{
+    "paths": {
+        "package_path": "../../example_model_single/example_model.mo"
+    },
+    "simulation": {
+        "model_name": "example_model.Cycle",
+        "variableFilter": "time|sds.I[1]",
+        "stop_time": 12000.0,
+        "step_size": 0.5
+    },
+    "sensitivity_analysis": {
+        "enabled": true,
+        "analysis_cases": [
+            {
+                "name": "DIR_PLASMA_Analysis",
+                "independent_variable": "tep_fep.to_SDS_Fraction[1]",
+                "independent_variable_sampling": [0.1,0.3,0.6,0.8],
+                "dependent_variables": [
+                    "Startup_Inventory",
+                    "Required_TBR"
+                ],
+                "simulation_parameters": {
+                    "plasma.fb": [0.02,0.04,0.08,0.09,0.1],
+                    "plasma.nf":0.5
+                },
+                "plot_type":"line",
+                "combine_plots":true,
+                "sweep_time":["sds.I[1]"]
+            },
+            {
+                "name": "Pulse_PLASMA_Analysis",
+                "independent_variable": "pulseSource.width",
+                "independent_variable_sampling": [50,60,70,80,90,99],
+                "dependent_variables": [
+                    "Startup_Inventory",
+                    "Required_TBR"
+                ],
+                "simulation_parameters": {
+                    "plasma.fb": [0.02,0.04,0.08,0.09,0.1],
+                    "plasma.nf":0.5
+                },
+                "plot_type":"line",
+                "combine_plots":true,
+                "sweep_time":["sds.I[1]"]
+            },
+            {
+                "name": "DoubleTime_PLASMA_Analysis",
+                "independent_variable": "plasma.fb",
+                "independent_variable_sampling": [0.02,0.05,0.08,0.1],
+                "dependent_variables": [
+                    "Startup_Inventory",
+                    "Required_TBR"
+                ],
+                "simulation_parameters": {
+                    "plasma.nf":0.5,
+                    "Required_TBR": {
+                        "metric_name":"Doubling_Time",
+                        "metric_max_value": [4380,8760,13140,17530]
+                    }
+                },
+                "plot_type":"line",
+                "combine_plots":true,
+                "sweep_time":["sds.I[1]"]
+            }
+        ],
+        "metrics_definition": {
+            "Startup_Inventory": {
+                "source_column": "sds.I[1]",
+                "method": "calculate_startup_inventory"
+            },
+            "Self_Sufficiency_Time": {
+                "source_column": "sds.I[1]",
+                "method": "time_of_turning_point"
+            },
+            "Doubling_Time": {
+                "source_column": "sds.I[1]",
+                "method": "calculate_doubling_time"
+            },
+            "Required_TBR": {
+                "source_column": "sds.I[1]",
+                "method": "bisection_search",
+                "parameter_to_optimize": "blanket.TBR",
+                "search_range": [1,1.5],
+                "tolerance": 0.005,
+                "max_iterations": 10
+            }
+        },
+        "glossary_path": "../../example_glossary/example_glossary.csv",
+        "unit_map": {
+            "Doubling_Time": {
+                "unit": "days",
+                "conversion_factor": 24
+            },
+            "Startup_Inventory": {
+                "unit": "kg",
+                "conversion_factor": 1000
+            },
+            "Self_Sufficiency_Time": {
+                "unit": "days",
+                "conversion_factor": 24
+            },
+            "width":{
+                "unit": "%"
+            }
+        }
+    }
+}
+
+</details>
+
+<h2 id="5-ai-enhanced-analysis">5. AI-Enhanced Analysis<a class="headerlink" href="#5-ai-enhanced-analysis" title="Permanent link">&para;</a></h2>
+<p>All analysis modules in <code>tricys</code> are deeply integrated with Large Language Models (LLMs), capable of automatically converting raw charts and data into structured, academic-style reports.</p>
+<h3 id="51-how-to-enable">5.1. How to Enable<a class="headerlink" href="#51-how-to-enable" title="Permanent link">&para;</a></h3>
+<p>In your analysis case configuration (i.e., within any object in the <code>analysis_cases</code> list or in the <code>params</code> of a <code>post_processing</code> task), add <code>"ai": true</code> to activate the AI analysis feature for that case.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">&quot;analysis_cases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TBR_Analysis_with_AI_Report&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="nt">&quot;independent_variable&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blanket.TBR&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="nt">&quot;independent_variable_sampling&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mf">1.05</span><span class="p">,</span><span class="w"> </span><span class="mf">1.1</span><span class="p">,</span><span class="w"> </span><span class="mf">1.15</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">],</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="nt">&quot;dependent_variables&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;Doubling_Time&quot;</span><span class="w"> </span><span class="p">],</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="nt">&quot;ai&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">]</span>
+</code></pre></div>
+<h3 id="52-environment-setup">5.2. Environment Setup<a class="headerlink" href="#52-environment-setup" title="Permanent link">&para;</a></h3>
+<p>Before using this feature, you must create a file named <code>.env</code> in the project's <strong>root directory</strong> and fill in your Large Language Model API credentials. This ensures that your keys are kept secure and are not committed to version control.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># .env file in project root
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>API_KEY=&quot;sk-your_api_key_here&quot;
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>BASE_URL=&quot;https://your_api_base_url/v1&quot;
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>AI_MODEL=&quot;your_model_name_here&quot;
+</code></pre></div>
+<h3 id="53-output-reports">5.3. Output Reports<a class="headerlink" href="#53-output-reports" title="Permanent link">&para;</a></h3>
+<p>When enabled, in addition to the standard analysis report (<code>analysis_report_...md</code>), <code>tricys</code> will generate two additional reports in the case's <code>report</code> folder:</p>
+<ul>
+<li><strong><code>analysis_report_{case_name}_{model_name}.md</code></strong>: Appends an in-depth textual interpretation of the data and charts, generated by the AI, to the end of the core report.</li>
+<li><strong><code>academic_report_{case_name}_{model_name}.md</code></strong>: A well-structured, academic-style report written entirely by the AI. This report typically includes sections such as Abstract, Introduction, Methods, Results and Discussion, and Conclusion, and can be used directly for presentations or as a draft for a paper.</li>
 </ul>
 
 
@@ -2493,7 +2595,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../tricys_basic/co_simulation_module.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Co-simulation Module">
+          <a href="single_parameter_sensitivity_analysis.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Single Parameter Sensitivity Analysis">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2503,20 +2605,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Co-simulation Module
+                Single Parameter Sensitivity Analysis
               </div>
             </div>
           </a>
         
         
           
-          <a href="baseline_condition_analysis.html" class="md-footer__link md-footer__link--next" aria-label="Next: Baseline Condition Analysis">
+          <a href="sobol_global_sensitivity_analysis.html" class="md-footer__link md-footer__link--next" aria-label="Next: SOBOL Global Sensitivity Analysis">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Baseline Condition Analysis
+                SOBOL Global Sensitivity Analysis
               </div>
             </div>
             <div class="md-footer__button md-icon">

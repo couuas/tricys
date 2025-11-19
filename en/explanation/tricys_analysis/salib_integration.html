@@ -9,30 +9,32 @@
       
       
       
+        <link rel="prev" href="analysis_report.html">
       
-        <link rel="next" href="guides/quickstart.html">
+      
+        <link rel="next" href="../../api/tricys_simulation.html">
       
       
         
-          <link rel="alternate" href="index.html" hreflang="en">
+          <link rel="alternate" href="salib_integration.html" hreflang="en">
         
-          <link rel="alternate" href="../index.html" hreflang="zh">
+          <link rel="alternate" href="../../../explanation/tricys_analysis/salib_integration.html" hreflang="zh">
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Home - TRitium Integrated CYcle Simulation</title>
+        <title>SALIB Integration Methods - TRitium Integrated CYcle Simulation</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,11 +55,11 @@
       
     
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tricys-tritium-integrated-cycle-simulation-platform" class="md-skip">
+        <a href="#tricys-and-salib-integration-achieving-global-sensitivity-analysis" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +98,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="index.html" title="TRitium Integrated CYcle Simulation" class="md-header__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
+    <a href="../../index.html" title="TRitium Integrated CYcle Simulation" class="md-header__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              SALIB Integration Methods
             
           </span>
         </div>
@@ -149,13 +151,13 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="index.html" hreflang="en" class="md-select__link">
+            <a href="salib_integration.html" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="../index.html" hreflang="zh" class="md-select__link">
+            <a href="../../../explanation/tricys_analysis/salib_integration.html" hreflang="zh" class="md-select__link">
               简体中文
             </a>
           </li>
@@ -239,11 +241,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="index.html" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../../index.html" class="md-tabs__link">
         
   
   
@@ -264,7 +264,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="guides/quickstart.html" class="md-tabs__link">
+        <a href="../../guides/quickstart.html" class="md-tabs__link">
           
   
   
@@ -280,11 +280,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="explanation/architecture.html" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../architecture.html" class="md-tabs__link">
           
   
   
@@ -304,7 +306,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="api/tricys_simulation.html" class="md-tabs__link">
+        <a href="../../api/tricys_simulation.html" class="md-tabs__link">
           
   
   
@@ -324,7 +326,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="questions/installation.html" class="md-tabs__link">
+        <a href="../../questions/installation.html" class="md-tabs__link">
           
   
   
@@ -342,7 +344,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="changelog.html" class="md-tabs__link">
+      <a href="../../changelog.html" class="md-tabs__link">
         
   
   
@@ -361,7 +363,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="license.html" class="md-tabs__link">
+      <a href="../../license.html" class="md-tabs__link">
         
   
   
@@ -385,9 +387,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -398,7 +398,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="index.html" title="TRitium Integrated CYcle Simulation" class="md-nav__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
+    <a href="../../index.html" title="TRitium Integrated CYcle Simulation" class="md-nav__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -425,37 +425,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
         
   
   
@@ -471,48 +444,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-can-tricys-do" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📚 What can TRICYS do?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-choose-tricys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔬 Why choose TRICYS?
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -576,7 +507,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/quickstart.html" class="md-nav__link">
+      <a href="../../guides/quickstart.html" class="md-nav__link">
         
   
   
@@ -656,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/models/cycle.html" class="md-nav__link">
+      <a href="../../guides/models/cycle.html" class="md-nav__link">
         
   
   
@@ -744,7 +675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/basic_configuration.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/basic_configuration.html" class="md-nav__link">
         
   
   
@@ -772,7 +703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/parameter_sweep.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/parameter_sweep.html" class="md-nav__link">
         
   
   
@@ -800,7 +731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/concurrent_operation.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/concurrent_operation.html" class="md-nav__link">
         
   
   
@@ -828,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/post_processing_module.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/post_processing_module.html" class="md-nav__link">
         
   
   
@@ -856,7 +787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/co_simulation_module.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/co_simulation_module.html" class="md-nav__link">
         
   
   
@@ -944,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/index.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/index.html" class="md-nav__link">
         
   
   
@@ -972,7 +903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/baseline_condition_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/baseline_condition_analysis.html" class="md-nav__link">
         
   
   
@@ -1000,7 +931,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/single_parameter_sensitivity_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/single_parameter_sensitivity_analysis.html" class="md-nav__link">
         
   
   
@@ -1028,7 +959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/multi_parameter_sensitivity_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/multi_parameter_sensitivity_analysis.html" class="md-nav__link">
         
   
   
@@ -1056,7 +987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/sobol_global_sensitivity_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/sobol_global_sensitivity_analysis.html" class="md-nav__link">
         
   
   
@@ -1084,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/latin_uncertainty_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/latin_uncertainty_analysis.html" class="md-nav__link">
         
   
   
@@ -1124,26 +1055,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -1161,7 +1097,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1179,7 +1115,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/architecture.html" class="md-nav__link">
+      <a href="../architecture.html" class="md-nav__link">
         
   
   
@@ -1213,17 +1149,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -1259,7 +1198,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_basic/simulation_flow.html" class="md-nav__link">
+      <a href="../tricys_basic/simulation_flow.html" class="md-nav__link">
         
   
   
@@ -1287,7 +1226,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_basic/co_simulation.html" class="md-nav__link">
+      <a href="../tricys_basic/co_simulation.html" class="md-nav__link">
         
   
   
@@ -1315,7 +1254,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_basic/concurrency.html" class="md-nav__link">
+      <a href="../tricys_basic/concurrency.html" class="md-nav__link">
         
   
   
@@ -1348,26 +1287,31 @@
                 
   
   
+    
   
   
+  
     
     
     
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -1385,7 +1329,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1403,7 +1347,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/analysis_flow.html" class="md-nav__link">
+      <a href="analysis_flow.html" class="md-nav__link">
         
   
   
@@ -1431,7 +1375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/performance_metrics.html" class="md-nav__link">
+      <a href="performance_metrics.html" class="md-nav__link">
         
   
   
@@ -1459,7 +1403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/analysis_report.html" class="md-nav__link">
+      <a href="analysis_report.html" class="md-nav__link">
         
   
   
@@ -1484,10 +1428,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/salib_integration.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SALIB Integration Methods
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="salib_integration.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1503,6 +1474,165 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-to-salib-and-its-analysis-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction to SALib and its Analysis Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction to SALib and its Analysis Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-what-is-salib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. What is SALib?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-core-salib-methods-supported-by-tricys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Core SALib Methods Supported by TRICYS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2. Core SALib Methods Supported by TRICYS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sobol-analysis-variance-based-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sobol Analysis (Variance-Based Method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#morris-analysis-screening-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Morris Analysis (Screening Method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fast-analysis-fourier-amplitude-sensitivity-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAST Analysis (Fourier Amplitude Sensitivity Test)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latin-hypercube-sampling-lhs-and-uncertainty-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latin Hypercube Sampling (LHS) and Uncertainty Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-three-step-integration-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Three-Step Integration Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The Three-Step Integration Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-parameter-sampling-salib-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Parameter Sampling (SALib -&gt; CSV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-batch-simulation-tricys-reads-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Batch Simulation (TRICYS Reads CSV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-result-analysis-and-reporting-salib-reads-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Result Analysis and Reporting (SALib Reads Results)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1582,7 +1712,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_simulation.html" class="md-nav__link">
+      <a href="../../api/tricys_simulation.html" class="md-nav__link">
         
   
   
@@ -1610,7 +1740,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_core.html" class="md-nav__link">
+      <a href="../../api/tricys_core.html" class="md-nav__link">
         
   
   
@@ -1638,7 +1768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_utils.html" class="md-nav__link">
+      <a href="../../api/tricys_utils.html" class="md-nav__link">
         
   
   
@@ -1666,7 +1796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_analysis.html" class="md-nav__link">
+      <a href="../../api/tricys_analysis.html" class="md-nav__link">
         
   
   
@@ -1694,7 +1824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_postprocess.html" class="md-nav__link">
+      <a href="../../api/tricys_postprocess.html" class="md-nav__link">
         
   
   
@@ -1722,7 +1852,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_handlers.html" class="md-nav__link">
+      <a href="../../api/tricys_handlers.html" class="md-nav__link">
         
   
   
@@ -1809,7 +1939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/installation.html" class="md-nav__link">
+      <a href="../../questions/installation.html" class="md-nav__link">
         
   
   
@@ -1837,7 +1967,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/configuration.html" class="md-nav__link">
+      <a href="../../questions/configuration.html" class="md-nav__link">
         
   
   
@@ -1865,7 +1995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/advanced_features.html" class="md-nav__link">
+      <a href="../../questions/advanced_features.html" class="md-nav__link">
         
   
   
@@ -1893,7 +2023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/troubleshooting.html" class="md-nav__link">
+      <a href="../../questions/troubleshooting.html" class="md-nav__link">
         
   
   
@@ -1921,7 +2051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/best_practices.html" class="md-nav__link">
+      <a href="../../questions/best_practices.html" class="md-nav__link">
         
   
   
@@ -1956,7 +2086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="changelog.html" class="md-nav__link">
+      <a href="../../changelog.html" class="md-nav__link">
         
   
   
@@ -1983,7 +2113,7 @@
   
   
     <li class="md-nav__item">
-      <a href="license.html" class="md-nav__link">
+      <a href="../../license.html" class="md-nav__link">
         
   
   
@@ -2011,9 +2141,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2032,24 +2160,141 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-can-tricys-do" class="md-nav__link">
+  <a href="#1-introduction-to-salib-and-its-analysis-methods" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📚 What can TRICYS do?
+        1. Introduction to SALib and its Analysis Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction to SALib and its Analysis Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-what-is-salib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. What is SALib?
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#why-choose-tricys" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#12-core-salib-methods-supported-by-tricys" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🔬 Why choose TRICYS?
+        1.2. Core SALib Methods Supported by TRICYS
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="1.2. Core SALib Methods Supported by TRICYS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sobol-analysis-variance-based-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sobol Analysis (Variance-Based Method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#morris-analysis-screening-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Morris Analysis (Screening Method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fast-analysis-fourier-amplitude-sensitivity-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAST Analysis (Fourier Amplitude Sensitivity Test)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latin-hypercube-sampling-lhs-and-uncertainty-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latin Hypercube Sampling (LHS) and Uncertainty Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-three-step-integration-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Three-Step Integration Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The Three-Step Integration Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-parameter-sampling-salib-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Parameter Sampling (SALib -&gt; CSV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-batch-simulation-tricys-reads-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Batch Simulation (TRICYS Reads CSV)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-result-analysis-and-reporting-salib-reads-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Result Analysis and Reporting (SALib Reads Results)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2067,43 +2312,116 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
-
 
 
   
   
 
 
-<h1 id="tricys-tritium-integrated-cycle-simulation-platform">TRICYS: Tritium Integrated Cycle Simulation Platform<a class="headerlink" href="#tricys-tritium-integrated-cycle-simulation-platform" title="Permanent link">&para;</a></h1>
-<p>Welcome to <strong>TRICYS</strong> (<strong>TR</strong>itium <strong>I</strong>ntegrated <strong>CY</strong>cle <strong>S</strong>imulation), the Tritium Integrated Cycle Simulation platform. TRICYS is an open-source, modular, and multi-scale fusion reactor tritium fuel cycle simulator, designed to provide physics-based dynamic closed-loop analysis while strictly adhering to plant-wide mass balance principles.</p>
-<p>Our goal is to provide researchers and engineers with a flexible and powerful platform for exploring various tritium management strategies, optimizing system design, and deeply understanding the dynamics of tritium flow and inventory within a fusion reactor environment.</p>
-<p>We welcome community contributions! Whether you are a fusion scientist, a software engineer, or an enthusiast passionate about open-source projects, there are many ways to get involved in the development of TRICYS.</p>
-<p><a class="md-button md-button--primary" href="guides/quickstart.html">Quick Start</a>
-<a class="md-button" href="https://github.com/asipp-neutronics/tricys/issues">Report an Issue</a>
-<a class="md-button" href="guides/models/cycle.html">Example model of a 0-dimensional tritium fuel cycle system</a></p>
-<hr />
-<div class="grid cards">
-<div class="card">
-<h3 id="what-can-tricys-do" style="text-align: center;"> 📚 What can TRICYS do?<a class="headerlink" href="#what-can-tricys-do" title="Permanent link">&para;</a></h3>
+<h1 id="tricys-and-salib-integration-achieving-global-sensitivity-analysis">TRICYS and SALib Integration: Achieving Global Sensitivity Analysis<a class="headerlink" href="#tricys-and-salib-integration-achieving-global-sensitivity-analysis" title="Permanent link">&para;</a></h1>
+<p>TRICYS is deeply integrated with the industry-leading sensitivity analysis library <strong>SALib</strong> to provide users with a powerful, automated workflow for Global Sensitivity Analysis (GSA) and Uncertainty Quantification (UQ). This document introduces SALib and its core methods, and provides a detailed breakdown of how TRICYS collaborates with SALib through a three-step process.</p>
+<h2 id="1-introduction-to-salib-and-its-analysis-methods">1. Introduction to SALib and its Analysis Methods<a class="headerlink" href="#1-introduction-to-salib-and-its-analysis-methods" title="Permanent link">&para;</a></h2>
+<h3 id="11-what-is-salib">1.1. What is SALib?<a class="headerlink" href="#11-what-is-salib" title="Permanent link">&para;</a></h3>
+<p><strong>SALib</strong> is an open-source Python library specifically designed for conducting sensitivity analysis. Sensitivity analysis aims to study how the uncertainty in the output of a model can be apportioned to different sources of uncertainty in its inputs. In simple terms, it helps us answer a core question: "<strong>Which input parameters have the greatest impact on the model's output?</strong>"</p>
+<p>For complex simulation models like TRICYS, GSA is crucial because it helps us:</p>
 <ul>
-<li><strong><a href="guides/tricys_basic/parameter_sweep.html">Parameter Scanning &amp; Concurrency</a></strong>: Systematically study the impact of multiple parameters on system performance, supporting <a href="guides/tricys_basic/concurrent_operation.html">concurrent execution</a> and large-scale batch simulations.</li>
-<li><strong><a href="guides/tricys_basic/co_simulation_module.html">Sub-module Co-simulation</a></strong>: Supports data exchange with external tools (like Aspen Plus) to complete sub-module system integration.</li>
-<li><strong><a href="explanation/tricys_analysis/analysis_report.html">Automated Report Generation</a></strong>: Automatically generate standardized Markdown analysis reports, including charts, statistical data, and visualized results.</li>
-<li><strong><a href="guides/tricys_analysis/index.html">Parameter Sensitivity Analysis</a></strong>: Supports custom sensitivity analysis of system parameters and integrates the SALib (Sensitivity Analysis Library in Python) library to quantify the impact of parameters on outputs.</li>
+<li><strong>Identify Key Parameters</strong>: Find the few parameters that have the most significant impact on system performance (e.g., startup inventory, doubling time) from a multitude of parameters.</li>
+<li><strong>Understand Parameter Interactions</strong>: Reveal complex non-linear or interactive effects between parameters.</li>
+<li><strong>Simplify Models</strong>: After identifying unimportant parameters, they can be fixed as constants in future studies, thereby reducing model complexity and computational cost.</li>
 </ul>
-</div>
-<div class="card">
-<h3 id="why-choose-tricys" style="text-align: center;"> 🔬 Why choose TRICYS?<a class="headerlink" href="#why-choose-tricys" title="Permanent link">&para;</a></h3>
+<h3 id="12-core-salib-methods-supported-by-tricys">1.2. Core SALib Methods Supported by TRICYS<a class="headerlink" href="#12-core-salib-methods-supported-by-tricys" title="Permanent link">&para;</a></h3>
+<p>The <code>TricysSALibAnalyzer</code> class in TRICYS integrates several of the most common and powerful analysis methods from SALib:</p>
+<h4 id="sobol-analysis-variance-based-method">Sobol Analysis (Variance-Based Method)<a class="headerlink" href="#sobol-analysis-variance-based-method" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>Accuracy &amp; Flexibility</strong>: Combines detailed physical models with a highly configurable system architecture.</li>
-<li><strong>Modular Design</strong>: Easy to integrate into existing workflows and automation systems.</li>
-<li><strong>Industrial Applications</strong>: Suitable for fusion reactor design optimization, operational strategy evaluation, and safety analysis.</li>
-<li><strong>Community-Driven</strong>: Benefits from collaborative development and transparent decision-making processes.</li>
-<li><strong>Educational Tool</strong>: Provides an excellent resource for students and new researchers to understand fusion fuel cycle dynamics.</li>
+<li><strong>Type</strong>: Global Sensitivity Analysis (GSA), based on variance decomposition.</li>
+<li><strong>Core Indices</strong>:<ul>
+<li><strong>First-order index (S1)</strong>: Measures the direct contribution of a single parameter's variance to the output variance, i.e., the "main effect." A higher S1 value indicates a greater independent impact of the parameter.</li>
+<li><strong>Total-order index (ST)</strong>: Measures the total contribution of a single parameter, including all its interactions with other parameters, to the output variance.</li>
 </ul>
-</div>
-</div>
+</li>
+<li><strong>Interpretation</strong>: If a parameter's <code>ST</code> value is significantly larger than its <code>S1</code> value, it indicates that the parameter has strong non-linear effects or significant interactions with other parameters.</li>
+<li><strong>Characteristics</strong>: The results are very reliable and comprehensive, but it is computationally expensive and typically requires a large number of samples (<code>N * (2D + 2)</code>, where D is the number of parameters).</li>
+</ul>
+<h4 id="morris-analysis-screening-method">Morris Analysis (Screening Method)<a class="headerlink" href="#morris-analysis-screening-method" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Type</strong>: Global Sensitivity Analysis, a trajectory-based screening method.</li>
+<li><strong>Core Indices</strong>:<ul>
+<li><strong>μ* (mu_star)</strong>: Measures the overall influence of a parameter on the output, representing the mean of the absolute values of the elementary effects. A higher μ* indicates a more important parameter.</li>
+<li><strong>σ (sigma)</strong>: Measures the standard deviation of the elementary effects. A higher σ indicates that the parameter's effect is non-linear or has interactions with other parameters.</li>
+</ul>
+</li>
+<li><strong>Characteristics</strong>: It is computationally very efficient, especially suitable for the early exploratory stages of high-dimensional models (with a large number of input parameters) to quickly screen for the most influential parameters.</li>
+</ul>
+<h4 id="fast-analysis-fourier-amplitude-sensitivity-test">FAST Analysis (Fourier Amplitude Sensitivity Test)<a class="headerlink" href="#fast-analysis-fourier-amplitude-sensitivity-test" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Type</strong>: Global Sensitivity Analysis, frequency-based.</li>
+<li><strong>Core Indices</strong>: Similar to Sobol, it calculates first-order (S1) and total-order (ST) indices.</li>
+<li><strong>Characteristics</strong>: In some cases, it is more computationally efficient than the Sobol method, but it has certain requirements for model applicability.</li>
+</ul>
+<h4 id="latin-hypercube-sampling-lhs-and-uncertainty-analysis">Latin Hypercube Sampling (LHS) and Uncertainty Analysis<a class="headerlink" href="#latin-hypercube-sampling-lhs-and-uncertainty-analysis" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Type</strong>: Uncertainty Quantification (UQ).</li>
+<li><strong>Purpose</strong>: LHS itself is an advanced parameter sampling technique designed to efficiently cover the entire parameter space. When used in conjunction with TRICYS for analysis, its purpose is <strong>not to calculate sensitivity indices</strong> but to study the <strong>statistical distribution characteristics</strong> of the output metrics (mean, std, percentiles) given the uncertainty in the inputs.</li>
+<li><strong>Core Metrics</strong>:<ul>
+<li>Mean, standard deviation, maximum/minimum values.</li>
+<li>Percentiles (e.g., 5% and 95%) to assess the confidence interval of the output.</li>
+</ul>
+</li>
+<li><strong>Interpretation</strong>: Through LHS analysis, we can understand the stability and fluctuation range of the model's output and evaluate its risks in the face of input uncertainties.</li>
+</ul>
+<h2 id="2-the-three-step-integration-workflow">2. The Three-Step Integration Workflow<a class="headerlink" href="#2-the-three-step-integration-workflow" title="Permanent link">&para;</a></h2>
+<p>TRICYS breaks down the complex GSA process into a clear, automated three-step workflow. The <code>TricysSALibAnalyzer</code> class is responsible for orchestrating the entire process, with the core idea being <strong>"SALib handles sampling and analysis, while TRICYS handles execution,"</strong> with the two exchanging data via CSV files.</p>
+<pre class="mermaid"><code>graph TD
+    subgraph "A. SALib End"
+        A1["&lt;b&gt;Step 1: Parameter Sampling&lt;/b&gt;&lt;br&gt;Executed in salib.py"]
+        A1 --&gt; B1["1. Define Problem (`define_problem`)&lt;br&gt;Specify parameters and their ranges"]
+        B1 --&gt; B2["2. Generate Samples (`generate_samples`)&lt;br&gt;Choose Sobol/Morris, etc."]
+        B2 --&gt; B3["3. Export Samples (`run_tricys_simulations`)&lt;br&gt;Generate &lt;b&gt;salib_sampling.csv&lt;/b&gt; file"]
+    end
+
+    subgraph "B. TRICYS End"
+        C1["&lt;b&gt;Step 2: Batch Simulation&lt;/b&gt;&lt;br&gt;Executed in simulation_analysis.py"]
+        C1 --&gt; D1["1. Generate a specific config file&lt;br&gt;to make TRICYS read the CSV"]
+        D1 --&gt; D2["2. TRICYS starts&lt;br&gt;Treats each row of the CSV as an independent simulation job"]
+        D2 --&gt; D3["3. Execute all simulations&lt;br&gt;and aggregate the result metrics&lt;br&gt;of all jobs into &lt;b&gt;sensitivity_analysis_summary.csv&lt;/b&gt;"]
+    end
+
+    subgraph "C. SALib End (Again)"
+        E1["&lt;b&gt;Step 3: Result Analysis&lt;/b&gt;&lt;br&gt;Returns to salib.py for execution"]
+        E1 --&gt; F1["1. Load Results (`load_tricys_results`)&lt;br&gt;Read &lt;b&gt;sensitivity_analysis_summary.csv&lt;/b&gt;"]
+        F1 --&gt; F2["2. Compute Indices (`analyze_sobol`, etc.)&lt;br&gt;SALib analyzes the simulation results"]
+        F2 --&gt; F3["3. Generate Report (`plot_results`, `save_report`)&lt;br&gt;Output charts, tables, and the final analysis report"]
+    end
+
+    B3 -- "As input" --&gt; C1
+    D3 -- "As input" --&gt; E1
+</code></pre>
+<h3 id="step-1-parameter-sampling-salib-csv">Step 1: Parameter Sampling (SALib -&gt; CSV)<a class="headerlink" href="#step-1-parameter-sampling-salib-csv" title="Permanent link">&para;</a></h3>
+<p>This stage is entirely completed within the <code>TricysSALibAnalyzer</code> class in <code>salib.py</code>, with the goal of generating a CSV file containing all parameter combinations.</p>
+<ol>
+<li><strong>Define Problem</strong>: By calling <code>define_problem()</code>, the user needs to provide a dictionary containing all the parameters to be analyzed and their value ranges (bounds).</li>
+<li><strong>Generate Samples</strong>: Call <code>generate_samples()</code> and specify the sampling method (e.g., <code>'sobol'</code>) and the number of samples <code>N</code>. SALib will generate a series of parameter points in the defined parameter space according to the chosen method.</li>
+<li><strong>Export File</strong>: Call the <code>run_tricys_simulations()</code> function (note: despite its name, this function <strong>does not execute simulations</strong>). This function writes all the parameter samples generated in the previous step into a file named <code>salib_sampling.csv</code>. This file acts as the bridge connecting SALib and TRICYS.</li>
+</ol>
+<h3 id="step-2-batch-simulation-tricys-reads-csv">Step 2: Batch Simulation (TRICYS Reads CSV)<a class="headerlink" href="#step-2-batch-simulation-tricys-reads-csv" title="Permanent link">&para;</a></h3>
+<p>This stage is orchestrated by the <code>run_salib_analysis()</code> function in <code>simulation_analysis.py</code>, which calls TRICYS's core simulation engine to perform the calculations.</p>
+<ol>
+<li><strong>Generate Specific Configuration</strong>: The <code>generate_tricys_config()</code> function in <code>salib.py</code> creates a temporary TRICYS configuration file. The key aspect of this configuration file is that it points <code>simulation_parameters</code> to the <code>salib_sampling.csv</code> file generated in the previous step.
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&quot;simulation_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/salib_sampling.csv&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
+</code></pre></div></li>
+<li><strong>TRICYS Startup and Execution</strong>: When <code>simulation_analysis.py</code> starts with this special configuration, it recognizes it as a file-based task. TRICYS will <strong>read <code>salib_sampling.csv</code> line by line</strong>, treating each row (i.e., a complete set of parameters) as an independent simulation job.</li>
+<li><strong>Aggregate Results</strong>: TRICYS will execute all simulation jobs (either concurrently or sequentially). Once all tasks are complete, it will aggregate the performance metrics calculated from each job (e.g., <code>Startup_Inventory</code>) and generate a result file named <code>sensitivity_analysis_summary.csv</code>. Each row in this file corresponds to a row of input from <code>salib_sampling.csv</code>, thus perfectly matching the input parameters with the output results.</li>
+</ol>
+<h3 id="step-3-result-analysis-and-reporting-salib-reads-results">Step 3: Result Analysis and Reporting (SALib Reads Results)<a class="headerlink" href="#step-3-result-analysis-and-reporting-salib-reads-results" title="Permanent link">&para;</a></h3>
+<p>After the simulation is complete, control returns to <code>salib.py</code> for final analysis and report generation.</p>
+<ol>
+<li><strong>Load Results</strong>: The <code>load_tricys_results()</code> function reads <code>sensitivity_analysis_summary.csv</code> to load TRICYS's calculation results into memory.</li>
+<li><strong>Calculate Sensitivity Indices</strong>: Based on the user's chosen analysis method, the corresponding analysis function, such as <code>analyze_sobol()</code>, is called. This function feeds the parameter samples and simulation results together into SALib's analysis engine to calculate sensitivity indices like S1, ST, etc.</li>
+<li><strong>Generate Report</strong>: Finally, functions like <code>plot_*_results()</code> and <code>_save_sensitivity_report()</code> use the calculated indices to generate a series of visualizations (e.g., bar charts, μ*-σ plots), data tables, and a complete Markdown analysis report (which also supports AI-enhanced in-depth interpretation).</li>
+</ol>
+<p>Through these three clear steps, TRICYS successfully decouples and integrates SALib's powerful sampling and analysis capabilities with its own efficient simulation execution capabilities, providing a fully automated GSA workflow from problem definition to final report.</p>
 
 
 
@@ -2111,13 +2429,8 @@
 
 
 
-  
-  
 
 
-
-
-  
 
 
 
@@ -2141,19 +2454,33 @@
   
     
       
-        
-      
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="analysis_report.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Generating Analysis Reports">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Generating Analysis Reports
+              </div>
+            </div>
+          </a>
         
         
           
-          <a href="guides/quickstart.html" class="md-footer__link md-footer__link--next" aria-label="Next: Quick Start">
+          <a href="../../api/tricys_simulation.html" class="md-footer__link md-footer__link--next" aria-label="Next: tricys.simulation">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Quick Start
+                tricys.simulation
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2190,10 +2517,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>

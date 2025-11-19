@@ -9,30 +9,32 @@
       
       
       
+        <link rel="prev" href="../architecture.html">
       
-        <link rel="next" href="guides/quickstart.html">
+      
+        <link rel="next" href="co_simulation.html">
       
       
         
-          <link rel="alternate" href="index.html" hreflang="en">
+          <link rel="alternate" href="simulation_flow.html" hreflang="en">
         
-          <link rel="alternate" href="../index.html" hreflang="zh">
+          <link rel="alternate" href="../../../explanation/tricys_basic/simulation_flow.html" hreflang="zh">
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Home - TRitium Integrated CYcle Simulation</title>
+        <title>Simulation Flow - TRitium Integrated CYcle Simulation</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,11 +55,11 @@
       
     
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -82,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tricys-tritium-integrated-cycle-simulation-platform" class="md-skip">
+        <a href="#1-simulation-execution-flow" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +98,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="index.html" title="TRitium Integrated CYcle Simulation" class="md-header__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
+    <a href="../../index.html" title="TRitium Integrated CYcle Simulation" class="md-header__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Simulation Flow
             
           </span>
         </div>
@@ -149,13 +151,13 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="index.html" hreflang="en" class="md-select__link">
+            <a href="simulation_flow.html" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="../index.html" hreflang="zh" class="md-select__link">
+            <a href="../../../explanation/tricys_basic/simulation_flow.html" hreflang="zh" class="md-select__link">
               简体中文
             </a>
           </li>
@@ -239,11 +241,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="index.html" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../../index.html" class="md-tabs__link">
         
   
   
@@ -264,7 +264,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="guides/quickstart.html" class="md-tabs__link">
+        <a href="../../guides/quickstart.html" class="md-tabs__link">
           
   
   
@@ -280,11 +280,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="explanation/architecture.html" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../architecture.html" class="md-tabs__link">
           
   
   
@@ -304,7 +306,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="api/tricys_simulation.html" class="md-tabs__link">
+        <a href="../../api/tricys_simulation.html" class="md-tabs__link">
           
   
   
@@ -324,7 +326,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="questions/installation.html" class="md-tabs__link">
+        <a href="../../questions/installation.html" class="md-tabs__link">
           
   
   
@@ -342,7 +344,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="changelog.html" class="md-tabs__link">
+      <a href="../../changelog.html" class="md-tabs__link">
         
   
   
@@ -361,7 +363,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="license.html" class="md-tabs__link">
+      <a href="../../license.html" class="md-tabs__link">
         
   
   
@@ -385,9 +387,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -398,7 +398,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="index.html" title="TRitium Integrated CYcle Simulation" class="md-nav__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
+    <a href="../../index.html" title="TRitium Integrated CYcle Simulation" class="md-nav__button md-logo" aria-label="TRitium Integrated CYcle Simulation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -425,37 +425,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
         
   
   
@@ -471,48 +444,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-can-tricys-do" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📚 What can TRICYS do?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-choose-tricys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        🔬 Why choose TRICYS?
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -576,7 +507,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/quickstart.html" class="md-nav__link">
+      <a href="../../guides/quickstart.html" class="md-nav__link">
         
   
   
@@ -656,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/models/cycle.html" class="md-nav__link">
+      <a href="../../guides/models/cycle.html" class="md-nav__link">
         
   
   
@@ -744,7 +675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/basic_configuration.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/basic_configuration.html" class="md-nav__link">
         
   
   
@@ -772,7 +703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/parameter_sweep.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/parameter_sweep.html" class="md-nav__link">
         
   
   
@@ -800,7 +731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/concurrent_operation.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/concurrent_operation.html" class="md-nav__link">
         
   
   
@@ -828,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/post_processing_module.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/post_processing_module.html" class="md-nav__link">
         
   
   
@@ -856,7 +787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_basic/co_simulation_module.html" class="md-nav__link">
+      <a href="../../guides/tricys_basic/co_simulation_module.html" class="md-nav__link">
         
   
   
@@ -944,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/index.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/index.html" class="md-nav__link">
         
   
   
@@ -972,7 +903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/baseline_condition_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/baseline_condition_analysis.html" class="md-nav__link">
         
   
   
@@ -1000,7 +931,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/single_parameter_sensitivity_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/single_parameter_sensitivity_analysis.html" class="md-nav__link">
         
   
   
@@ -1028,7 +959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/multi_parameter_sensitivity_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/multi_parameter_sensitivity_analysis.html" class="md-nav__link">
         
   
   
@@ -1056,7 +987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/sobol_global_sensitivity_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/sobol_global_sensitivity_analysis.html" class="md-nav__link">
         
   
   
@@ -1084,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/tricys_analysis/latin_uncertainty_analysis.html" class="md-nav__link">
+      <a href="../../guides/tricys_analysis/latin_uncertainty_analysis.html" class="md-nav__link">
         
   
   
@@ -1124,26 +1055,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -1161,7 +1097,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1179,7 +1115,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/architecture.html" class="md-nav__link">
+      <a href="../architecture.html" class="md-nav__link">
         
   
   
@@ -1204,26 +1140,31 @@
                 
   
   
+    
   
   
+  
     
     
     
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -1241,7 +1182,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1256,10 +1197,35 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="explanation/tricys_basic/simulation_flow.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation Flow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="simulation_flow.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1275,6 +1241,140 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-simulation-execution-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Simulation Execution Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-detailed-flowchart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Detailed Flowchart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-detailed-explanation-of-the-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Detailed Explanation of the Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Detailed Explanation of the Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-job-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Job Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-execution-mode-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Execution Mode Decision
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-job-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Job Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-result-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Result Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-post-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6. Post-processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-cleanup-and-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7. Cleanup and End
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1287,7 +1387,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_basic/co_simulation.html" class="md-nav__link">
+      <a href="co_simulation.html" class="md-nav__link">
         
   
   
@@ -1315,7 +1415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_basic/concurrency.html" class="md-nav__link">
+      <a href="concurrency.html" class="md-nav__link">
         
   
   
@@ -1357,17 +1457,20 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
             
   
   
@@ -1403,7 +1506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/analysis_flow.html" class="md-nav__link">
+      <a href="../tricys_analysis/analysis_flow.html" class="md-nav__link">
         
   
   
@@ -1431,7 +1534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/performance_metrics.html" class="md-nav__link">
+      <a href="../tricys_analysis/performance_metrics.html" class="md-nav__link">
         
   
   
@@ -1459,7 +1562,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/analysis_report.html" class="md-nav__link">
+      <a href="../tricys_analysis/analysis_report.html" class="md-nav__link">
         
   
   
@@ -1487,7 +1590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="explanation/tricys_analysis/salib_integration.html" class="md-nav__link">
+      <a href="../tricys_analysis/salib_integration.html" class="md-nav__link">
         
   
   
@@ -1582,7 +1685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_simulation.html" class="md-nav__link">
+      <a href="../../api/tricys_simulation.html" class="md-nav__link">
         
   
   
@@ -1610,7 +1713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_core.html" class="md-nav__link">
+      <a href="../../api/tricys_core.html" class="md-nav__link">
         
   
   
@@ -1638,7 +1741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_utils.html" class="md-nav__link">
+      <a href="../../api/tricys_utils.html" class="md-nav__link">
         
   
   
@@ -1666,7 +1769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_analysis.html" class="md-nav__link">
+      <a href="../../api/tricys_analysis.html" class="md-nav__link">
         
   
   
@@ -1694,7 +1797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_postprocess.html" class="md-nav__link">
+      <a href="../../api/tricys_postprocess.html" class="md-nav__link">
         
   
   
@@ -1722,7 +1825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/tricys_handlers.html" class="md-nav__link">
+      <a href="../../api/tricys_handlers.html" class="md-nav__link">
         
   
   
@@ -1809,7 +1912,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/installation.html" class="md-nav__link">
+      <a href="../../questions/installation.html" class="md-nav__link">
         
   
   
@@ -1837,7 +1940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/configuration.html" class="md-nav__link">
+      <a href="../../questions/configuration.html" class="md-nav__link">
         
   
   
@@ -1865,7 +1968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/advanced_features.html" class="md-nav__link">
+      <a href="../../questions/advanced_features.html" class="md-nav__link">
         
   
   
@@ -1893,7 +1996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/troubleshooting.html" class="md-nav__link">
+      <a href="../../questions/troubleshooting.html" class="md-nav__link">
         
   
   
@@ -1921,7 +2024,7 @@
   
   
     <li class="md-nav__item">
-      <a href="questions/best_practices.html" class="md-nav__link">
+      <a href="../../questions/best_practices.html" class="md-nav__link">
         
   
   
@@ -1956,7 +2059,7 @@
   
   
     <li class="md-nav__item">
-      <a href="changelog.html" class="md-nav__link">
+      <a href="../../changelog.html" class="md-nav__link">
         
   
   
@@ -1983,7 +2086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="license.html" class="md-nav__link">
+      <a href="../../license.html" class="md-nav__link">
         
   
   
@@ -2011,9 +2114,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -2021,8 +2122,6 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -2032,10 +2131,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-can-tricys-do" class="md-nav__link">
+  <a href="#1-simulation-execution-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        📚 What can TRICYS do?
+        1. Simulation Execution Flow
       
     </span>
   </a>
@@ -2043,13 +2142,107 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-choose-tricys" class="md-nav__link">
+  <a href="#2-detailed-flowchart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🔬 Why choose TRICYS?
+        2. Detailed Flowchart
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-detailed-explanation-of-the-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Detailed Explanation of the Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Detailed Explanation of the Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-job-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Job Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-execution-mode-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Execution Mode Decision
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-job-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Job Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-result-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Result Aggregation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-post-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6. Post-processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-cleanup-and-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7. Cleanup and End
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2067,43 +2260,152 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
-
 
 
   
   
 
 
-<h1 id="tricys-tritium-integrated-cycle-simulation-platform">TRICYS: Tritium Integrated Cycle Simulation Platform<a class="headerlink" href="#tricys-tritium-integrated-cycle-simulation-platform" title="Permanent link">&para;</a></h1>
-<p>Welcome to <strong>TRICYS</strong> (<strong>TR</strong>itium <strong>I</strong>ntegrated <strong>CY</strong>cle <strong>S</strong>imulation), the Tritium Integrated Cycle Simulation platform. TRICYS is an open-source, modular, and multi-scale fusion reactor tritium fuel cycle simulator, designed to provide physics-based dynamic closed-loop analysis while strictly adhering to plant-wide mass balance principles.</p>
-<p>Our goal is to provide researchers and engineers with a flexible and powerful platform for exploring various tritium management strategies, optimizing system design, and deeply understanding the dynamics of tritium flow and inventory within a fusion reactor environment.</p>
-<p>We welcome community contributions! Whether you are a fusion scientist, a software engineer, or an enthusiast passionate about open-source projects, there are many ways to get involved in the development of TRICYS.</p>
-<p><a class="md-button md-button--primary" href="guides/quickstart.html">Quick Start</a>
-<a class="md-button" href="https://github.com/asipp-neutronics/tricys/issues">Report an Issue</a>
-<a class="md-button" href="guides/models/cycle.html">Example model of a 0-dimensional tritium fuel cycle system</a></p>
-<hr />
-<div class="grid cards">
-<div class="card">
-<h3 id="what-can-tricys-do" style="text-align: center;"> 📚 What can TRICYS do?<a class="headerlink" href="#what-can-tricys-do" title="Permanent link">&para;</a></h3>
+  <h1>Simulation Flow</h1>
+
+<h2 id="1-simulation-execution-flow">1. Simulation Execution Flow<a class="headerlink" href="#1-simulation-execution-flow" title="Permanent link">&para;</a></h2>
+<p>The core simulation flow of <code>tricys</code> is driven by the <code>tricys/simulation/simulation.py</code> script. It is designed as a highly configurable and robust orchestration engine for simulation business processes, capable of handling everything from simple single runs to complex multi-parameter, multi-mode (standard/co-simulation) simulations.</p>
+<p>Below is a complete flowchart and a detailed explanation of the steps involved.</p>
+<h2 id="2-detailed-flowchart">2. Detailed Flowchart<a class="headerlink" href="#2-detailed-flowchart" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>graph TD
+    %% 1. Initialization Phase
+    subgraph S1 ["1. Initialization"]
+        A[Start: Provide Config File] --&gt; B[Read and Prepare Configuration]
+        B --&gt; C[Set Up Logging]
+    end
+
+    %% 2. Job Generation Phase
+    subgraph S2 ["2. Job Generation"]
+        C --&gt; D[Generate Simulation Jobs based on simulation_parameters]
+    end
+
+    %% 3. Decision Phase
+    subgraph S3 ["3. Execution Mode Decision"]
+        D --&gt; E{co_simulation config detected?}
+        E -- Yes --&gt; F[Co-simulation Flow]
+        E -- No --&gt; G[Standard Simulation Flow]
+
+        G --&gt; H{Use concurrent mode?}
+        H -- Yes --&gt; I[Execute multiple _run_single_job in parallel]
+        H -- No --&gt; J[Execute _run_sequential_sweep sequentially]
+
+        F --&gt; K{Use concurrent mode?}
+        K -- Yes --&gt; L[Execute multiple _run_co_simulation in parallel]
+        K -- No --&gt; M[Execute multiple _run_co_simulation sequentially]
+    end
+
+    %% 4. Loop Entry Points
+    subgraph S4 ["4. Job Execution Entry"]
+        J --&gt; N((Standard Simulation Loop))
+        I --&gt; N
+
+        M --&gt; O((Co-simulation Loop))
+        L --&gt; O
+    end
+
+    %% Detailed Flow - Standard Simulation
+    subgraph S5 ["Standard Simulation (_run_single_job / _run_sequential_sweep)"]
+        N --&gt; N1[Create Independent Workspace - Parallel Mode]
+        N1 --&gt; N2[Get OMPython Session]
+        N2 --&gt; N3[Load Modelica Model]
+        N3 --&gt; N4[Set Simulation Parameters]
+        N4 --&gt; N5[Execute simulate]
+        N5 --&gt; N6[Clean and Save Result CSV]
+        N6 --&gt; P[Return Result File Path]
+    end
+
+    %% Detailed Flow - Co-simulation
+    subgraph S6 ["Co-simulation (_run_co_simulation)"]
+        O --&gt; O1[1. Create Independent Workspace]
+        O1 --&gt; O2[2. Copy Models and Asset Files]
+        O2 --&gt; O3[3. Stage 1: Run Preliminary Simulation to Generate Handler Inputs]
+        O3 --&gt; O4[4. Dynamically Load Python Handler Function]
+        O4 --&gt; O5[5. Execute Handler to Generate External Data CSV]
+        O5 --&gt; O6[6. Create and Integrate Interceptor Model]
+        O6 --&gt; O7[7. Stage 2: Run Final Simulation with Interceptor Model]
+        O7 --&gt; O8[8. Clean and Save Final Result CSV]
+        O8 --&gt; P
+    end
+
+    %% 5. Result Aggregation
+    subgraph S7 ["5. Result Aggregation"]
+        P --&gt; Q{Collect Result Paths from All Jobs}
+        Q --&gt; R[Read Each Result CSV]
+        R --&gt; S["Append Parameters to Variable Column Names (e.g., 'var&amp;p1=v1')"]
+        S --&gt; T[Merge All Results into a Single DataFrame]
+        T --&gt; U[Save as 'sweep_results.csv']
+    end
+
+    %% 6. Post-processing
+    subgraph S8 ["6. Post-processing"]
+        U --&gt; V{post_processing config detected?}
+        V -- Yes --&gt; W[Dynamically Load and Execute Post-processing Functions]
+        V -- No --&gt; X[Skip Post-processing]
+    end
+
+    %% 7. Cleanup and End
+    subgraph S9 ["7. Cleanup and End"]
+        W --&gt; Y[Clean Up Temporary Files and Directories]
+        X --&gt; Y
+        Y --&gt; Z[End]
+    end</code></pre>
+<h2 id="3-detailed-explanation-of-the-flow">3. Detailed Explanation of the Flow<a class="headerlink" href="#3-detailed-explanation-of-the-flow" title="Permanent link">&para;</a></h2>
+<h3 id="31-initialization">3.1. Initialization<a class="headerlink" href="#31-initialization" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><a href="guides/tricys_basic/parameter_sweep.html">Parameter Scanning &amp; Concurrency</a></strong>: Systematically study the impact of multiple parameters on system performance, supporting <a href="guides/tricys_basic/concurrent_operation.html">concurrent execution</a> and large-scale batch simulations.</li>
-<li><strong><a href="guides/tricys_basic/co_simulation_module.html">Sub-module Co-simulation</a></strong>: Supports data exchange with external tools (like Aspen Plus) to complete sub-module system integration.</li>
-<li><strong><a href="explanation/tricys_analysis/analysis_report.html">Automated Report Generation</a></strong>: Automatically generate standardized Markdown analysis reports, including charts, statistical data, and visualized results.</li>
-<li><strong><a href="guides/tricys_analysis/index.html">Parameter Sensitivity Analysis</a></strong>: Supports custom sensitivity analysis of system parameters and integrates the SALib (Sensitivity Analysis Library in Python) library to quantify the impact of parameters on outputs.</li>
+<li><strong>Read and Prepare Configuration</strong>: The process starts with a JSON configuration file. <code>tricys</code> reads this file, parses all paths, simulation settings, and parameters, and prepares an internal configuration object.</li>
+<li><strong>Set Up Logging</strong>: Based on the logging settings in the configuration file, a global logger is initialized to record detailed steps, warnings, and errors throughout the entire process.</li>
 </ul>
-</div>
-<div class="card">
-<h3 id="why-choose-tricys" style="text-align: center;"> 🔬 Why choose TRICYS?<a class="headerlink" href="#why-choose-tricys" title="Permanent link">&para;</a></h3>
+<h3 id="32-job-generation">3.2. Job Generation<a class="headerlink" href="#32-job-generation" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Accuracy &amp; Flexibility</strong>: Combines detailed physical models with a highly configurable system architecture.</li>
-<li><strong>Modular Design</strong>: Easy to integrate into existing workflows and automation systems.</li>
-<li><strong>Industrial Applications</strong>: Suitable for fusion reactor design optimization, operational strategy evaluation, and safety analysis.</li>
-<li><strong>Community-Driven</strong>: Benefits from collaborative development and transparent decision-making processes.</li>
-<li><strong>Educational Tool</strong>: Provides an excellent resource for students and new researchers to understand fusion fuel cycle dynamics.</li>
+<li><code>tricys</code> checks the <code>simulation_parameters</code> section in the configuration. If a parameter sweep is defined (e.g., a parameter has multiple values), it generates an independent "job" for each parameter combination. If no parameter sweep is defined, only a single default job is generated.</li>
 </ul>
-</div>
-</div>
+<h3 id="33-execution-mode-decision">3.3. Execution Mode Decision<a class="headerlink" href="#33-execution-mode-decision" title="Permanent link">&para;</a></h3>
+<p>This is a critical branching point in the flow where <code>tricys</code> decides how to execute the generated jobs based on the configuration:
+- <strong>Standard vs. Co-simulation</strong>: It first checks for the presence of a <code>co_simulation</code> configuration block. If it exists, the <a href="../co_simulation_module.md">co-simulation flow</a> is initiated; otherwise, the standard simulation flow is followed.
+- <strong>Parallel vs. Sequential</strong>: Next, it checks the <code>simulation.concurrent</code> flag. If <code>true</code>, <code>tricys</code> uses a <a href="concurrency.html">concurrent mode</a> (multi-threading or multi-processing) to execute multiple jobs simultaneously. If <code>false</code>, the jobs are executed sequentially, one after another.</p>
+<p>These four combinations (Standard/Sequential, Standard/Parallel, Co-simulation/Sequential, Co-simulation/Parallel) correspond to different execution functions to achieve optimal performance and isolation.</p>
+<h3 id="34-job-execution">3.4. Job Execution<a class="headerlink" href="#34-job-execution" title="Permanent link">&para;</a></h3>
+<p>Each job is executed in an independent, isolated workspace to prevent file conflicts.</p>
+<ul>
+<li><strong>Standard Simulation Flow (<code>_run_single_job</code> / <code>_run_sequential_sweep</code>)</strong>:</li>
+<li>Obtain an <code>OMPython</code> session.</li>
+<li>Load the specified Modelica model package.</li>
+<li>Apply the parameters for the current job to the model.</li>
+<li>Call <code>simulate()</code> to execute the simulation.</li>
+<li>
+<p>Clean the generated <code>_res.csv</code> result file (e.g., remove duplicate time points) and return its path.</p>
+</li>
+<li>
+<p><strong>Co-simulation Flow (<code>_run_co_simulation</code>)</strong>:
+  This is a more complex, multi-stage process used to integrate a Modelica model with external Python logic (called a "Handler"):</p>
+</li>
+<li><strong>Create Workspace</strong>: Create a completely isolated temporary directory for the job.</li>
+<li><strong>Copy Assets</strong>: Copy the model files (<code>.mo</code>) and any external files the Handler might need (like CSVs, lookup tables, etc.) to the workspace.</li>
+<li><strong>Stage 1: Preliminary Simulation</strong>: Run an initial simulation. The purpose of this run is not to get the final results, but to generate the input signals required by the Handler. For example, if an external controller needs to know the current system temperature and pressure, this simulation will export the time series of these variables to <code>primary_inputs.csv</code>.</li>
+<li><strong>Execute Handler</strong>: <code>tricys</code> dynamically loads the Python Handler function specified in the configuration file.</li>
+<li><strong>Generate External Data</strong>: The Handler function is called. It reads <code>primary_inputs.csv</code>, executes its internal logic (e.g., a PID algorithm or a machine learning model), and then generates an output CSV file (e.g., <code>handler_outputs.csv</code>).</li>
+<li><strong>Integrate Interceptor</strong>: <code>tricys</code> generates a new Modelica model (called an <a href="co_simulation.html">interceptor model</a>) that can read the data from <code>handler_outputs.csv</code> and inject it as input into the main model, thereby replacing or "intercepting" a part of the original model.</li>
+<li><strong>Stage 2: Final Simulation</strong>: Run the final, complete simulation using this new, modified, and intercepted model.</li>
+<li><strong>Save Results</strong>: Clean the final simulation results and return its path.</li>
+</ul>
+<h3 id="35-result-aggregation">3.5. Result Aggregation<a class="headerlink" href="#35-result-aggregation" title="Permanent link">&para;</a></h3>
+<p>After all jobs have finished executing:
+1. <code>tricys</code> collects the result file paths from each successful job.
+2. It reads each of these CSV files one by one and merges them into a single large Pandas DataFrame.
+3. To distinguish data from different jobs, it renames the variable columns by appending the parameters that produced the data. For example, if a job's parameters were <code>{"freq": 10}</code>, the original <code>voltage</code> column would become <code>voltage&amp;freq=10</code>.
+4. Finally, this merged DataFrame is saved as <code>sweep_results.csv</code> (for parameter sweeps) or <code>simulation_result.csv</code> (for single runs).</p>
+<h3 id="36-post-processing">3.6. Post-processing<a class="headerlink" href="#36-post-processing" title="Permanent link">&para;</a></h3>
+<p>If <code>post_processing</code> tasks are defined in the configuration file, <code>tricys</code> executes them at this point. It dynamically loads the specified Python functions and passes the merged results DataFrame generated in the previous step as input. This allows users to seamlessly connect custom <a href="../../guides/tricys_basic/post_processing_module.html">analysis, plotting, or report generation scripts</a>.</p>
+<h3 id="37-cleanup-and-end">3.7. Cleanup and End<a class="headerlink" href="#37-cleanup-and-end" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Unless <code>keep_temp_files: true</code> is set in the configuration, <code>tricys</code> automatically deletes all temporary workspaces and files created during execution.</li>
+<li>The process ends.</li>
+</ul>
 
 
 
@@ -2111,13 +2413,8 @@
 
 
 
-  
-  
 
 
-
-
-  
 
 
 
@@ -2141,19 +2438,33 @@
   
     
       
-        
-      
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../architecture.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: System Architecture">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                System Architecture
+              </div>
+            </div>
+          </a>
         
         
           
-          <a href="guides/quickstart.html" class="md-footer__link md-footer__link--next" aria-label="Next: Quick Start">
+          <a href="co_simulation.html" class="md-footer__link md-footer__link--next" aria-label="Next: Co-simulation Principle">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Quick Start
+                Co-simulation Principle
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2190,10 +2501,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "navigation.tabs", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
