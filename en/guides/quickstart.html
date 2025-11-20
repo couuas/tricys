@@ -2397,6 +2397,85 @@
 </code></pre></div>
 <p>The GUI provides an interactive interface for loading models, setting parameters, defining sweep ranges, and starting simulations.</p>
 <h2 id="5-tricys-related-commands">5. TRICYS Related Commands<a class="headerlink" href="#5-tricys-related-commands" title="Permanent link">&para;</a></h2>
+<p>Besides using the example runner, you can also use <code>tricys</code>'s various subcommands to perform specific tasks directly. Here is a detailed list of all available commands:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Command / Usage</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Main Commands / Usage</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys</code></td>
+<td style="text-align: left;">Requires specifying a configuration file via the <code>-c</code> argument. The program automatically detects the file content and executes the corresponding workflow (standard simulation or analysis).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys basic</code></td>
+<td style="text-align: left;">Runs a standard simulation. Requires specifying a configuration file via the <code>-c</code> argument, or the existence of a default <code>config.json</code> in the current directory.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys analysis</code></td>
+<td style="text-align: left;">Runs a simulation analysis. Requires specifying a configuration file via the <code>-c</code> argument, or the existence of a default <code>config.json</code> in the current directory.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys gui</code></td>
+<td style="text-align: left;">Launches the interactive Graphical User Interface (GUI).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys example</code></td>
+<td style="text-align: left;">Runs an interactive example runner capable of starting all types of examples.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys archive &lt;timestamp&gt;</code></td>
+<td style="text-align: left;">Archives the simulation or analysis results of the specified <code>timestamp</code> into a zip file.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys unarchive &lt;zip_file&gt;</code></td>
+<td style="text-align: left;">Extracts a previously archived run file (<code>zip_file</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>analysis</code> Subcommands</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys analysis retry &lt;timestamp&gt;</code></td>
+<td style="text-align: left;">Retries the analysis for an existing report where the AI analysis failed, based on its <code>timestamp</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys analysis example</code></td>
+<td style="text-align: left;">Runs an interactive analysis example.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>basic</code> Subcommands</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys basic example</code></td>
+<td style="text-align: left;">Runs an interactive basic function example.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>General Arguments</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-h, --help</code></td>
+<td style="text-align: left;">Shows the help message and exits.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Implicit Behavior</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>(No command)</code></td>
+<td style="text-align: left;">If <code>-c</code> or other subcommands are not provided, the program searches for and uses the <code>config.json</code> file in the current directory.</td>
+</tr>
+</tbody>
+</table>
 <p><img alt="tricys_command.svg" src="../assets/tricys_command.svg" /></p>
 <hr />
 <p>Congratulations! You have successfully installed and run <code>tricys</code>. Next, you can explore more advanced features like <a href="tricys_basic/parameter_sweep.html">Parameter Sweep</a> or <a href="tricys_basic/co_simulation_module.html">Co-Simulation</a>.</p>

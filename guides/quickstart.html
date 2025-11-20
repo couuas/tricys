@@ -2400,6 +2400,85 @@
 <p>GUI 提供了一个交互式界面，用于加载模型、设置参数、定义扫描范围和启动仿真。</p>
 <hr />
 <h2 id="5-tricys">5. TRICYS 相关命令<a class="headerlink" href="#5-tricys" title="Permanent link">&para;</a></h2>
+<p>除了通过示例运行器，您也可以直接使用 <code>tricys</code> 的各种子命令来执行特定任务。下面是所有可用命令的详细列表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">命令 / 用法</th>
+<th style="text-align: left;">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>主命令 / 用法</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys</code></td>
+<td style="text-align: left;">需要通过 <code>-c</code> 参数指定配置文件，程序会自动检测配置文件内容并执行相应的工作流（标准模拟或分析）。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys basic</code></td>
+<td style="text-align: left;">运行一个标准的模拟。需要通过 <code>-c</code> 参数指定配置文件，或者在当前目录下存在默认的 <code>config.json</code>。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys analysis</code></td>
+<td style="text-align: left;">运行一个模拟分析。需要通过 <code>-c</code> 参数指定配置文件，或者在当前目录下存在默认的 <code>config.json</code>。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys gui</code></td>
+<td style="text-align: left;">启动交互式图形用户界面 (GUI)。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys example</code></td>
+<td style="text-align: left;">运行一个交互式的示例运行器，可以启动所有类型的示例。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys archive &lt;timestamp&gt;</code></td>
+<td style="text-align: left;">将指定时间戳 (<code>timestamp</code>) 的模拟或分析运行结果归档成一个 zip 文件。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys unarchive &lt;zip_file&gt;</code></td>
+<td style="text-align: left;">解压一个之前归档的运行文件 (<code>zip_file</code>)。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>basic</code> 子命令</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys basic example</code></td>
+<td style="text-align: left;">运行交互式的基本功能示例。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>analysis</code> 子命令</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys analysis example</code></td>
+<td style="text-align: left;">运行交互式的分析示例。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tricys analysis retry &lt;timestamp&gt;</code></td>
+<td style="text-align: left;">针对一个已存在的、AI 分析失败的报告，根据其时间戳 (<code>timestamp</code>) 重新尝试进行分析。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>通用参数</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-h, --help</code></td>
+<td style="text-align: left;">显示帮助信息并退出。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>隐式行为</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>(无命令)</code></td>
+<td style="text-align: left;">若未提供 <code>-c</code> 或其他子命令，程序会查找并使用当前目录下的 <code>config.json</code> 文件。</td>
+</tr>
+</tbody>
+</table>
 <p><img alt="tricys_command.svg" src="../assets/tricys_command.svg" /></p>
 <p>恭喜！您已经成功安装并运行了 <code>tricys</code>。接下来，您可以探索更高级的功能，例如<a href="tricys_basic/parameter_sweep.html">参数扫描</a>或<a href="tricys_basic/co_simulation_module.html">协同仿真</a>。</p>
 
