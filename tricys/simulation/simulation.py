@@ -1,10 +1,12 @@
 import argparse
 import concurrent.futures
+import glob
 import importlib
 import importlib.util
 import logging
 import os
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any, Dict, List
@@ -25,6 +27,622 @@ from tricys.utils.log_utils import setup_logging
 
 # Standard logger setup
 logger = logging.getLogger(__name__)
+
+
+def _build_co_sim_templates(config: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    协同仿真预编译阶段 (Compile Once 策略) - 修正版。
+    包含:
+    1. 强力清理逻辑 (防止中间文件冲突)。
+    2. 优先从 Config 读取 output_placeholder (解决 Stage 2 编译缺少列映射的问题)。
+    """
+    paths_config = config["paths"]
+    sim_config = config["simulation"]
+    co_sim_config = config["co_simulation"]
+
+    # 1. 准备构建目录
+    temp_dir = os.path.abspath(paths_config.get("temp_dir", "temp"))
+    build_dir = os.path.join(temp_dir, "co_sim_build_master")
+
+    if os.path.exists(build_dir):
+        shutil.rmtree(build_dir)
+    os.makedirs(build_dir, exist_ok=True)
+
+    logger.info(f"Phase 1: Building Co-Simulation Templates in {build_dir}...")
+
+    # 2. 复制模型包
+    original_package_path = os.path.abspath(paths_config["package_path"])
+    isolated_package_path = ""
+
+    if os.path.isfile(original_package_path) and not original_package_path.endswith(
+        "package.mo"
+    ):
+        dest_path = os.path.join(build_dir, os.path.basename(original_package_path))
+        shutil.copy(original_package_path, dest_path)
+        isolated_package_path = dest_path
+    else:
+        if os.path.isfile(original_package_path):
+            src_dir = os.path.dirname(original_package_path)
+        else:
+            src_dir = original_package_path
+
+        pkg_folder_name = os.path.basename(src_dir)
+        dest_dir = os.path.join(build_dir, pkg_folder_name)
+
+        shutil.copytree(src_dir, dest_dir, dirs_exist_ok=True)
+
+        if os.path.exists(os.path.join(dest_dir, "package.mo")):
+            isolated_package_path = os.path.join(dest_dir, "package.mo")
+        else:
+            isolated_package_path = os.path.join(dest_dir, f"{pkg_folder_name}.mo")
+
+    # === 内部辅助函数：归档与清理 ===
+    def _archive_and_clean_artifacts(
+        base_model_name: str, stage_prefix: str
+    ) -> Dict[str, str]:
+        exe_ext = ".exe" if os.name == "nt" else ""
+        candidates = glob.glob(os.path.join(build_dir, f"{base_model_name}*"))
+        archived_paths = {"exe": "", "xml": ""}
+        garbage_exts = {".c", ".h", ".o", ".cpp", ".log", ".makefile", ".libs", ".json"}
+
+        for src_path in candidates:
+            if not os.path.exists(src_path):
+                continue
+            filename = os.path.basename(src_path)
+            _, ext = os.path.splitext(filename)
+
+            if ext.lower() == ".mo":
+                continue  # 保护源文件
+
+            is_artifact = (
+                filename == f"{base_model_name}{exe_ext}"
+                or filename.endswith(".xml")
+                or filename.endswith(".bin")
+            )
+
+            if is_artifact:
+                new_filename = f"{stage_prefix}_{filename}"
+                dst_path = os.path.join(build_dir, new_filename)
+                try:
+                    shutil.move(src_path, dst_path)
+                    if filename == f"{base_model_name}{exe_ext}":
+                        archived_paths["exe"] = dst_path
+                    elif filename == f"{base_model_name}_init.xml":
+                        archived_paths["xml"] = dst_path
+                except OSError as e:
+                    logger.warning(f"Failed to archive {filename}: {e}")
+            elif ext.lower() in garbage_exts or filename == "Makefile":
+                try:
+                    if os.path.isdir(src_path):
+                        shutil.rmtree(src_path)
+                    else:
+                        os.remove(src_path)
+                except OSError:
+                    pass
+
+        if not archived_paths["exe"]:
+            raise RuntimeError(f"Failed to archive EXE for {stage_prefix}.")
+        return archived_paths
+
+    omc = get_om_session()
+    try:
+        omc.sendExpression(f'cd("{Path(build_dir).as_posix()}")')
+
+        # ======================================================================
+        # Step A: 编译 Stage 1 (Original)
+        # ======================================================================
+        logger.info("Building Stage 1 (Original) Model...")
+        if not load_modelica_package(omc, Path(isolated_package_path).as_posix()):
+            raise RuntimeError("Failed to load package for Stage 1 build.")
+
+        model_name = sim_config["model_name"]
+        if not omc.sendExpression(f"buildModel({model_name})"):
+            raise RuntimeError(
+                f"Stage 1 build failed: {omc.sendExpression('getErrorString()')}"
+            )
+
+        stage1_artifacts = _archive_and_clean_artifacts(model_name, "Stage1")
+        logger.info("Stage 1 archived.")
+
+        # ======================================================================
+        # Step B: 准备拦截配置 (核心修改部分)
+        # ======================================================================
+        handlers = co_sim_config.get("handlers", [])
+        if not isinstance(handlers, list):
+            handlers = [handlers]
+
+        generic_interception_configs = []
+        csv_mapping = {}
+
+        for handler in handlers:
+            instance_name = handler["instance_name"]
+            submodel_name = handler["submodel_name"]
+            generic_csv_name = f"{instance_name}_buffer.csv"
+            csv_mapping[instance_name] = generic_csv_name
+
+            output_placeholder = {}
+
+            # === 修改开始: 优先使用 Config 中的 output_placeholder ===
+            if "output_placeholder" in handler:
+                # 1. 优先策略：用户显式配置
+                # 格式可能是字典 {"port": "{1,2}"} 或直接是对象，取决于 config 解析方式
+                # 这里假设已经是解析好的 Python 对象 (list/str)
+                output_placeholder = handler["output_placeholder"]
+                logger.debug(
+                    f"Using explicitly configured output_placeholder for {instance_name}"
+                )
+            else:
+                # 2. 回退策略：自动探测 (Fallback)
+                logger.info(
+                    f"Auto-detecting ports for {submodel_name} (No explicit placeholder found)..."
+                )
+                components = omc.sendExpression(f"getComponents({submodel_name})")
+                current_col_idx = 2
+                for comp in components:
+                    if comp[0] == "Modelica.Blocks.Interfaces.RealOutput":
+                        port_name = comp[1]
+                        dims = comp[11]
+                        dim = int(dims[0]) if dims and dims[0] != "" else 1
+                        # 生成列索引列表 [2, 3, 4]
+                        output_placeholder[port_name] = list(
+                            range(current_col_idx, current_col_idx + dim)
+                        )
+                        current_col_idx += dim
+            # === 修改结束 ===
+
+            config_copy = handler.copy()
+            config_copy["csv_uri"] = generic_csv_name
+            config_copy["mode"] = co_sim_config.get("mode", "interceptor")
+
+            # 强制更新/填入 placeholder
+            config_copy["output_placeholder"] = output_placeholder
+
+            generic_interception_configs.append(config_copy)
+
+        # ======================================================================
+        # Step C: 编译 Stage 2 (Intercepted)
+        # ======================================================================
+        logger.info("Modifying Model structure for Stage 2...")
+        mod_result = integrate_interceptor_model(
+            package_path=isolated_package_path,
+            model_name=model_name,
+            interception_configs=generic_interception_configs,
+        )
+
+        logger.info("Building Stage 2 (Intercepted) Model...")
+        final_model_name = f"{model_name}_Intercepted"
+
+        omc.sendExpression("clear()")
+
+        if co_sim_config.get("mode") == "replacement":
+            final_model_name = model_name
+        else:
+
+            for model_path in mod_result["interceptor_model_paths"]:
+                omc.sendExpression(f"""loadFile("{Path(model_path).as_posix()}")""")
+            omc.sendExpression(
+                f"""loadFile("{Path(mod_result["system_model_path"]).as_posix()}")"""
+            )
+
+        if not load_modelica_package(omc, Path(isolated_package_path).as_posix()):
+            sys_path = mod_result.get("system_model_path", isolated_package_path)
+            if not load_modelica_package(omc, Path(sys_path).as_posix()):
+                raise RuntimeError("Failed to reload package after interception.")
+
+        if not omc.sendExpression(f"buildModel({final_model_name})"):
+            raise RuntimeError(
+                f"Stage 2 build failed: {omc.sendExpression('getErrorString()')}"
+            )
+
+        stage2_artifacts = _archive_and_clean_artifacts(final_model_name, "Stage2")
+        logger.info("Stage 2 archived.")
+
+        om_home = omc.sendExpression("getInstallationDirectoryPath()")
+        om_bin_path = os.path.join(om_home, "bin")
+
+        return {
+            "stage1": stage1_artifacts,
+            "stage2": stage2_artifacts,
+            "om_bin": om_bin_path,
+            "csv_mapping": csv_mapping,
+            "build_dir": build_dir,
+        }
+
+    except Exception as e:
+        logger.error("Failed to build co-simulation templates", exc_info=True)
+        raise e
+    finally:
+        omc.sendExpression("quit()")
+
+
+def _run_fast_co_sim_job(
+    config: dict, job_params: dict, job_id: int, templates: dict
+) -> str:
+    """
+    快速协同仿真任务执行器 (Compile Once + Rename Restore 模式)。
+    """
+    paths_config = config["paths"]
+    sim_config = config["simulation"]
+    co_sim_config = config["co_simulation"]
+
+    base_temp_dir = os.path.abspath(paths_config.get("temp_dir", "temp"))
+    job_workspace = os.path.join(base_temp_dir, f"job_{job_id}")
+    os.makedirs(job_workspace, exist_ok=True)
+
+    om_bin_path = templates["om_bin"]
+    build_source_dir = templates["build_dir"]
+    csv_mapping = templates["csv_mapping"]
+
+    # ==========================================================================
+    # 核心修复：复制并恢复文件原名 (Strip Prefix)
+    # ==========================================================================
+    def copy_and_restore_artifacts(src_exe_with_prefix, dest_dir):
+        """
+        复制构件时移除 'StageX_' 前缀，解决 '找不到 init.xml' 的问题。
+        例如: Stage1_Model.exe -> Model.exe
+              Stage1_Model_init.xml -> Model_init.xml
+        """
+        # 1. 获取带前缀的文件名 (e.g., Stage1_CFEDR.Cycle.exe)
+        src_basename = os.path.basename(src_exe_with_prefix)
+
+        # 2. 推断前缀 (Stage1_ 或 Stage2_)
+        if src_basename.startswith("Stage1_"):
+            prefix = "Stage1_"
+        elif src_basename.startswith("Stage2_"):
+            prefix = "Stage2_"
+        else:
+            prefix = ""  # 没有前缀，可能是异常情况，但也兼容处理
+
+        # 3. 获取不带扩展名的基础前缀 (用于 glob)
+        # e.g., "Stage1_CFEDR.Cycle"
+        file_root = os.path.splitext(src_basename)[0]
+
+        # 4. 查找所有相关文件
+        artifacts = glob.glob(os.path.join(build_source_dir, f"{file_root}*"))
+        ignored_exts = {".c", ".h", ".o", ".cpp", ".log", ".makefile", ".libs", ".json"}
+
+        final_exe_path = ""
+
+        for src in artifacts:
+            if not os.path.isfile(src):
+                continue
+            _, ext = os.path.splitext(src)
+            if ext.lower() in ignored_exts:
+                continue
+
+            filename = os.path.basename(src)
+
+            # === 关键步骤：剥离前缀 ===
+            # 如果文件名以 StageX_ 开头，则去掉它
+            if prefix and filename.startswith(prefix):
+                original_name = filename[len(prefix) :]
+            else:
+                original_name = filename
+
+            dst = os.path.join(dest_dir, original_name)
+
+            try:
+                shutil.copy(src, dst)
+
+                # 记录恢复原名后的 EXE 路径
+                # 判断逻辑：如果当前源文件就是传入的 src_exe_with_prefix
+                if filename == src_basename:
+                    final_exe_path = dst
+            except IOError as e:
+                logger.warning(f"Job {job_id}: Failed to copy {filename}: {e}")
+
+        if not final_exe_path:
+            raise RuntimeError(f"Failed to restore executable from {src_basename}")
+
+        return final_exe_path
+
+    # 准备环境变量
+    env = os.environ.copy()
+    if sys.platform == "win32":
+        env["PATH"] = om_bin_path + os.pathsep + env["PATH"]
+
+    # 构造 Override
+    override_pairs = [f"{k}={v}" for k, v in job_params.items()]
+    override_pairs.extend(
+        [
+            f"stopTime={sim_config['stop_time']}",
+            f"stepSize={sim_config['step_size']}",
+            "outputFormat=csv",
+        ]
+    )
+    if sim_config.get("variableFilter"):
+        override_pairs.append(f"variableFilter={sim_config['variableFilter']}")
+    override_str = ",".join(override_pairs)
+
+    try:
+        # ======================================================================
+        # Phase 1: 运行原始模型 (Stage 1)
+        # ======================================================================
+        # 复制并改名: Stage1_Cycle.exe -> job_1/Cycle.exe
+        s1_exe_source = templates["stage1"]["exe"]
+        s1_exe_path = copy_and_restore_artifacts(s1_exe_source, job_workspace)
+
+        primary_input_csv = os.path.join(job_workspace, "primary_inputs.csv")
+
+        # 此时 s1_exe_path 已经是 job_workspace/Cycle.exe
+        # 它会自动找到同目录下的 Cycle_init.xml
+        subprocess.run(
+            [s1_exe_path, "-override", override_str, "-r", primary_input_csv],
+            env=env,
+            cwd=job_workspace,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+        )
+
+        # 清洗 Stage 1 结果
+        if os.path.exists(primary_input_csv):
+            df = pd.read_csv(primary_input_csv)
+            df.drop_duplicates(subset=["time"], keep="last", inplace=True)
+            df.dropna(subset=["time"], inplace=True)
+            df.to_csv(primary_input_csv, index=False)
+        else:
+            raise FileNotFoundError("Stage 1 result not generated")
+
+        # ======================================================================
+        # Phase 2: 执行 Handlers
+        # ======================================================================
+        handlers = co_sim_config.get("handlers", [])
+        if not isinstance(handlers, list):
+            handlers = [handlers]
+
+        for handler_config in handlers:
+            instance_name = handler_config["instance_name"]
+
+            if instance_name not in csv_mapping:
+                raise ValueError(f"Unknown instance {instance_name}")
+
+            target_buffer_csv = os.path.join(job_workspace, csv_mapping[instance_name])
+
+            # 加载模块
+            module = None
+            if "handler_script_path" in handler_config:
+                script_path = Path(handler_config["handler_script_path"]).resolve()
+                spec = importlib.util.spec_from_file_location(
+                    script_path.stem, script_path
+                )
+                if spec and spec.loader:
+                    module = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(module)
+            elif "handler_module" in handler_config:
+                module = importlib.import_module(handler_config["handler_module"])
+
+            if not module:
+                raise ImportError(f"Failed to load handler for {instance_name}")
+
+            handler_function = getattr(module, handler_config["handler_function"])
+
+            handler_function(
+                temp_input_csv=primary_input_csv,
+                temp_output_csv=target_buffer_csv,
+                **handler_config.get("params", {}),
+            )
+
+            if not os.path.exists(target_buffer_csv):
+                raise FileNotFoundError(f"Handler output missing: {target_buffer_csv}")
+
+        # ======================================================================
+        # Phase 3: 运行拦截模型 (Stage 2)
+        # ======================================================================
+        # 复制并改名: Stage2_Cycle.exe -> job_1/Cycle.exe (覆盖之前的 Stage 1 EXE 也没关系)
+        s2_exe_source = templates["stage2"]["exe"]
+        s2_exe_path = copy_and_restore_artifacts(s2_exe_source, job_workspace)
+
+        final_res_csv = os.path.join(job_workspace, "final_result.csv")
+
+        subprocess.run(
+            [s2_exe_path, "-override", override_str, "-r", final_res_csv],
+            env=env,
+            cwd=job_workspace,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+        )
+
+        if os.path.exists(final_res_csv):
+            df = pd.read_csv(final_res_csv)
+            df.drop_duplicates(subset=["time"], keep="last", inplace=True)
+            df.to_csv(final_res_csv, index=False)
+            return final_res_csv
+        else:
+            raise FileNotFoundError("Stage 2 result not generated")
+
+    except subprocess.CalledProcessError as e:
+        logger.error(
+            f"Job {job_id} Process Error: {e.stderr.decode() if e.stderr else str(e)}"
+        )
+        return ""
+    except Exception as e:
+        logger.error(f"Job {job_id} Error: {str(e)}", exc_info=True)
+        return ""
+
+
+def _build_model_only(config: dict) -> tuple[str, str, str]:
+    """
+    阶段 1: 仅编译。
+    只运行一次，生成 .exe 和 _init.xml，供后续并行任务复用。
+    返回: (exe_path, xml_path, om_bin_path)
+    """
+    paths_config = config["paths"]
+    sim_config = config["simulation"]
+
+    # 创建一个专门的构建目录，避免污染项目根目录
+    build_dir = os.path.abspath(
+        os.path.join(paths_config.get("temp_dir", "temp"), "build")
+    )
+    os.makedirs(build_dir, exist_ok=True)
+
+    logger.info(f"Building model in {build_dir}...")
+
+    omc = get_om_session()
+    try:
+        # 1. 切换 OMC 工作目录到 build_dir，确保生成的文件都在这里
+        omc.sendExpression(f'cd("{Path(build_dir).as_posix()}")')
+
+        # 2. 加载模型包
+        package_path = os.path.abspath(paths_config["package_path"])
+        if not load_modelica_package(omc, Path(package_path).as_posix()):
+            raise RuntimeError("Failed to load Modelica package during build.")
+
+        # 3. 执行编译 (buildModel)
+        model_name = sim_config["model_name"]
+        # buildModel 返回元组: (exe_file, xml_file)
+        build_result = omc.sendExpression(f"buildModel({model_name})")
+
+        if not build_result or len(build_result) < 2:
+            # 尝试从错误日志获取信息
+            err = omc.sendExpression("getErrorString()")
+            raise RuntimeError(f"Model build failed: {err}")
+
+        exe_name = build_result[0] + ".exe"
+        xml_name = build_result[1]
+
+        # 获取绝对路径
+        exe_path = os.path.join(build_dir, exe_name)
+        xml_path = os.path.join(build_dir, xml_name)
+
+        # 4. 关键：获取 OpenModelica 的 bin 路径 (用于解决 DLL 问题)
+        # 我们通过询问 OMC 它的 home 目录在哪里来推断
+        om_home = omc.sendExpression("getInstallationDirectoryPath()")
+        om_bin_path = os.path.join(om_home, "bin")
+
+        logger.info(f"Model built successfully: {exe_path}")
+        return exe_path, xml_path, om_bin_path
+
+    finally:
+        omc.sendExpression("quit()")
+
+
+def _run_fast_subprocess_job(
+    job_params: dict,
+    job_id: int,
+    exe_source: str,
+    xml_source: str,
+    om_bin_path: str,
+    base_temp_dir: str,
+    sim_config: dict,
+    variable_filter: str = None,
+    inplace_execution: bool = False,  # <--- [新增参数] 是否原地执行
+) -> str:
+    """
+    执行单个仿真任务。
+    inplace_execution=True: 直接在 build 目录运行 exe，不复制文件 (适合串行)。
+    inplace_execution=False: 将 exe 复制到 job 目录运行 (适合并行，防止文件锁)。
+    """
+    # 1. 准备结果存放目录 (即使不复制exe，我们也需要一个地方放结果csv)
+    job_workspace = os.path.join(base_temp_dir, f"job_{job_id}")
+    os.makedirs(job_workspace, exist_ok=True)
+
+    # 定义运行时的“当前工作目录” (CWD) 和 “可执行文件路径”
+    run_cwd = ""
+    run_exe_path = ""
+
+    if inplace_execution:
+        # === 模式 A: 原地执行 (串行优化) ===
+        # 工作目录保持在 build_artifacts，直接复用源文件
+        run_cwd = os.path.dirname(exe_source)
+        run_exe_path = exe_source
+        # 结果文件使用绝对路径，指向 job_workspace
+        result_filename = os.path.abspath(
+            os.path.join(job_workspace, f"job_{job_id}_res.csv")
+        )
+    else:
+        # === 模式 B: 隔离执行 (并行安全) ===
+        # 工作目录是 job_workspace，需要复制文件
+        run_cwd = job_workspace
+
+        # --- 复制逻辑 (含 bin 文件和过滤) ---
+        build_dir = os.path.dirname(exe_source)
+        model_prefix = os.path.splitext(os.path.basename(exe_source))[0]
+        artifacts = glob.glob(os.path.join(build_dir, f"{model_prefix}*"))
+        ignored_extensions = {".c", ".h", ".o", ".cpp", ".log", ".makefile", ".libs"}
+
+        run_exe_path = ""
+        try:
+            for src_file in artifacts:
+                if not os.path.isfile(src_file):
+                    continue
+                _, ext = os.path.splitext(src_file)
+                if ext.lower() in ignored_extensions:
+                    continue
+
+                dst_file = os.path.join(job_workspace, os.path.basename(src_file))
+                shutil.copy(src_file, dst_file)
+
+                if os.path.basename(exe_source) == os.path.basename(src_file):
+                    run_exe_path = dst_file
+        except IOError as e:
+            logger.error(f"Job {job_id}: Copy failed: {e}")
+            return ""
+
+        # 结果文件路径 (相对或绝对均可，这里用绝对路径保持一致)
+        result_filename = os.path.abspath(
+            os.path.join(job_workspace, f"job_{job_id}_res.csv")
+        )
+
+    if not run_exe_path:
+        logger.error(f"Job {job_id}: Executable path invalid.")
+        return ""
+
+    # 2. 构造参数 (Override)
+    override_pairs = [f"{k}={v}" for k, v in job_params.items()]
+    override_pairs.append(f"stopTime={sim_config['stop_time']}")
+    override_pairs.append(f"stepSize={sim_config['step_size']}")
+    override_pairs.append("outputFormat=csv")
+    if variable_filter:
+        # 注意：OpenModelica 的 variableFilter 接受正则表达式
+        # 建议始终包含 time，虽然 OM 通常会自动包含它，但显式写上更安全
+        # 格式：variableFilter=expr
+        override_pairs.append(f"variableFilter={variable_filter}")
+    override_str = ",".join(override_pairs)
+
+    # 3. 构造命令
+    # 注意：OpenModelica 的 -r 参数支持绝对路径
+    cmd = [run_exe_path, "-override", override_str, "-r", result_filename]
+
+    # 4. 环境变量 (DLL)
+    env = os.environ.copy()
+    if sys.platform == "win32":
+        env["PATH"] = om_bin_path + os.pathsep + env["PATH"]
+
+    try:
+        # 5. 执行
+        # 注意 cwd 的变化：
+        # 原地模式下 cwd=build_dir (为了让exe找到同一目录下的 _init.xml 和 .bin)
+        # 隔离模式下 cwd=job_workspace
+        subprocess.run(
+            cmd,
+            env=env,
+            cwd=run_cwd,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+        )
+
+        if os.path.exists(result_filename):
+            try:
+                # 仍然建议保留这个清洗步骤，因为 OM 有时会在事件点输出重复时间步
+                df = pd.read_csv(result_filename)
+                df.drop_duplicates(subset=["time"], keep="last", inplace=True)
+                df.to_csv(result_filename, index=False)
+                return result_filename
+            except Exception as e:
+                logger.warning(f"Job {job_id}: Cleaning failed: {e}")
+                return result_filename
+        else:
+            return ""
+
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Job {job_id} failed: {e.stderr.decode()}")
+        return ""
+    except Exception as e:
+        logger.error(f"Job {job_id} unexpected error: {str(e)}")
+        return ""
 
 
 def _run_co_simulation(config: dict, job_params: dict, job_id: int = 0) -> str:
@@ -772,6 +1390,210 @@ def _run_post_processing(
 
 
 def run_simulation(config: Dict[str, Any]) -> None:
+    """Orchestrates the main simulation workflow (Optimized)."""
+
+    # Generate simulation jobs from parameters
+    jobs = generate_simulation_jobs(config.get("simulation_parameters", {}))
+
+    try:
+        results_dir = os.path.abspath(config["paths"]["results_dir"])
+        temp_dir = os.path.abspath(config["paths"].get("temp_dir", "temp"))
+    except KeyError as e:
+        logger.error(f"Missing required path key in configuration file: {e}")
+        sys.exit(1)
+
+    simulation_results = {}
+    use_concurrent = config["simulation"].get("concurrent", False)
+    max_workers = config["simulation"].get("max_workers", os.cpu_count())
+    variable_filter = config["simulation"].get("variableFilter", None)  # 获取配置
+
+    try:
+        # ==============================================================================
+        # 分支 A: 标准仿真 (Standard Simulation) -> 走优化路径 (Compile Once, Run Parallel)
+        # ==============================================================================
+        if config.get("co_simulation") is None:
+            logger.info("Starting Standard Simulation (Optimized Mode)")
+
+            # 1. 预编译阶段：生成 master exe
+            master_exe, master_xml, om_bin = _build_model_only(config)
+
+            # 2. 运行阶段：并行/串行分发
+            if use_concurrent:
+                logger.info(
+                    "Running jobs concurrently (Subprocess)",
+                    extra={"max_workers": max_workers, "job_count": len(jobs)},
+                )
+                # ThreadPoolExecutor 足够了，因为 subprocess.run 释放了 GIL 且也是调用外部进程
+                with concurrent.futures.ThreadPoolExecutor(
+                    max_workers=max_workers
+                ) as executor:
+                    future_to_job = {
+                        executor.submit(
+                            _run_fast_subprocess_job,
+                            job_params,
+                            i + 1,
+                            master_exe,
+                            master_xml,
+                            om_bin,
+                            temp_dir,
+                            config["simulation"],
+                            variable_filter=variable_filter,  # <--- 传入参数
+                        ): job_params
+                        for i, job_params in enumerate(jobs)
+                    }
+
+                    for future in concurrent.futures.as_completed(future_to_job):
+                        job_params = future_to_job[future]
+                        try:
+                            result_path = future.result()
+                            if result_path:
+                                simulation_results[
+                                    tuple(sorted(job_params.items()))
+                                ] = result_path
+                        except Exception as exc:
+                            logger.error(
+                                f"Job {job_params} generated an exception: {exc}"
+                            )
+            else:
+                # === 串行模式 ===
+                # 启用优化：原地执行 (inplace_execution=True)
+                logger.info("Running SEQUENTIAL jobs (In-Place Optimization Mode)...")
+                for i, job_params in enumerate(jobs):
+                    result_path = _run_fast_subprocess_job(
+                        job_params,
+                        i + 1,
+                        master_exe,
+                        master_xml,
+                        om_bin,
+                        temp_dir,
+                        config["simulation"],
+                        variable_filter=variable_filter,
+                        inplace_execution=True,  # <--- 串行模式：原地执行，极速！
+                    )
+                    if result_path:
+                        simulation_results[tuple(sorted(job_params.items()))] = (
+                            result_path
+                        )
+
+        # ==============================================================================
+        # 分支 B: 协同仿真 (Co-simulation) -> 保持原有逻辑 (Structure changes dynamically)
+        # ==============================================================================
+        else:
+            # Phase 1: 构建模板 (只做一次!)
+            templates = _build_co_sim_templates(config)
+            if use_concurrent:
+                # === 协同仿真优化路径 ===
+                logger.info("Starting Co-Simulation (Optimized Compile-Once Mode)")
+
+                # Phase 2: 并行分发
+                # 此时必须使用 ThreadPool (因为是 subprocess 调用) 或 ProcessPool
+                # 由于涉及 Python Handler (可能 CPU 密集)，ProcessPool 更安全，
+                # 但为了避免 Pickle 问题，且 subprocess 占大头，ThreadPool 也可以尝试。
+                # 推荐 ProcessPoolExecutor 用于 Co-Sim。
+
+                with concurrent.futures.ProcessPoolExecutor(
+                    max_workers=max_workers
+                ) as executor:
+                    future_to_job = {
+                        executor.submit(
+                            _run_fast_co_sim_job,  # 新的快速函数
+                            config,
+                            job_params,
+                            i + 1,
+                            templates,
+                        ): job_params
+                        for i, job_params in enumerate(jobs)
+                    }
+                for future in concurrent.futures.as_completed(future_to_job):
+                    job_params = future_to_job[future]
+                    try:
+                        result_path = future.result()
+                        if result_path:
+                            simulation_results[tuple(sorted(job_params.items()))] = (
+                                result_path
+                            )
+                    except Exception as exc:
+                        logger.error(f"Co-sim job failed: {exc}", exc_info=True)
+            else:
+                logger.info("Starting Co-simulation", extra={"mode": "SEQUENTIAL"})
+                for i, job_params in enumerate(jobs):
+                    result_path = _run_fast_co_sim_job(
+                        config, job_params, job_id=i + 1, templates=templates
+                    )
+                    if result_path:
+                        simulation_results[tuple(sorted(job_params.items()))] = (
+                            result_path
+                        )
+
+    except Exception as e:
+        raise RuntimeError("Failed to run simulation workflow", e)
+
+    # --- Result Handling (保持原有逻辑不变) ---
+    # 下面的代码负责合并 CSV，与之前完全一致，不需要修改
+
+    run_results_dir = results_dir
+    os.makedirs(run_results_dir, exist_ok=True)
+
+    logger.info("Processing jobs and combining results", extra={"num_jobs": len(jobs)})
+
+    all_dfs = []
+    time_df_added = False
+
+    for job_params in jobs:
+        job_key = tuple(sorted(job_params.items()))
+        result_path = simulation_results.get(job_key)
+
+        if not result_path or not os.path.exists(result_path):
+            continue
+
+        try:
+            df = pd.read_csv(result_path)
+            if not time_df_added and "time" in df.columns:
+                all_dfs.append(df[["time"]])
+                time_df_added = True
+
+            param_string = "&".join([f"{k}={v}" for k, v in job_params.items()])
+            data_columns = df.drop(columns=["time"], errors="ignore")
+            rename_mapping = {
+                col: f"{col}&{param_string}" if param_string else col
+                for col in data_columns.columns
+            }
+            all_dfs.append(data_columns.rename(columns=rename_mapping))
+        except Exception as e:
+            logger.warning(f"Failed to merge result {result_path}: {e}")
+
+    combined_df = None
+    if all_dfs:
+        combined_df = pd.concat(all_dfs, axis=1)
+    else:
+        combined_df = pd.DataFrame()
+
+    if combined_df is not None and not combined_df.empty:
+        filename = "simulation_result.csv" if len(jobs) == 1 else "sweep_results.csv"
+        combined_csv_path = get_unique_filename(run_results_dir, filename)
+        combined_df.to_csv(combined_csv_path, index=False)
+        logger.info("Combined results saved", extra={"file_path": combined_csv_path})
+
+        # Post-Processing
+        if config.get("run_timestamp"):
+            top_level_post_dir = os.path.join(
+                os.path.abspath(config["run_timestamp"]), "post_processing"
+            )
+            _run_post_processing(config, combined_df, top_level_post_dir)
+    else:
+        logger.warning("No valid results found to combine")
+
+    # --- Cleanup ---
+    if not config["simulation"].get("keep_temp_files", True):
+        try:
+            if os.path.exists(temp_dir):
+                shutil.rmtree(temp_dir)
+                os.makedirs(temp_dir)
+        except Exception as e:
+            logger.error(f"Error cleaning temp dir: {e}")
+
+
+def _run_simulation(config: Dict[str, Any]) -> None:
     """Orchestrates the main simulation workflow.
 
     This function serves as the primary orchestrator for running simulations.
