@@ -22,24 +22,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
-
-      # -----------------------------------------------------------------
-      # 核心修改：
-      # 1. 移除了 mkdocs-get-deps (它会导致版本锁定在旧版)
-      # 2. 使用 --upgrade 强制升级
-      # 3. 直接指定 mkdocstrings-python>=1.12.0 (确保支持 paths)
-      # -----------------------------------------------------------------
+          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade mkdocs-material[imaging] mkdocs-static-i18n "mkdocstrings-python>=1.12.0" mkdocs-mermaid2-plugin
-
-      # -----------------------------------------------------------------
-      # 调试步骤：打印版本号
-      # 如果构建失败，请查看这一步的日志，确认 mkdocstrings-python 的版本
-      # -----------------------------------------------------------------
-      - name: Debug Versions
-        run: pip list
+          pip install mkdocs==1.6.1 \
+                      mkdocs-material==9.7.0 \
+                      mkdocs-static-i18n==1.3.0 \
+                      mkdocstrings==0.30.1 \
+                      mkdocstrings-python==1.19.0 \
+                      mkdocs-mermaid2-plugin==1.2.3
 
       - name: Deploy
         run: mkdocs gh-deploy --force --clean
