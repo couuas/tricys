@@ -523,6 +523,9 @@ def run_sequential_sweep(
 
         for i, job_params in enumerate(jobs):
             try:
+                # Add standardized progress log for backend parsing (Pattern: Job X of Y)
+                logger.info(f"Job {i+1} of {len(jobs)}")
+
                 logger.info(
                     "Running sequential job",
                     extra={

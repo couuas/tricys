@@ -45,3 +45,6 @@ cfedr/*
 
 # Ignore mkdocs site directory
 site/
+
+# Ignore tricys_backend submodule
+tricys_backend/*

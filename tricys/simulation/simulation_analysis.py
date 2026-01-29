@@ -358,23 +358,35 @@ def run_simulation(config: Dict[str, Any]) -> None:
                     wrapper = _co_sim_runner_wrapper
 
                 # Run Execution
+                # Counter for progress logging
+                completed_count = 0
+                total_jobs = len(jobs)
+
                 if use_concurrent:
                     with multiprocessing.Pool(max_workers) as pool:
                         for job_id, parsed_params, res_data, err in pool.imap_unordered(
                             wrapper, pool_args
                         ):
+                            completed_count += 1
                             if err:
                                 logger.error(f"Job {job_id} failed: {err}")
                             else:
                                 _handle_result(job_id, parsed_params, res_data)
+
+                            # Log progress
+                            logger.info(f"Job {completed_count} of {total_jobs}")
                 else:
                     # Sequential Loop
                     for args in pool_args:
                         job_id, parsed_params, res_data, err = wrapper(args)
+                        completed_count += 1
                         if err:
                             logger.error(f"Job {job_id} failed: {err}")
                         else:
                             _handle_result(job_id, parsed_params, res_data)
+
+                        # Log progress
+                        logger.info(f"Job {completed_count} of {total_jobs}")
 
                 # Save Config and Logs at the end
                 try:
