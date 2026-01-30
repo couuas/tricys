@@ -99,3 +99,30 @@ def load_baseline_data(h5_path, job_id):
     except Exception as e:
         print(f"Error loading baseline job {job_id}: {e}")
         return None
+
+
+def load_summary_data(h5_path, job_ids=None):
+    """
+    Loads the summary metrics table.
+    Expects Wide Format: job_id, MetricA, MetricB...
+    """
+    if not h5_path or not os.path.exists(h5_path):
+        return []
+
+    try:
+        where_clause = None
+        if job_ids:
+            # Sanitize
+            jids = [int(j) for j in job_ids]
+            where_clause = f"job_id in {jids}"
+
+        with pd.HDFStore(h5_path, mode="r") as store:
+            if "/summary" not in store.keys():
+                return []
+
+            df = pd.read_hdf(h5_path, "summary", where=where_clause)
+            return df.to_dict("records")
+
+    except Exception as e:
+        print(f"Error loading summary data: {e}")
+        return []

@@ -9,7 +9,7 @@ import plotly.express as px
 from dash import Input, Output, State, ctx, dcc, html
 
 from tricys.analysis import metric
-from tricys.visualizer.data import load_h5_data
+from tricys.visualizer.data import load_h5_data, load_summary_data
 from tricys.visualizer.filtering import filter_dataframe
 from tricys.visualizer.layout import render_log_content
 
@@ -286,58 +286,168 @@ def register_callbacks(app):
 
     @app.callback(
         Output("metrics-data-store", "data"),
-        Input("main-data-store", "data"),
+        Input("jobs-table", "data"),
         State("variable-dropdown", "value"),
     )
-    def calculate_metrics_data(data, selected_variables):
-        if not data or not selected_variables:
+    def calculate_metrics_data(jobs_table_data, selected_variables):
+        """
+        Loads pre-calculated metrics from HDF5 summary table.
+        Merges with job parameters for display.
+        """
+        if not H5_FILE or not jobs_table_data:
             return None
-        df_wide = pd.DataFrame(data)
-        metrics_data = []
-        for job_id in df_wide["job_id"].unique():
-            try:
-                params, row_data = JOBS_DF[JOBS_DF["id"] == job_id].iloc[0], {}
-                row_data.update(params.to_dict())
-                row_data["id"] = job_id
-                row_data["Job"] = (
-                    f"Job {job_id} ({', '.join([f'{k}={v}' for k, v in params.drop('id').items()])})"
-                )
-                job_df, time_series = (
-                    df_wide[df_wide["job_id"] == job_id],
-                    df_wide[df_wide["job_id"] == job_id]["time"],
-                )
-                for variable in selected_variables:
-                    series = job_df[variable].dropna()
-                    if series.empty:
-                        continue
-                    aligned_time = time_series.loc[series.index]
-                    # Store as numeric types for plots, they will be formatted in the table if needed or we keep precision
-                    # Actually for the metrics summary table, strings are fine, but for plots we need numbers.
-                    # The metrics-data-store is used for both. Let's store as numbers. The table will display them as is or we format there.
-                    # Or simpler: we store as numbers here, and rely on Dash DataTable formatting (if defined) or default float display.
 
-                    row_data[f"{variable}_Final Value (g)"] = metric.get_final_value(
-                        series
+        try:
+            # get all job IDs from the current filtered table
+            job_ids = [
+                row.get("id") for row in jobs_table_data if row.get("id") is not None
+            ]
+
+            if not job_ids:
+                return []
+
+            # Load summary metrics directly
+            summary_records = load_summary_data(H5_FILE, job_ids)
+
+            # --- Fallback Logic ---
+            if not summary_records:
+                print("No /summary table found. Calculating metrics on-the-fly...")
+                if not selected_variables:
+                    return []
+
+                # Load Time Series Data
+                # Note: This can be expensive for large datasets
+                try:
+                    # Sanitize job_ids
+                    jids_numeric = [int(jid) for jid in job_ids]
+                    df_wide = pd.read_hdf(
+                        H5_FILE,
+                        "results",
+                        where=f"job_id in {jids_numeric}",
+                        columns=list(set(["time", "job_id"] + selected_variables)),
                     )
-                    row_data[f"{variable}_Startup Inventory (g)"] = (
-                        metric.calculate_startup_inventory(series)
-                    )
+                except Exception as e:
+                    print(f"Fallback loading failed: {e}")
+                    return []
+
+                # Calculate Metrics
+                metrics_data = []
+                params_lookup = {
+                    int(row["id"]): row
+                    for row in jobs_table_data
+                    if row.get("id") is not None
+                }
+
+                for job_id in df_wide["job_id"].unique():
                     try:
-                        row_data[f"{variable}_Self-sufficient Time (h)"] = (
-                            metric.time_of_turning_point(series, aligned_time)
+                        job_id_int = int(job_id)
+                        if job_id_int not in params_lookup:
+                            continue
+
+                        # Init Row with Params
+                        row_data = params_lookup[job_id_int].copy()
+                        display_params = {
+                            k: v
+                            for k, v in row_data.items()
+                            if k != "id" and k != "job_id"
+                        }
+                        row_data["Job"] = (
+                            f"Job {job_id_int} ({', '.join([f'{k}={v}' for k, v in display_params.items()])})"
                         )
-                    except:
-                        row_data[f"{variable}_Self-sufficient Time (h)"] = None
-                    try:
-                        row_data[f"{variable}_Doubling Time (days)"] = (
-                            metric.calculate_doubling_time(series, aligned_time) / 24
-                        )
-                    except:
-                        row_data[f"{variable}_Doubling Time (days)"] = None
-                metrics_data.append(row_data)
-            except Exception as e:
-                print(f"Error calculating metrics for job {job_id}: {e}")
-        return metrics_data
+
+                        # Calculation
+                        job_df = df_wide[df_wide["job_id"] == job_id]
+                        time_series = job_df["time"]
+
+                        for variable in selected_variables:
+                            if variable not in job_df.columns:
+                                continue
+                            series = job_df[variable].dropna()
+                            if series.empty:
+                                continue
+
+                            aligned_time = time_series.loc[series.index]
+
+                            # Calculate Standard Metrics
+                            row_data[f"{variable} Final Value"] = (
+                                metric.get_final_value(series)
+                            )
+                            row_data[f"{variable} Startup Inventory"] = (
+                                metric.calculate_startup_inventory(series)
+                            )
+                            try:
+                                row_data[f"{variable} Self-sufficient Time"] = (
+                                    metric.time_of_turning_point(series, aligned_time)
+                                )
+                            except:
+                                row_data[f"{variable} Self-sufficient Time"] = None
+                            try:
+                                row_data[f"{variable} Doubling Time"] = (
+                                    metric.calculate_doubling_time(series, aligned_time)
+                                    / 24
+                                )
+                            except:
+                                row_data[f"{variable} Doubling Time"] = None
+
+                        metrics_data.append(row_data)
+                    except Exception as e:
+                        print(f"Error calculating metrics for job {job_id}: {e}")
+
+                return metrics_data
+
+            # --- Success Logic (Existing) ---
+            summary_df = pd.DataFrame(summary_records)
+
+            # Merge with parameters for display context
+            metrics_data = []
+
+            # We want to iterate over the jobs in the table order probably,
+            # but summary_df usually returns in job_id order or storage order.
+
+            # Create a lookup for parameters
+            # Force IDs to int to ensure matching succeeds despite format differences (int vs float vs str)
+            params_lookup = {}
+            for row in jobs_table_data:
+                try:
+                    rid = int(row.get("id"))
+                    params_lookup[rid] = row
+                except:
+                    continue
+
+            for _, metric_row in summary_df.iterrows():
+                try:
+                    raw_jid = metric_row.get("job_id")
+                    job_id = int(raw_jid)
+                except:
+                    continue
+
+                if job_id not in params_lookup:
+                    continue
+
+                table_row = params_lookup[job_id].copy()
+
+                # Format Job Title
+                # Remove internal id for display params
+                display_params = {
+                    k: v for k, v in table_row.items() if k != "id" and k != "job_id"
+                }
+                table_row["Job"] = (
+                    f"Job {job_id} ({', '.join([f'{k}={v}' for k, v in display_params.items()])})"
+                )
+
+                # Update with metric values
+                # metric_row has job_id, MetricA, MetricB...
+                for k, v in metric_row.items():
+                    if k != "job_id":
+                        table_row[k] = v
+
+                metrics_data.append(table_row)
+
+            return metrics_data
+
+        except Exception as e:
+            print(f"Error loading metrics summary: {e}")
+            return None
 
     @app.callback(
         Output("metrics-summary-table", "data"),

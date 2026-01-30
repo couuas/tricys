@@ -15,6 +15,7 @@ from typing import Any, Callable, Dict, List, Union
 import pandas as pd
 from OMPython import ModelicaSystem
 
+from tricys.analysis.metric import calculate_single_job_metrics
 from tricys.core.interceptor import integrate_interceptor_model
 from tricys.core.jobs import generate_simulation_jobs
 from tricys.core.modelica import (
@@ -573,6 +574,35 @@ def run_sequential_sweep(
                 )
                 result_paths.append(result_file_path)
 
+                # Calculate Summary Metrics
+                metrics_definition = config.get("metrics_definition", {})
+                if metrics_definition and os.path.exists(result_file_path):
+                    try:
+                        df_metric = pd.read_csv(result_file_path)
+                        single_job_metrics = calculate_single_job_metrics(
+                            df_metric, metrics_definition
+                        )
+
+                        if single_job_metrics:
+                            # Save to JSON in the job workspace
+                            metrics_file_path = os.path.join(
+                                job_workspace, "job_metrics.json"
+                            )
+                            with open(metrics_file_path, "w") as f:
+                                json.dump(single_job_metrics, f, indent=4)
+
+                            logger.info(
+                                "Calculated and saved job metrics",
+                                extra={
+                                    "job_index": i + 1,
+                                    "metrics": single_job_metrics,
+                                },
+                            )
+                    except Exception as e:
+                        logger.warning(
+                            f"Failed to calculate metrics for job {i+1}: {e}"
+                        )
+
                 if post_job_callback:
                     try:
                         post_job_callback(i, job_params, result_file_path)
@@ -961,6 +991,9 @@ def run_simulation(config: Dict[str, Any]) -> None:
     if use_concurrent:
         from tricys.utils.log_capture import LogCapture
 
+        # Prepare summary metrics context
+        metrics_definition = config.get("metrics_definition", {})
+
         # Capture logs for HDF5 storage
         with LogCapture() as log_handler:
             logger.info(
@@ -1018,6 +1051,40 @@ def run_simulation(config: Dict[str, Any]) -> None:
                         # Use 'append' with data_columns=True for queryability if needed
                         store.append("results", df, index=False, data_columns=True)
 
+                        # Calculate and Save Summary Metrics
+                        if metrics_definition:
+                            try:
+                                # Reuse df since we already have it
+                                single_job_metrics = calculate_single_job_metrics(
+                                    df, metrics_definition
+                                )
+
+                                if single_job_metrics:
+                                    # Store in Wide Format (Table style: Job ID | Metric A | Metric B ...)
+                                    summary_row = {"job_id": job_id}
+                                    # Ensure values are floats
+                                    for m_name, m_val in single_job_metrics.items():
+                                        if m_val is not None:
+                                            summary_row[m_name] = float(m_val)
+
+                                    if (
+                                        len(summary_row) > 1
+                                    ):  # Contains more than just job_id
+                                        summary_df = pd.DataFrame([summary_row])
+                                        # Append to HDF5
+                                        # Note: First append defines the schema. Since metrics_definition is constant, this is safe.
+                                        store.append(
+                                            "summary",
+                                            summary_df,
+                                            index=False,
+                                            data_columns=True,
+                                        )
+
+                            except Exception as e:
+                                logger.warning(
+                                    f"Failed to calculate/save summary metrics for job {job_id} in simulation.py: {e}"
+                                )
+
                         param_df = pd.DataFrame([params])
                         param_df["job_id"] = job_id
 
@@ -1035,6 +1102,11 @@ def run_simulation(config: Dict[str, Any]) -> None:
                             job_dir
                         ):
                             shutil.rmtree(job_dir)
+                    except Exception as e:
+                        logger.error(
+                            f"Failed to process HDF5 result for job {job_id}: {e}"
+                        )
+
                     except Exception as e:
                         logger.error(
                             f"Failed to process HDF5 result for job {job_id}: {e}"
@@ -1143,6 +1215,46 @@ def run_simulation(config: Dict[str, Any]) -> None:
             run_post_processing(config, combined_df, post_processing_output_dir)
         else:
             logger.warning("No valid results needed to combine.")
+
+        # Merge JSON Metrics
+        logger.info("Combining job metrics...")
+        all_metrics = []
+        for i, job_params in enumerate(jobs):
+            job_id = i + 1
+            # In sequential mode, job workspace is temporary but might still exist if 'keep_temp_files' is true
+            # Or we can look at where we stored the json results if we had a path.
+            # In run_sequential_sweep, we saved metrics to job_workspace/job_metrics.json
+
+            # Reconstruct job workspace path
+            # Note: base_temp_dir definition is inside run_sequential_sweep scope, not here.
+            # We need to reconstruct it from config.
+            base_temp_dir = os.path.abspath(config["paths"].get("temp_dir", "temp"))
+            job_workspace = os.path.join(base_temp_dir, f"job_{job_id}")
+            metrics_path = os.path.join(job_workspace, "job_metrics.json")
+
+            if os.path.exists(metrics_path):
+                try:
+                    with open(metrics_path, "r") as f:
+                        metrics_data = json.load(f)
+                        if metrics_data:
+                            # Add job_id for context
+                            for m_name, m_val in metrics_data.items():
+                                if m_val is not None:
+                                    all_metrics.append(
+                                        {
+                                            "job_id": job_id,
+                                            "metric_name": m_name,
+                                            "metric_value": m_val,
+                                        }
+                                    )
+                except Exception as e:
+                    logger.warning(f"Failed to read metrics for job {job_id}: {e}")
+
+        if all_metrics:
+            metrics_df = pd.DataFrame(all_metrics)
+            metrics_csv_path = get_unique_filename(results_dir, "summary_metrics.csv")
+            metrics_df.to_csv(metrics_csv_path, index=False)
+            logger.info(f"Combined metrics saved to {metrics_csv_path}")
 
     # --- Cleanup ---
     if not sim_config.get("keep_temp_files", True):

@@ -270,3 +270,62 @@ def extract_metrics(
     except Exception as e:
         print(f"Error during pivoting: {e}")
         return pd.DataFrame()
+
+
+def calculate_single_job_metrics(
+    job_df: pd.DataFrame,
+    metrics_definition: Dict[str, Any],
+) -> Dict[str, float]:
+    """Calculates metrics for a single simulation job.
+
+    Args:
+        job_df: A DataFrame containing the results of a single job.
+            Must have 'time' column and variable columns.
+        metrics_definition: Dictionary defining the metrics to calculate.
+
+    Returns:
+        A dictionary mapping metric names to their calculated values.
+    """
+    results = {}
+    if not metrics_definition:
+        return results
+
+    for metric_name, definition in metrics_definition.items():
+        # Skip metrics that require complex optimization (bisection)
+        # We only calculate scalar metrics extractable from a single run.
+        if definition.get("method") == "bisection_search":
+            continue
+
+        source_col = definition.get("source_column")
+        method_name = definition.get("method")
+
+        if source_col not in job_df.columns:
+            continue
+
+        series = job_df[source_col]
+        time_series = job_df["time"] if "time" in job_df.columns else None
+
+        calculation_func = None
+        if method_name == "final_value":
+            calculation_func = get_final_value
+        elif method_name == "calculate_startup_inventory":
+            calculation_func = calculate_startup_inventory
+        elif method_name == "time_of_turning_point":
+            calculation_func = time_of_turning_point
+        elif method_name == "calculate_doubling_time":
+            calculation_func = calculate_doubling_time
+
+        if calculation_func:
+            try:
+                val = calculation_func(series, time_series)
+                # Ensure JSON serializable (handle numpy types)
+                if hasattr(val, "item"):
+                    val = val.item()
+                if pd.isna(val):
+                    val = None
+                results[metric_name] = val
+            except Exception:
+                # If metric calc fails, skip it or store None
+                pass
+
+    return results
