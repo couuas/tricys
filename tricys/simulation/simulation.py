@@ -9,8 +9,17 @@ import os
 import shutil
 import subprocess
 import sys
+import warnings
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Union
+
+# Suppress PyTables NaturalNameWarning which occurs when saving Modelica variables (with dots and brackets) to HDF5
+try:
+    from tables import NaturalNameWarning
+
+    warnings.filterwarnings("ignore", category=NaturalNameWarning)
+except ImportError:
+    pass
 
 import pandas as pd
 from OMPython import ModelicaSystem
@@ -627,6 +636,167 @@ def run_sequential_sweep(
             omc.sendExpression("quit()")
 
 
+def _process_h5_result(
+    store: pd.HDFStore,
+    job_id: int,
+    params: dict,
+    res_path: str,
+    metrics_definition: dict = None,
+):
+    """Helper to process simulation result into HDF5 store."""
+    if not res_path or not os.path.exists(res_path):
+        return
+
+    try:
+        df = pd.read_csv(res_path)
+        df["job_id"] = job_id
+
+        # Use 'append' with data_columns=True for queryability if needed
+        store.append("results", df, index=False, data_columns=True)
+
+        # Calculate and Save Summary Metrics
+        if metrics_definition:
+            try:
+                # Reuse df since we already have it
+                single_job_metrics = calculate_single_job_metrics(
+                    df, metrics_definition
+                )
+
+                if single_job_metrics:
+                    # Store in Wide Format (Table style: Job ID | Metric A | Metric B ...)
+                    summary_row = {"job_id": job_id}
+                    # Ensure values are floats
+                    for m_name, m_val in single_job_metrics.items():
+                        if m_val is not None:
+                            summary_row[m_name] = float(m_val)
+
+                    if len(summary_row) > 1:  # Contains more than just job_id
+                        summary_df = pd.DataFrame([summary_row])
+                        # Append to HDF5
+                        # Note: First append defines the schema. Since metrics_definition is constant, this is safe.
+                        store.append(
+                            "summary",
+                            summary_df,
+                            index=False,
+                            data_columns=True,
+                        )
+
+            except Exception as e:
+                logger.warning(
+                    f"Failed to calculate/save summary metrics for job {job_id} in simulation.py: {e}"
+                )
+
+        param_df = pd.DataFrame([params])
+        param_df["job_id"] = job_id
+
+        # Force object dtype only for string/object columns to avoid HDF5 issues with StringDtype
+        for col in param_df.select_dtypes(include=["object", "string"]).columns:
+            param_df[col] = param_df[col].astype(object)
+
+        store.append("jobs", param_df, index=False, data_columns=True)
+
+        # Cleanup immediately to save disk space
+        job_dir = os.path.dirname(res_path)
+        if os.path.exists(job_dir) and "job_" in os.path.basename(job_dir):
+            shutil.rmtree(job_dir)
+    except Exception as e:
+        logger.error(f"Failed to process HDF5 result for job {job_id}: {e}")
+
+
+def export_results_to_csv(results_dir: str, hdf_path: str):
+    """Exports results from HDF5 to legacy CSV formats."""
+    logger.info(f"Exporting results from {hdf_path} to CSV...")
+    try:
+        # Export simulation_result.csv (Time-Job Matrix)
+        # Needs to pivot: Time vs [Var&Params] for each Job
+        # This is memory intensive and was the reason for HDF5, but we do it if requested.
+
+        with pd.HDFStore(hdf_path, mode="r") as store:
+            if "/results" not in store.keys():
+                logger.warning("No results found in HDF5 to export.")
+                return
+
+            # Read all results (chunking could be better but sticking to simple pivot for now)
+            # To avoid huge memory usage, we might want to iterate jobs if possible,
+            # but standard pivot requires all data.
+            # Let's read full table.
+            df_results = store.select("results")
+
+            # Read jobs to get parameters
+            if "/jobs" in store.keys():
+                df_jobs = store.select("jobs")
+            else:
+                df_jobs = pd.DataFrame()
+
+            # Read summary for export
+            if "/summary" in store.keys():
+                df_summary = store.select("summary")
+                summary_csv_path = get_unique_filename(
+                    results_dir, "summary_metrics.csv"
+                )
+                df_summary.to_csv(summary_csv_path, index=False)
+                logger.info(f"Exported summary metrics to {summary_csv_path}")
+
+        # Pivot Logic for simulation_result.csv
+        # Pivot columns: time, values... where columns need to be renamed with params.
+
+        # 1. Join params to results if needed, or just build column names.
+        # We need to reconstruct the "Var&Param=Val" column format.
+
+        job_params_map = {}
+        if not df_jobs.empty:
+            for _, row in df_jobs.iterrows():
+                job_id = row["job_id"]
+                params = row.drop("job_id").to_dict()
+                # filter nulls
+                params = {k: v for k, v in params.items() if pd.notna(v)}
+                param_str = "&".join([f"{k}={v}" for k, v in params.items()])
+                job_params_map[job_id] = param_str
+
+        # 2. Pivot
+        # df_results has: time, var1, var2, ..., job_id
+        # We want: time, var1&params...
+
+        # Group by job_id to process separate dataframes and then concat (like original logic)
+        all_dfs = []
+        time_df_added = False
+
+        job_ids = df_results["job_id"].unique()
+        job_ids.sort()
+
+        for job_id in job_ids:
+            job_df = df_results[df_results["job_id"] == job_id].copy()
+            job_df.sort_values("time", inplace=True)
+
+            if not time_df_added:
+                all_dfs.append(job_df[["time"]].reset_index(drop=True))
+                time_df_added = True
+
+            param_string = job_params_map.get(job_id, "")
+            data_cols = job_df.drop(columns=["time", "job_id"], errors="ignore")
+
+            rename_map = {
+                col: f"{col}&{param_string}" if param_string else col
+                for col in data_cols.columns
+            }
+            all_dfs.append(data_cols.rename(columns=rename_map).reset_index(drop=True))
+
+        if all_dfs:
+            combined_df = pd.concat(all_dfs, axis=1)
+            # Cleanup rows with empty time (though check above should handle it)
+            combined_df.dropna(subset=["time"], inplace=True)
+
+            csv_path = get_unique_filename(
+                results_dir,
+                "simulation_result.csv" if len(job_ids) == 1 else "sweep_results.csv",
+            )
+            combined_df.to_csv(csv_path, index=False)
+            logger.info(f"Exported simulation results to {csv_path}")
+
+    except Exception as e:
+        logger.error(f"Failed to export CSVs: {e}", exc_info=True)
+
+
 def run_post_processing(
     config: Dict[str, Any],
     results_df: pd.DataFrame,
@@ -948,22 +1118,21 @@ def _mp_run_co_simulation_job_wrapper(args):
         return job_id, job_params, None, str(e)
 
 
-def run_simulation(config: Dict[str, Any]) -> None:
+def run_simulation(config: Dict[str, Any], export_csv: bool = False) -> None:
     """Orchestrates the main simulation workflow.
 
-    Simplified Mode Logic:
+    Simplified Mode Logic (Unified HDF5 Storage):
     1. Concurrent Mode (concurrent=True):
        - Uses "Enhanced" execution (Compile Once, Run Many).
-       - Streams results directly to HDF5 to handle large scale sweeps.
-       - Skips CSV merging to prevent OOM.
+       - Streams results directly to HDF5.
 
     2. Sequential Mode (concurrent=False):
        - Uses "Standard" execution (Reuse OMPython Session).
-       - Saves individual CSVs and merges them into a single CSV at the end.
-       - Best for debugging or small scale sweeps.
+       - Also streams results directly to HDF5.
 
     Args:
         config: The main configuration dictionary for the run.
+        export_csv: Whether to export results to CSV files at the end.
     """
     jobs = generate_simulation_jobs(config.get("simulation_parameters", {}))
 
@@ -986,277 +1155,114 @@ def run_simulation(config: Dict[str, Any]) -> None:
         task_count=len(jobs),
     )
     is_co_sim = config.get("co_simulation") is not None
+    metrics_definition = config.get("metrics_definition", {})
 
-    # --- Concurrent Mode (Enhanced + HDF5) ---
-    if use_concurrent:
-        from tricys.utils.log_capture import LogCapture
+    # HDF5 Setup (Unified)
+    hdf_filename = "sweep_results.h5"
+    hdf_path = get_unique_filename(results_dir, hdf_filename)
 
-        # Prepare summary metrics context
-        metrics_definition = config.get("metrics_definition", {})
+    logger.info(
+        f"Starting Simulation (Concurrent={use_concurrent}, CoSim={is_co_sim}). Storage: {hdf_path}"
+    )
 
-        # Capture logs for HDF5 storage
-        with LogCapture() as log_handler:
-            logger.info(
-                f"Starting Concurrent Simulation (Enhanced Mode) with {max_workers} workers. CoSim={is_co_sim}"
-            )
+    with pd.HDFStore(hdf_path, mode="w", complib="blosc", complevel=9) as store:
+        # Save configuration
+        try:
+            config_df = pd.DataFrame({"config_json": [json.dumps(config)]})
+            config_df = config_df.astype(object)
+            store.put("config", config_df, format="fixed")
+        except Exception as e:
+            logger.warning(f"Failed to save config to HDF5: {e}")
 
-            hdf_filename = "sweep_results.h5"
-            hdf_path = get_unique_filename(results_dir, hdf_filename)
+        # --- Concurrent Mode ---
+        if use_concurrent:
+            from tricys.utils.log_capture import LogCapture
 
-            pool_args = []
-            wrapper_func = None
+            with LogCapture() as log_handler:
+                pool_args = []
+                wrapper_func = None
 
-            if not is_co_sim:
-                # 1. Compile Model Once (Standard Jobs Only)
-                master_exe, master_xml, om_bin = _build_model_only(config)
-
-                # Prepare job args for standard fast runner
-                for i, job_params in enumerate(jobs):
-                    kwargs = {
-                        "exe_source": master_exe,
-                        "xml_source": master_xml,
-                        "om_bin_path": om_bin,
-                        "base_temp_dir": temp_dir,
-                        "sim_config": sim_config,
-                        "variable_filter": sim_config.get("variableFilter"),
-                        "inplace_execution": True,
-                    }
-                    pool_args.append((job_params, i + 1, kwargs))
-                wrapper_func = _mp_run_fast_subprocess_job_wrapper
-            else:
-                # Co-Simulation: No "Master Build", each job runs fully isolated
-                for i, job_params in enumerate(jobs):
-                    pool_args.append((config, job_params, i + 1))
-                wrapper_func = _mp_run_co_simulation_job_wrapper
-
-            # 2. Run Jobs Streaming to HDF5
-            with pd.HDFStore(hdf_path, mode="w", complib="blosc", complevel=9) as store:
-                # Save configuration
-                try:
-                    config_df = pd.DataFrame({"config_json": [json.dumps(config)]})
-                    # Force object dtype for all columns to ensure HDF5 compatibility
-                    config_df = config_df.astype(object)
-                    store.put("config", config_df, format="fixed")
-                except Exception as e:
-                    logger.warning(f"Failed to save config to HDF5: {e}")
-
-                # Helper to process result into HDF5
-                def _process_h5(job_id, params, res_path):
-                    if not res_path or not os.path.exists(res_path):
-                        return
-                    try:
-                        df = pd.read_csv(res_path)
-                        df["job_id"] = job_id
-
-                        # Use 'append' with data_columns=True for queryability if needed
-                        store.append("results", df, index=False, data_columns=True)
-
-                        # Calculate and Save Summary Metrics
-                        if metrics_definition:
-                            try:
-                                # Reuse df since we already have it
-                                single_job_metrics = calculate_single_job_metrics(
-                                    df, metrics_definition
-                                )
-
-                                if single_job_metrics:
-                                    # Store in Wide Format (Table style: Job ID | Metric A | Metric B ...)
-                                    summary_row = {"job_id": job_id}
-                                    # Ensure values are floats
-                                    for m_name, m_val in single_job_metrics.items():
-                                        if m_val is not None:
-                                            summary_row[m_name] = float(m_val)
-
-                                    if (
-                                        len(summary_row) > 1
-                                    ):  # Contains more than just job_id
-                                        summary_df = pd.DataFrame([summary_row])
-                                        # Append to HDF5
-                                        # Note: First append defines the schema. Since metrics_definition is constant, this is safe.
-                                        store.append(
-                                            "summary",
-                                            summary_df,
-                                            index=False,
-                                            data_columns=True,
-                                        )
-
-                            except Exception as e:
-                                logger.warning(
-                                    f"Failed to calculate/save summary metrics for job {job_id} in simulation.py: {e}"
-                                )
-
-                        param_df = pd.DataFrame([params])
-                        param_df["job_id"] = job_id
-
-                        # Force object dtype only for string/object columns to avoid HDF5 issues with StringDtype
-                        for col in param_df.select_dtypes(
-                            include=["object", "string"]
-                        ).columns:
-                            param_df[col] = param_df[col].astype(object)
-
-                        store.append("jobs", param_df, index=False, data_columns=True)
-
-                        # Cleanup immediately to save disk space
-                        job_dir = os.path.dirname(res_path)
-                        if os.path.exists(job_dir) and "job_" in os.path.basename(
-                            job_dir
-                        ):
-                            shutil.rmtree(job_dir)
-                    except Exception as e:
-                        logger.error(
-                            f"Failed to process HDF5 result for job {job_id}: {e}"
-                        )
-
-                    except Exception as e:
-                        logger.error(
-                            f"Failed to process HDF5 result for job {job_id}: {e}"
-                        )
+                if not is_co_sim:
+                    # 1. Compile Model Once
+                    master_exe, master_xml, om_bin = _build_model_only(config)
+                    for i, job_params in enumerate(jobs):
+                        kwargs = {
+                            "exe_source": master_exe,
+                            "xml_source": master_xml,
+                            "om_bin_path": om_bin,
+                            "base_temp_dir": temp_dir,
+                            "sim_config": sim_config,
+                            "variable_filter": sim_config.get("variableFilter"),
+                            "inplace_execution": True,
+                        }
+                        pool_args.append((job_params, i + 1, kwargs))
+                    wrapper_func = _mp_run_fast_subprocess_job_wrapper
+                else:
+                    for i, job_params in enumerate(jobs):
+                        pool_args.append((config, job_params, i + 1))
+                    wrapper_func = _mp_run_co_simulation_job_wrapper
 
                 # Execute Pool
+                completed_count = 0
+                total_jobs = len(jobs)
                 with multiprocessing.Pool(processes=max_workers) as pool:
                     for job_id, job_p, result_path, error in pool.imap_unordered(
                         wrapper_func, pool_args
                     ):
+                        completed_count += 1
+                        logger.info(f"Job {completed_count} of {total_jobs}")
                         if error:
                             logger.error(f"Job {job_id} failed: {error}")
                         else:
-                            _process_h5(job_id, job_p, result_path)
+                            _process_h5_result(
+                                store, job_id, job_p, result_path, metrics_definition
+                            )
 
-                # Save Logs to HDF5
-                logger.info("Saving execution logs to HDF5.")
                 try:
                     logs_json = log_handler.to_json()
                     log_df = pd.DataFrame({"log": [logs_json]})
-                    # Force object dtype
                     log_df = log_df.astype(object)
                     store.put("log", log_df, format="fixed")
                 except Exception as e:
                     logger.warning(f"Failed to save logs to HDF5: {e}")
 
-            logger.info(f"Concurrent simulation completed. Results saved to {hdf_path}")
-
-        # Post-processing using HDF5
-        post_processing_output_dir = os.path.join(results_dir, "post_processing")
-        run_post_processing(
-            config, None, post_processing_output_dir, results_file_path=hdf_path
-        )
-
-    # --- Sequential Mode (Standard + CSV) ---
-    else:
-        logger.info(
-            "Starting Sequential Simulation (Standard Mode: Reuse Session, CSV Storage)."
-        )
-
-        results_map = {}  # job_id -> path
-        # is_co_sim already defined above
-
-        if is_co_sim:
-            logger.info("Running Co-Simulation jobs sequentially.")
-            for i, job_params in enumerate(jobs):
-                job_id = i + 1
-                try:
+        # --- Sequential Mode ---
+        else:
+            if is_co_sim:
+                for i, job_params in enumerate(jobs):
+                    job_id = i + 1
                     logger.info(f"Running job {job_id}/{len(jobs)}")
-                    result_path = run_co_simulation_job(
-                        config, job_params, job_id=job_id
+                    try:
+                        result_path = run_co_simulation_job(
+                            config, job_params, job_id=job_id
+                        )
+                        _process_h5_result(
+                            store, job_id, job_params, result_path, metrics_definition
+                        )
+                    except Exception as e:
+                        logger.error(f"Job {job_id} failed: {e}")
+            else:
+                # Standard Sequential using callback to stream to HDF5
+                logger.info("Running sequential sweep with HDF5 streaming.")
+
+                def h5_callback(idx, params, res_path):
+                    _process_h5_result(
+                        store, idx + 1, params, res_path, metrics_definition
                     )
-                    if result_path:
-                        results_map[job_id] = result_path
-                except Exception as e:
-                    logger.error(f"Job {job_id} failed: {e}")
-        else:
-            logger.info("Running Standard jobs sequentially.")
-            paths = run_sequential_sweep(config, jobs)
-            for i, p in enumerate(paths):
-                if p:
-                    results_map[i + 1] = p
 
-        # Merge to CSV
-        logger.info("Combining results to CSV...")
-        all_dfs = []
-        time_df_added = False
+                run_sequential_sweep(config, jobs, post_job_callback=h5_callback)
 
-        # Ensure iteration order matches jobs
-        for i, job_params in enumerate(jobs):
-            job_id = i + 1
-            result_path = results_map.get(job_id)
-            if not result_path or not os.path.exists(result_path):
-                continue
+    # Export CSV if requested
+    if export_csv:
+        export_results_to_csv(results_dir, hdf_path)
 
-            try:
-                df = pd.read_csv(result_path)
-                if not time_df_added and "time" in df.columns:
-                    all_dfs.append(df[["time"]])
-                    time_df_added = True
+    # Post-processing (Unified HDF5)
+    post_processing_output_dir = os.path.join(results_dir, "post_processing")
+    run_post_processing(
+        config, None, post_processing_output_dir, results_file_path=hdf_path
+    )
 
-                param_string = "&".join([f"{k}={v}" for k, v in job_params.items()])
-                data_cols = df.drop(columns=["time"], errors="ignore")
-                rename_map = {
-                    col: f"{col}&{param_string}" if param_string else col
-                    for col in data_cols.columns
-                }
-                all_dfs.append(data_cols.rename(columns=rename_map))
-            except Exception as e:
-                logger.warning(f"Failed to read result {result_path}: {e}")
-
-        if all_dfs:
-            combined_df = pd.concat(all_dfs, axis=1)
-            # Cleanup rows with empty time
-            combined_df.dropna(subset=["time"], inplace=True)
-
-            csv_filename = (
-                "simulation_result.csv" if len(jobs) == 1 else "sweep_results.csv"
-            )
-            combined_csv_path = get_unique_filename(results_dir, csv_filename)
-            combined_df.to_csv(combined_csv_path, index=False)
-            logger.info(f"Combined results saved to {combined_csv_path}")
-
-            # Post-processing using DataFrame
-            post_processing_output_dir = os.path.join(results_dir, "post_processing")
-            run_post_processing(config, combined_df, post_processing_output_dir)
-        else:
-            logger.warning("No valid results needed to combine.")
-
-        # Merge JSON Metrics
-        logger.info("Combining job metrics...")
-        all_metrics = []
-        for i, job_params in enumerate(jobs):
-            job_id = i + 1
-            # In sequential mode, job workspace is temporary but might still exist if 'keep_temp_files' is true
-            # Or we can look at where we stored the json results if we had a path.
-            # In run_sequential_sweep, we saved metrics to job_workspace/job_metrics.json
-
-            # Reconstruct job workspace path
-            # Note: base_temp_dir definition is inside run_sequential_sweep scope, not here.
-            # We need to reconstruct it from config.
-            base_temp_dir = os.path.abspath(config["paths"].get("temp_dir", "temp"))
-            job_workspace = os.path.join(base_temp_dir, f"job_{job_id}")
-            metrics_path = os.path.join(job_workspace, "job_metrics.json")
-
-            if os.path.exists(metrics_path):
-                try:
-                    with open(metrics_path, "r") as f:
-                        metrics_data = json.load(f)
-                        if metrics_data:
-                            # Add job_id for context
-                            for m_name, m_val in metrics_data.items():
-                                if m_val is not None:
-                                    all_metrics.append(
-                                        {
-                                            "job_id": job_id,
-                                            "metric_name": m_name,
-                                            "metric_value": m_val,
-                                        }
-                                    )
-                except Exception as e:
-                    logger.warning(f"Failed to read metrics for job {job_id}: {e}")
-
-        if all_metrics:
-            metrics_df = pd.DataFrame(all_metrics)
-            metrics_csv_path = get_unique_filename(results_dir, "summary_metrics.csv")
-            metrics_df.to_csv(metrics_csv_path, index=False)
-            logger.info(f"Combined metrics saved to {metrics_csv_path}")
-
-    # --- Cleanup ---
+    # Cleanup
     if not sim_config.get("keep_temp_files", True):
         if os.path.exists(temp_dir):
             try:
@@ -1267,7 +1273,11 @@ def run_simulation(config: Dict[str, Any]) -> None:
                 logger.warning(f"Failed to cleanup temp dir: {e}")
 
 
-def main(config_or_path: Union[str, Dict[str, Any]], base_dir: str = None) -> None:
+def main(
+    config_or_path: Union[str, Dict[str, Any]],
+    base_dir: str = None,
+    export_csv: bool = False,
+) -> None:
     """Main entry point for the simulation runner.
 
     This function prepares the configuration, sets up logging, and invokes
@@ -1276,6 +1286,7 @@ def main(config_or_path: Union[str, Dict[str, Any]], base_dir: str = None) -> No
     Args:
         config_or_path: The path to the JSON configuration file OR a config dict.
         base_dir: Optional base directory for resolving relative paths if a dict is passed.
+        export_csv: Whether to export results to CSV after HDF5 storage.
     """
     config, original_config = basic_prepare_config(config_or_path, base_dir=base_dir)
     setup_logging(config, original_config)
@@ -1290,7 +1301,7 @@ def main(config_or_path: Union[str, Dict[str, Any]], base_dir: str = None) -> No
         },
     )
     try:
-        run_simulation(config)
+        run_simulation(config, export_csv=export_csv)
         logger.info("Main execution completed successfully")
     except Exception as e:
         logger.error(

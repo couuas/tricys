@@ -1,5 +1,6 @@
 import json
 import os
+from functools import lru_cache
 
 import pandas as pd
 
@@ -101,20 +102,19 @@ def load_baseline_data(h5_path, job_id):
         return None
 
 
-def load_summary_data(h5_path, job_ids=None):
+@lru_cache(maxsize=32)
+def _load_summary_data_cached(h5_path, job_ids_key):
     """
-    Loads the summary metrics table.
-    Expects Wide Format: job_id, MetricA, MetricB...
+    Cached loader for summary metrics to reduce repeated disk IO.
+    job_ids_key is a tuple of ints (hashable) or None.
     """
     if not h5_path or not os.path.exists(h5_path):
         return []
 
     try:
         where_clause = None
-        if job_ids:
-            # Sanitize
-            jids = [int(j) for j in job_ids]
-            where_clause = f"job_id in {jids}"
+        if job_ids_key:
+            where_clause = f"job_id in {list(job_ids_key)}"
 
         with pd.HDFStore(h5_path, mode="r") as store:
             if "/summary" not in store.keys():
@@ -126,3 +126,21 @@ def load_summary_data(h5_path, job_ids=None):
     except Exception as e:
         print(f"Error loading summary data: {e}")
         return []
+
+
+def load_summary_data(h5_path, job_ids=None):
+    """
+    Loads the summary metrics table.
+    Expects Wide Format: job_id, MetricA, MetricB...
+    """
+    if not h5_path or not os.path.exists(h5_path):
+        return []
+
+    job_ids_key = None
+    if job_ids:
+        try:
+            job_ids_key = tuple(int(j) for j in job_ids)
+        except Exception:
+            job_ids_key = None
+
+    return _load_summary_data_cached(h5_path, job_ids_key)

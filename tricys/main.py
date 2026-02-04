@@ -10,6 +10,7 @@ from tricys.simulation.simulation_analysis import main as analysis_main
 from tricys.simulation.simulation_analysis import retry_analysis
 from tricys.simulation.simulation_gui import main as gui_main
 from tricys.utils.file_utils import archive_run, unarchive_run
+from tricys.utils.model_parser_cli import parse_model_cli
 
 
 def run_example_runner() -> None:
@@ -76,6 +77,11 @@ def main() -> None:
         action="store_true",
         help="Maximize process usage (ignores default safety limits).",
     )
+    parser.add_argument(
+        "--csv",
+        action="store_true",
+        help="Export results to CSV format after simulation.",
+    )
 
     # Subparsers for explicit commands
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -106,6 +112,18 @@ def main() -> None:
         "zip_file", type=str, help="Path to the archive file to unarchive."
     )
 
+    parse_parser = subparsers.add_parser(
+        "parse", help="Parse a Modelica model and output parameters as JSON."
+    )
+    parse_parser.add_argument(
+        "package_path", type=str, help="Path to the package.mo file."
+    )
+    parse_parser.add_argument(
+        "model_name",
+        type=str,
+        help="Fully qualified model name (e.g. package.Model).",
+    )
+
     # --- Argument Parsing Logic ---
 
     main_args, remaining_argv = parser.parse_known_args()
@@ -124,6 +142,9 @@ def main() -> None:
             basic_subparsers = basic_parser.add_subparsers(dest="subcommand")
             basic_subparsers.add_parser("example")
             basic_parser.add_argument("-c", "--config", type=str, default=None)
+            basic_parser.add_argument(
+                "--csv", action="store_true", help="Export results to CSV."
+            )
 
             basic_args, _ = basic_parser.parse_known_args(remaining_argv)
 
@@ -161,7 +182,8 @@ def main() -> None:
                     )
                     sys.exit(1)
 
-            simulation_main(config_path)
+            export_csv = main_args.csv or basic_args.csv
+            simulation_main(config_path, export_csv=export_csv)
         elif main_args.command == "analysis":
             # This block replaces the logic in simulation_analysis.py's _parse_command_line_args
             analysis_parser = argparse.ArgumentParser(
@@ -245,6 +267,8 @@ def main() -> None:
             archive_run(main_args.timestamp)
         elif main_args.command == "unarchive":
             unarchive_run(main_args.zip_file)
+        elif main_args.command == "parse":
+            parse_model_cli(main_args.package_path, main_args.model_name)
         return
 
     # 2. Determine config path (explicit -c or default)
@@ -309,7 +333,7 @@ def main() -> None:
         print(
             "INFO: No 'sensitivity_analysis' detected in config. Running standard simulation workflow."
         )
-        simulation_main(config_data, base_dir=base_dir)
+        simulation_main(config_data, base_dir=base_dir, export_csv=main_args.csv)
     return
 
 

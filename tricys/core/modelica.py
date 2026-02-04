@@ -43,6 +43,9 @@ def load_modelica_package(omc: OMCSessionZMQ, package_path: str) -> bool:
         Uses sendExpression('loadFile(...)') command. Logs error if loading fails.
         The package must be a valid Modelica package file.
     """
+    # Normalize path for OMC (requires forward slashes or escaped backslashes)
+    package_path = package_path.replace("\\", "/")
+
     logger.info("Loading package", extra={"package_path": package_path})
     load_result = omc.sendExpression(f'loadFile("{package_path}")')
     if not load_result:

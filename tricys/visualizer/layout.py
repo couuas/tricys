@@ -90,6 +90,7 @@ def create_layout(
             dcc.Store(id="metrics-data-store"),
             dcc.Store(id="baseline-job-store"),
             dcc.Store(id="baseline-job-id-store"),
+            dcc.Store(id="selected-job-ids-store", data=[]),
             dcc.Store(id="variable-options-store", data=variable_options),
             dcc.Store(id="parameter-options-store", data=parameter_options),
             dcc.Store(id="config-store", data=config_data),
@@ -99,19 +100,7 @@ def create_layout(
                 [
                     dbc.Col(
                         html.H1("TRICYS HDF5 Visualizer", className="my-4"), width=True
-                    ),
-                    dbc.Col(
-                        dcc.Upload(
-                            id="upload-data",
-                            children=html.I(
-                                className="bi bi-folder2-open",
-                                style={"fontSize": "2rem", "cursor": "pointer"},
-                            ),
-                            multiple=False,
-                            className="my-4",
-                        ),
-                        width="auto",
-                    ),
+                    )
                 ],
                 align="center",
             ),
@@ -243,15 +232,20 @@ def create_layout(
                                 data=jobs_data,
                                 sort_action="custom",
                                 filter_action="custom",
-                                page_action="none",
+                                page_action="custom",
+                                page_current=0,
+                                page_size=50,
                                 row_selectable="multi",
                                 style_table={
                                     "overflowX": "auto",
-                                    "maxHeight": "800px",
-                                    "overflowY": "auto",
                                 },
                                 style_as_list_view=True,
-                                style_cell={"textAlign": "center", "padding": "10px"},
+                                style_cell={
+                                    "textAlign": "center",
+                                    "padding": "10px",
+                                    "height": "36px",
+                                    "lineHeight": "36px",
+                                },
                                 style_header={
                                     "backgroundColor": "#f8f9fa",
                                     "fontWeight": "bold",

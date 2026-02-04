@@ -1,3 +1,6 @@
 [submodule "tricys_backend"]
 	path = tricys_backend
 	url = https://github.com/couuas/tricys_backend.git
+[submodule "tricys_visual"]
+	path = tricys_visual
+	url = https://github.com/couuas/tricys_visual.git

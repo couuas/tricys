@@ -48,3 +48,6 @@ site/
 
 # Ignore tricys_backend submodule
 tricys_backend/*
+
+# Ignore tricys_visual submodule
+tricys_visual/*

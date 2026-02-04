@@ -562,10 +562,19 @@ def _handle_analysis_cases(config: Dict[str, Any]) -> bool:
             )
 
             with multiprocessing.Pool(processes=max_workers) as pool:
+                completed_cases = 0
+                total_cases = len(case_configs)
                 for case_info, success, error in pool.imap_unordered(
                     _mp_execute_analysis_case_wrapper, case_configs
                 ):
+                    completed_cases += 1
                     case_name = case_info["case_data"].get("name", case_info["index"])
+
+                    # Log progress for backend parsing
+                    logger.info(
+                        f"Job {completed_cases} of {total_cases} (Analysis Case: {case_name})"
+                    )
+
                     if error:
                         logger.error(
                             f"Parallel case '{case_name}' failed in executor with: {error}"
@@ -921,6 +930,61 @@ def _run_sensitivity_analysis(
         )
         df_to_save.to_csv(summary_csv_path, index=False, encoding="utf-8-sig")
         logger.info(f"Sensitivity analysis summary saved to: {summary_csv_path}")
+
+        # Save summary data to HDF5 as well, for consistency with simulation.py
+        # Save summary data to HDF5 as well, for consistency with simulation.py
+        if os.path.exists(hdf_path):
+            try:
+                with pd.HDFStore(
+                    hdf_path, mode="a", complib="blosc", complevel=9
+                ) as store:
+                    hdf_df = df_to_save.copy()
+
+                    # Attempt to restore job_id if missing, using jobs metadata
+                    if "job_id" not in hdf_df.columns and jobs:
+                        try:
+                            # Reconstruct job mapping from jobs list
+                            job_map = []
+                            for i, job in enumerate(jobs):
+                                entry = job.copy()
+                                entry["job_id"] = i + 1
+                                job_map.append(entry)
+                            job_map_df = pd.DataFrame(job_map)
+
+                            # Identify common parameter columns for merge
+                            # Use all columns from job_map_df except job_id
+                            merge_on = [c for c in job_map_df.columns if c != "job_id"]
+                            # Intersection with hdf_df columns
+                            merge_on = [c for c in merge_on if c in hdf_df.columns]
+
+                            if merge_on:
+                                # Ensure types match for merge (convert to object/float handling if needed)
+                                # Simple merge should work if types consistent
+                                hdf_df = pd.merge(
+                                    hdf_df, job_map_df, on=merge_on, how="left"
+                                )
+                        except Exception as merge_e:
+                            logger.warning(
+                                f"Failed to restore job_id for HDF5 summary: {merge_e}"
+                            )
+
+                    # Force object dtype only for string/object columns to avoid HDF5 issues
+                    for col in hdf_df.select_dtypes(
+                        include=["object", "string"]
+                    ).columns:
+                        hdf_df[col] = hdf_df[col].astype(object)
+
+                    # Store in 'summary' key
+                    # We use format='table' and data_columns=True for consistency and queryability
+                    # This replaces any existing summary to ensure we have the final merged version
+                    store.put("summary", hdf_df, format="table", data_columns=True)
+                    logger.info(
+                        f"Sensitivity analysis summary saved to HDF5: {hdf_path}"
+                    )
+            except Exception as e:
+                logger.warning(
+                    f"Failed to save sensitivity analysis summary to HDF5: {e}"
+                )
 
         # Generate analysis charts
         unit_map = analysis_config.get("unit_map", {})
