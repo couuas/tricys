@@ -51,3 +51,6 @@ tricys_backend/*
 
 # Ignore tricys_visual submodule
 tricys_visual/*
+
+# Ignore tricys_goview submodule
+tricys_goview/*
