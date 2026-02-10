@@ -842,6 +842,9 @@ def run_post_processing(
             params = task_config.get("params", {})
             module = None
 
+            if "llm_env" not in params and isinstance(config.get("llm_env"), dict):
+                params["llm_env"] = config["llm_env"]
+
             # New method: Load from a direct script path
             if "script_path" in task_config:
                 script_path_str = task_config["script_path"]

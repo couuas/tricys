@@ -8,10 +8,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import openai
 import pandas as pd
-from dotenv import load_dotenv
 from SALib.analyze import fast, sobol
 from SALib.analyze import morris as morris_analyze
 from SALib.sample import fast_sampler, latin, morris, saltelli
+
+from tricys.utils.config_utils import get_llm_env
 
 # Configure Chinese fonts in matplotlib
 plt.rcParams["font.sans-serif"] = [
@@ -1052,12 +1053,12 @@ class TricysSALibAnalyzer:
             report_content = self._save_sensitivity_report(all_results, save_dir)
             report_path = os.path.join(save_dir, "analysis_report.md")
 
-            load_dotenv()
+            env = get_llm_env(self.base_config)
 
             # --- LLM Calls for analysis ---
-            api_key = os.environ.get("API_KEY")
-            base_url = os.environ.get("BASE_URL")
-            ai_model = os.environ.get("AI_MODEL")
+            api_key = env.get("API_KEY")
+            base_url = env.get("BASE_URL")
+            ai_model = env.get("AI_MODEL")
 
             sa_config = self.base_config.get("sensitivity_analysis", {})
             case_config = sa_config.get("analysis_case", {})

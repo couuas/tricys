@@ -8,7 +8,8 @@ from typing import Any, Dict, List, Optional
 
 import openai
 import pandas as pd
-from dotenv import load_dotenv
+
+from tricys.utils.config_utils import get_llm_env
 
 logger = logging.getLogger(__name__)
 
@@ -235,9 +236,9 @@ def generate_sensitivity_academic_report(
             glossary_content = f.read()
 
         # 3. Check for API credentials
-        load_dotenv()
-        api_key = os.environ.get("API_KEY")
-        base_url = os.environ.get("BASE_URL")
+        env = get_llm_env(original_config)
+        api_key = env.get("API_KEY")
+        base_url = env.get("BASE_URL")
 
         if not all([api_key, base_url, ai_model]):
             logger.warning(
@@ -509,8 +510,7 @@ def generate_prompt_templates(
             case_name = case_data.get("name", f"Case{case_info['index']+1}")
 
             case_results_dir = os.path.join(case_workspace, "results")
-            if not os.path.exists(case_results_dir):
-                continue
+            os.makedirs(case_results_dir, exist_ok=True)
 
             summary_csv_path = os.path.join(
                 case_results_dir, "sensitivity_analysis_summary.csv"
@@ -1070,13 +1070,11 @@ def generate_prompt_templates(
                 continue  # Go to next case
 
             # AI is ON: go into multi-model logic
-            load_dotenv()
-            api_key = os.environ.get("API_KEY")
-            base_url = os.environ.get("BASE_URL")
+            env = get_llm_env(original_config)
+            api_key = env.get("API_KEY")
+            base_url = env.get("BASE_URL")
 
-            ai_models_str = os.environ.get("AI_MODELS")
-            if not ai_models_str:
-                ai_models_str = os.environ.get("AI_MODEL")
+            ai_models_str = env.get("AI_MODELS") or env.get("AI_MODEL")
 
             if not all((api_key, base_url, ai_models_str)):
                 logger.warning(
@@ -1179,10 +1177,10 @@ def _retry_salib_case(
         )
         return
 
-    load_dotenv()
-    api_key = os.environ.get("API_KEY")
-    base_url = os.environ.get("BASE_URL")
-    ai_models_str = os.environ.get("AI_MODELS") or os.environ.get("AI_MODEL")
+    env = get_llm_env(original_config)
+    api_key = env.get("API_KEY")
+    base_url = env.get("BASE_URL")
+    ai_models_str = env.get("AI_MODELS") or env.get("AI_MODEL")
 
     if not all((api_key, base_url, ai_models_str)):
         logger.warning(
@@ -1329,10 +1327,10 @@ def _retry_standard_case(
         )
         return
 
-    load_dotenv()
-    api_key = os.environ.get("API_KEY")
-    base_url = os.environ.get("BASE_URL")
-    ai_models_str = os.environ.get("AI_MODELS") or os.environ.get("AI_MODEL")
+    env = get_llm_env(original_config)
+    api_key = env.get("API_KEY")
+    base_url = env.get("BASE_URL")
+    ai_models_str = env.get("AI_MODELS") or env.get("AI_MODEL")
 
     if not all((api_key, base_url, ai_models_str)):
         logger.warning(

@@ -7,7 +7,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Union
 
 from dotenv import load_dotenv
 
@@ -19,6 +19,27 @@ from tricys.core.modelica import (
 
 # Standard logger setup
 logger = logging.getLogger(__name__)
+
+LLM_ENV_KEYS = ("API_KEY", "BASE_URL", "AI_MODEL", "AI_MODELS")
+
+
+def get_llm_env(config: Optional[Dict[str, Any]] = None) -> Dict[str, Optional[str]]:
+    """Return LLM env values, with config.llm_env overriding .env and process env."""
+    load_dotenv()
+    env = {key: os.environ.get(key) for key in LLM_ENV_KEYS}
+
+    llm_env = None
+    if isinstance(config, dict):
+        llm_env = config.get("llm_env")
+
+    if isinstance(llm_env, dict):
+        for key in LLM_ENV_KEYS:
+            if key in llm_env:
+                value = llm_env.get(key)
+                if value is not None and value != "":
+                    env[key] = value
+
+    return env
 
 
 def _search_dict(d: Any, key: str, value: Any) -> bool:
@@ -57,11 +78,11 @@ def check_ai_config(config: Dict[str, Any]) -> None:
         logger.info(
             "AI feature enabled in config, checking for required environment variables..."
         )
-        load_dotenv()
-        api_key = os.environ.get("API_KEY")
-        base_url = os.environ.get("BASE_URL")
-        ai_model = os.environ.get("AI_MODEL")
-        ai_models = os.environ.get("AI_MODELS")
+        env = get_llm_env(config)
+        api_key = env.get("API_KEY")
+        base_url = env.get("BASE_URL")
+        ai_model = env.get("AI_MODEL")
+        ai_models = env.get("AI_MODELS")
 
         missing_vars = []
         if not api_key:

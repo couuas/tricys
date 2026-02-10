@@ -14,7 +14,8 @@ import numpy as np
 import openai
 import pandas as pd
 import seaborn as sns
-from dotenv import load_dotenv
+
+from tricys.utils.config_utils import get_llm_env
 
 logger = logging.getLogger(__name__)
 
@@ -765,9 +766,9 @@ def generate_academic_report(output_dir: str, ai_model: str, **kwargs) -> None:
             glossary_content = f.read()
 
         # 3. Check for API credentials
-        load_dotenv()
-        api_key = os.environ.get("API_KEY")
-        base_url = os.environ.get("BASE_URL")
+        env = get_llm_env({"llm_env": kwargs.get("llm_env")})
+        api_key = env.get("API_KEY")
+        base_url = env.get("BASE_URL")
 
         if not all([api_key, base_url, ai_model]):
             logger.warning(
@@ -930,14 +931,12 @@ def baseline_analysis(results_df: pd.DataFrame, output_dir: str, **kwargs) -> No
     )
 
     if base_report_path and kwargs.get("ai", False):
-        load_dotenv()
-        api_key = os.environ.get("API_KEY")
-        base_url = os.environ.get("BASE_URL")
+        env = get_llm_env({"llm_env": kwargs.get("llm_env")})
+        api_key = env.get("API_KEY")
+        base_url = env.get("BASE_URL")
 
         # Prioritize AI_MODELS, fallback to AI_MODEL
-        ai_models_str = os.environ.get("AI_MODELS")
-        if not ai_models_str:
-            ai_models_str = os.environ.get("AI_MODEL")
+        ai_models_str = env.get("AI_MODELS") or env.get("AI_MODEL")
 
         if not api_key or not base_url or not ai_models_str:
             logger.warning(
