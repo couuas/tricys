@@ -27,6 +27,7 @@ from tricys.analysis.salib import run_salib_analysis
 from tricys.core.jobs import generate_simulation_jobs
 from tricys.simulation.simulation import (
     _build_model_only,
+    _build_om_simflags,
     _run_fast_subprocess_job,
     run_co_simulation_job,
     run_post_processing,
@@ -900,6 +901,466 @@ def _run_sensitivity_analysis(
 
     except Exception as e:
         logger.error(f"Automated sensitivity analysis failed: {e}", exc_info=True)
+
+
+def _execute_analysis_case(case_info: Dict[str, Any]) -> bool:
+    """Performs a bisection search to find an optimal parameter value.
+
+    This function reads optimization parameters from the configuration and uses a
+    bisection search (binary search) algorithm to find the value of a specified
+    parameter that causes a target metric (e.g., 'Self_Sufficiency_Time') to
+    fall below a given threshold. It supports searching for multiple threshold
+    values if `metric_max_value` is a list.
+
+    Args:
+        config: The configuration for the specific job.
+        job_id_prefix: A prefix for creating unique IDs for sub-tasks.
+        optimization_metric_name: The name of the 'Required_***' metric that defines
+            the optimization task.
+
+    Returns:
+        A tuple containing two dictionaries:
+        - The first maps the required metric name(s) to the found optimal parameter value(s).
+        - The second maps the resulting metric name(s) to the metric value(s) achieved
+          with the optimal parameter.
+
+    Note:
+        Uses binary search algorithm with configurable tolerance and max_iterations.
+        Reuses single OMPython session for all search iterations. Supports multiple
+        threshold values via metric_max_value list. Falls back to stop_time if
+        metric_max_value not specified.
+    """
+    # Read the specific optimization configuration from sensitivity_analysis
+    sensitivity_analysis = config.get("sensitivity_analysis", {})
+    metrics_definition = sensitivity_analysis.get("metrics_definition", {})
+    optimization_config = metrics_definition.get(optimization_metric_name, {})
+
+    if not optimization_config or "parameter_to_optimize" not in optimization_config:
+        raise ValueError(
+            f"Optimization config for '{optimization_metric_name}' not found or missing 'parameter_to_optimize'"
+        )
+
+    sim_config = config["simulation"]
+    paths_config = config["paths"]
+
+    param_to_optimize = optimization_config["parameter_to_optimize"]
+    low_orig, high_orig = optimization_config["search_range"]
+    tolerance = optimization_config.get("tolerance", 0.001)
+    max_iterations = optimization_config.get("max_iterations", 10)
+    stop_time = sim_config["stop_time"]
+    # Get the maximum value of the metric, default to stop_time
+    metric_max_value = optimization_config.get("metric_max_value", stop_time)
+
+    # Get metric configuration, with defaults for backward compatibility
+    metric_name = optimization_config.get("metric_name", "Self_Sufficiency_Time")
+    default_source_column = "sds.inventory"
+    source_column = optimization_config.get("source_column", default_source_column)
+
+    if not source_column:
+        raise ValueError(
+            f"Missing 'source_column' in {optimization_metric_name} config for metric '{metric_name}'"
+        )
+
+    metric_max_values = (
+        metric_max_value if isinstance(metric_max_value, list) else [metric_max_value]
+    )
+    is_list_input = isinstance(metric_max_value, list)
+
+    all_optimal_params = {}
+    all_optimal_values = {}
+
+    # Setup for reusing the model object
+    base_temp_dir = os.path.abspath(paths_config.get("temp_dir", "temp"))
+    os.makedirs(base_temp_dir, exist_ok=True)
+
+    omc = None
+    try:
+        omc = get_om_session()
+        package_path = os.path.abspath(paths_config["package_path"])
+        if not load_modelica_package(omc, Path(package_path).as_posix()):
+            raise RuntimeError("Failed to load Modelica package for bisection search.")
+
+        mod = ModelicaSystem(
+            fileName=Path(package_path).as_posix(),
+            modelName=sim_config["model_name"],
+            variableFilter=sim_config["variableFilter"],
+        )
+        for current_metric_max_value in metric_max_values:
+            low, high = low_orig, high_orig
+            logger.info(
+                "Starting bisection search",
+                extra={
+                    "param_to_optimize": param_to_optimize,
+                    "search_range": [low, high],
+                    "target_metric": metric_name,
+                    "target_value": f"< {current_metric_max_value}",
+                },
+            )
+
+            best_successful_param = float("inf")
+            best_successful_value = float("inf")
+
+            for i in range(max_iterations):
+                if high - low < tolerance:
+                    logger.info(
+                        f"Search converged for {job_id_prefix}. Tolerance {tolerance} reached."
+                    )
+                    break
+
+                mid_param = (low + high) / 2
+
+                logger.info(
+                    "Bisection search iteration",
+                    extra={
+                        "job_id_prefix": job_id_prefix,
+                        "iteration": f"{i+1}/{max_iterations}",
+                        "param_tested": param_to_optimize,
+                        "param_value": f"{mid_param:.4f}",
+                    },
+                )
+
+                job_params = config.get("simulation_parameters", {}).copy()
+                job_params[param_to_optimize] = mid_param
+
+                # Set parameters on the existing mod object
+                param_settings = [
+                    format_parameter_value(name, value)
+                    for name, value in job_params.items()
+                ]
+                if param_settings:
+                    mod.setParameters(param_settings)
+
+                # Create a workspace for this iteration's results
+                iter_job_id_str = f"iter{i}_{mid_param}"
+                iter_temp_dir = os.path.join(base_temp_dir, job_id_prefix)
+                os.makedirs(iter_temp_dir, exist_ok=True)
+                job_workspace = os.path.join(iter_temp_dir, f"{iter_job_id_str}")
+                os.makedirs(job_workspace, exist_ok=True)
+                result_filename = f"{iter_job_id_str}_simulation_results.csv"
+                result_path = os.path.join(job_workspace, result_filename)
+
+                # Simulate
+                mod.simulate(
+                    resultfile=Path(result_path).as_posix(),
+                    simflags=_build_om_simflags(
+                        sim_config["stop_time"], sim_config["step_size"]
+                    ),
+                )
+
+                # Clean up the simulation result file
+                if os.path.exists(result_path):
+                    try:
+                        df = pd.read_csv(result_path)
+                        df.drop_duplicates(subset=["time"], keep="last", inplace=True)
+                        df.dropna(subset=["time"], inplace=True)
+                        df.to_csv(result_path, index=False)
+                    except Exception as e:
+                        logger.warning(
+                            f"Failed to clean result file {result_path}: {e}"
+                        )
+
+                metric_value = float("inf")
+
+                if not os.path.exists(result_path):
+                    logger.error(
+                        f"Analysis failed for params {job_params}: Simulation did not produce a result file."
+                    )
+                else:
+                    try:
+                        results_df = pd.read_csv(result_path)
+                        if source_column not in results_df.columns:
+                            logger.error(
+                                f"Analysis failed: source column '{source_column}' not found in results."
+                            )
+                        else:
+                            if metric_name == "Self_Sufficiency_Time":
+                                metric_value = time_of_turning_point(
+                                    results_df[source_column],
+                                    results_df["time"],
+                                )
+                            elif metric_name == "Doubling_Time":
+                                metric_value = calculate_doubling_time(
+                                    results_df[source_column],
+                                    results_df["time"],
+                                )
+                            elif metric_name == "Startup_Inventory":
+                                metric_value = calculate_startup_inventory(
+                                    results_df[source_column]
+                                )
+                            else:
+                                raise ValueError(
+                                    f"Unsupported metric_name for bisection search: {metric_name}"
+                                )
+                            logger.info(
+                                "Bisection analysis successful",
+                                extra={
+                                    "job_params": job_params,
+                                    "metric_name": metric_name,
+                                    "metric_value": metric_value,
+                                },
+                            )
+                    except Exception as e:
+                        logger.error(
+                            f"Analysis failed for params {job_params} due to an exception: {e}",
+                            exc_info=True,
+                        )
+
+                # A successful search requires the turning point to be found before both stop_time and the specified metric_max_value
+                if (
+                    metric_value < min(stop_time, current_metric_max_value)
+                    and metric_value != np.nan
+                ):
+                    best_successful_param = mid_param
+                    best_successful_value = metric_value
+                    high = mid_param
+                else:
+                    low = mid_param
+
+            if best_successful_param == float("inf"):
+                logger.warning(
+                    f"Bisection search for {job_id_prefix} with target < {current_metric_max_value} did not find a successful parameter."
+                )
+            else:
+                logger.info(
+                    "Bisection search finished",
+                    extra={
+                        "job_id_prefix": job_id_prefix,
+                        "target_value": f"< {current_metric_max_value}",
+                        "optimal_param": f"{best_successful_param:.4f}",
+                    },
+                )
+
+            # Dynamically create the key for the resulting optimal value to ensure uniqueness.
+            value_key_base = f"{metric_name}_for_{optimization_metric_name}"
+
+            if is_list_input:
+                value = current_metric_max_value
+                if value >= 365 * 24 / 2:
+                    unit_str = f"{value / (365 * 24):.2f} year"
+                elif value >= 24:
+                    unit_str = f"{value / 24:.2f} day"
+                else:
+                    unit_str = f"{value} h"
+                param_key = f"{optimization_metric_name}({unit_str})"
+                value_key = f"{value_key_base}({unit_str})"
+            else:
+                param_key = optimization_metric_name
+                value_key = value_key_base
+
+            all_optimal_params[param_key] = best_successful_param
+            all_optimal_values[value_key] = best_successful_value
+
+    except Exception as e:
+        logger.error(
+            f"Bisection search failed during setup or execution: {e}", exc_info=True
+        )
+    finally:
+        if omc:
+            omc.sendExpression("quit()")
+
+    return all_optimal_params, all_optimal_values
+
+
+def _resolve_isolated_package_path(
+    job_workspace: str, original_package_path: str
+) -> str:
+    """Helper to determine the path of the copied package in the isolated workspace."""
+    if os.path.isfile(original_package_path) and not original_package_path.endswith(
+        "package.mo"
+    ):
+        return os.path.join(job_workspace, os.path.basename(original_package_path))
+    else:
+        if os.path.isfile(original_package_path):
+            original_dir = os.path.dirname(original_package_path)
+            base_name = os.path.basename(original_package_path)
+            dir_name = os.path.basename(original_dir)
+            return os.path.join(job_workspace, dir_name, base_name)
+        else:
+            dir_name = os.path.basename(original_package_path)
+            return os.path.join(job_workspace, dir_name, "package.mo")
+
+
+def _run_optimization_tasks(
+    config: dict, job_params: dict, job_id: int, package_path_override: str = None
+) -> tuple[Dict[str, float], Dict[str, float]]:
+    """Runs all configured bisection search optimization tasks for a job."""
+    optimal_param = {}
+    optimal_value = {}
+
+    optimization_tasks = _get_optimization_tasks(config)
+    paths_config = config["paths"]
+    base_temp_dir = os.path.abspath(paths_config.get("temp_dir", "temp"))
+
+    # Determine the package path to use for optimization
+    package_path = (
+        package_path_override
+        if package_path_override
+        else os.path.abspath(paths_config["package_path"])
+    )
+
+    for optimization_metric_name in optimization_tasks:
+        logger.info(
+            f"Job {job_id}: Starting optimization for metric '{optimization_metric_name}'."
+        )
+        job_config = config.copy()
+        job_config["paths"] = config["paths"].copy()
+        job_config["paths"]["package_path"] = package_path
+        job_config["paths"]["temp_dir"] = base_temp_dir
+        job_config["simulation_parameters"] = job_params
+        # Note: model_name logic was specific in co-sim (using final_model_name).
+        # But _run_bisection_search_for_job uses sim_config["model_name"].
+        # We need to ensure job_config["simulation"]["model_name"] is correct.
+        # However, _run_bisection_search_for_job uses config["simulation"]["model_name"].
+        # In co-simulation, the model name changes to ..._Intercepted.
+        # We should pass the correct model name if it changed.
+
+        # Unique prefix
+        metric_job_id_prefix = f"job_{job_id}_{optimization_metric_name}"
+
+        (
+            current_optimal_param,
+            current_optimal_value,
+        ) = _run_bisection_search_for_job(
+            job_config,
+            job_id_prefix=metric_job_id_prefix,
+            optimization_metric_name=optimization_metric_name,
+        )
+
+        optimal_param.update(current_optimal_param)
+        optimal_value.update(current_optimal_value)
+
+        logger.info(
+            f"Job {job_id} optimization for '{optimization_metric_name}' complete. "
+            f"Optimal params: {current_optimal_param}, Optimal values: {current_optimal_value}"
+        )
+
+    return optimal_param, optimal_value
+
+
+def _run_co_simulation(
+    config: dict, job_params: dict, job_id: int = 0
+) -> tuple[Dict[str, float], Dict[str, float], str]:
+    """Runs a full co-simulation workflow and any subsequent optimizations."""
+
+    # Force keep_temp_files to True so we can use the workspace for optimization
+    original_keep = config["simulation"].get("keep_temp_files", True)
+    config["simulation"]["keep_temp_files"] = True
+
+    result_path = ""
+    try:
+        result_path = run_co_simulation_job(config, job_params, job_id)
+    except Exception as e:
+        logger.error(f"Co-simulation failed: {e}", exc_info=True)
+        # Ensure we restore the config even if failed
+    finally:
+        config["simulation"]["keep_temp_files"] = original_keep
+
+    if not result_path:
+        # If run_co_simulation_job failed, it might have kept the files. We should clean up if needed.
+        if not original_keep:
+            paths_config = config["paths"]
+            base_temp_dir = os.path.abspath(paths_config.get("temp_dir", "temp"))
+            job_workspace = os.path.join(base_temp_dir, f"job_{job_id}")
+            if os.path.exists(job_workspace):
+                shutil.rmtree(job_workspace)
+        return {}, {}, ""
+
+    # Run Optimization
+    paths_config = config["paths"]
+    base_temp_dir = os.path.abspath(paths_config.get("temp_dir", "temp"))
+    job_workspace = os.path.join(base_temp_dir, f"job_{job_id}")
+    original_package_path = os.path.abspath(paths_config["package_path"])
+
+    isolated_package_path = _resolve_isolated_package_path(
+        job_workspace, original_package_path
+    )
+
+    # Identify final model name logic (duplicated from simulation.py logic technically,
+    # but we need it to set the correct model name for optimization)
+    # The interceptor logic changes the model name.
+    co_sim_config = config.get("co_simulation", {})
+    mode = co_sim_config.get("mode", "interceptor")
+    model_name = config["simulation"]["model_name"]
+
+    if mode == "replacement":
+        final_model_name = model_name
+    else:
+        package_name, original_system_name = model_name.split(".")
+        final_model_name = f"{package_name}.{original_system_name}_Intercepted"
+
+    # We need to temporarily update the model name in config for optimization
+    original_model_name = config["simulation"]["model_name"]
+    config["simulation"]["model_name"] = final_model_name
+
+    try:
+        optimal_params, optimal_values = _run_optimization_tasks(
+            config, job_params, job_id, package_path_override=isolated_package_path
+        )
+    finally:
+        # Restore model name
+        config["simulation"]["model_name"] = original_model_name
+
+        # Cleanup if needed
+        if not original_keep and os.path.exists(job_workspace):
+            shutil.rmtree(job_workspace)
+            logger.info(f"Cleaned up job workspace {job_workspace}")
+
+    return optimal_params, optimal_values, result_path
+
+
+def _run_single_job(
+    config: dict, job_params: dict, job_id: int = 0
+) -> tuple[Dict[str, float], Dict[str, float], str]:
+    """Executes a single simulation job and any subsequent optimizations."""
+    result_path = run_single_job(config, job_params, job_id)
+
+    if not result_path:
+        return {}, {}, ""
+
+    optimal_params, optimal_values = _run_optimization_tasks(config, job_params, job_id)
+
+    return optimal_params, optimal_values, result_path
+
+
+def _run_sequential_sweep(config: dict, jobs: List[Dict[str, Any]]) -> List[str]:
+    """Executes a parameter sweep sequentially, including optimizations."""
+
+    final_results = []
+
+    def post_job_callback(index: int, params: Dict[str, Any], result_path: str):
+        if not result_path:
+            return
+
+        logger.info(f"Starting optimization for sequential job {index+1}")
+        try:
+            optimal_params, optimal_values = _run_optimization_tasks(
+                config, params, index + 1
+            )
+
+            final_result_entry = params.copy()
+            final_result_entry.update(optimal_params)
+            final_result_entry.update(optimal_values)
+            final_results.append(final_result_entry)
+        except Exception as e:
+            logger.error(
+                f"Optimization failed for sequential job {index+1}: {e}", exc_info=True
+            )
+
+    result_paths = run_sequential_sweep(
+        config, jobs, post_job_callback=post_job_callback
+    )
+
+    # Summarize optimization results
+    if final_results and _get_optimization_tasks(config):
+        results_dir = os.path.abspath(config["paths"]["results_dir"])
+        os.makedirs(results_dir, exist_ok=True)
+        final_df = pd.DataFrame(final_results)
+        output_path = os.path.join(results_dir, "requierd_tbr_summary.csv")
+        final_df.to_csv(output_path, index=False, encoding="utf-8-sig")
+        logger.info(f"Sweep optimization summary saved to: {output_path}")
+
+    return result_paths
+
 
 
 def _execute_analysis_case(case_info: Dict[str, Any]) -> bool:
