@@ -393,7 +393,22 @@ class TricysSALibAnalyzer:
 
         sampled_param_names = self.problem["names"]
 
-        base_params = self.base_config.get("simulation_parameters", {}).copy()
+        # Support both top-level simulation_parameters and case-level
+        # sensitivity_analysis.analysis_case.simulation_parameters.
+        # Case-level values take precedence so SALib sampling stays consistent
+        # with analysis_cases execution mode.
+        base_params = {}
+        top_level_params = self.base_config.get("simulation_parameters", {})
+        if isinstance(top_level_params, dict):
+            base_params.update(top_level_params)
+
+        analysis_case = self.base_config.get("sensitivity_analysis", {}).get(
+            "analysis_case", {}
+        )
+        case_level_params = analysis_case.get("simulation_parameters", {})
+        if isinstance(case_level_params, dict):
+            base_params.update(case_level_params)
+
         csv_output_path = (
             Path(self.base_config.get("paths", {}).get("temp_dir"))
             / "salib_sampling.csv"
