@@ -1,27 +1,104 @@
-version: '3.8'
+x-hdf5-visualizer-env: &hdf5_visualizer_env
+  HDF5_VISUALIZER_SECRET: ${TRICYS_HDF5_VISUALIZER_SECRET:-change-me-before-production}
+  HDF5_VISUALIZER_BASE_URL: ${TRICYS_HDF5_VISUALIZER_BASE_URL:-/hdf5/}
+  HDF5_VISUALIZER_TOKEN_TTL_SECONDS: ${TRICYS_HDF5_VISUALIZER_TOKEN_TTL_SECONDS:-900}
+  HDF5_CONTEXTS_DIR: ${TRICYS_HDF5_CONTEXTS_DIR:-/data/hdf5_contexts}
+  HDF5_VISUALIZER_HEALTHCHECK_URL: ${TRICYS_HDF5_VISUALIZER_HEALTHCHECK_URL:-http://tricys-hdf5:8050/hdf5/health}
+
+x-tricys-runtime: &tricys_runtime
+  build:
+    context: .
+    dockerfile: ./docker/dockerfiles/Dockerfile
+    target: tricys_runtime
+    args:
+      VITE_API_URL: ${TRICYS_VISUAL_API_URL:-/api/v1}
+      VITE_API_V2_URL: ${TRICYS_VISUAL_API_V2_URL:-/api/v2/goview}
+      VITE_GOVIEW_URL: ${TRICYS_VISUAL_GOVIEW_URL:-/goview/}
+      VITE_PRO_PATH: ${TRICYS_GOVIEW_API_URL:-}
+  image: ${TRICYS_IMAGE:-ghcr.io/asipp-neutronics/tricys:latest}
 
 services:
-  openmodelica-gui:
-    #build: 
-    #  context: .
-    #  dockerfile: ./docker/tricys_om_gui.dockerfile
-
-    image: ghcr.io/asipp-neutronics/tricys_openmodelica_gui:develop
-    #image: tricys_openmodelica_gui
-
-    # 从运行 docker-compose 的 shell 中获取 DISPLAY 变量的值
+  tricys-backend:
+    <<: *tricys_runtime
+    init: true
     environment:
-      - DISPLAY=${DISPLAY}
-      #- PATH=/home/appuser/.local/bin:${PATH}
-
-    # 用于挂载 X11 的 socket，让GUI可以通信
+      DATABASE_URL: ${TRICYS_DATABASE_URL:-sqlite:////data/tricys.db}
+      WORKSPACES_DIR: ${TRICYS_WORKSPACES_DIR:-/data/workspaces}
+      ASSETS_DIR: ${TRICYS_ASSETS_DIR:-/data/assets}
+      SECRET_KEY: ${TRICYS_SECRET_KEY:-change-me-before-production}
+      CORS_ORIGINS: ${TRICYS_CORS_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080,http://localhost:3020,http://127.0.0.1:3020,http://localhost:5173,http://127.0.0.1:5173,null,*}
+      <<: *hdf5_visualizer_env
+    ports:
+      - "${TRICYS_BACKEND_PORT:-8000}:8000"
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ${CUSTOM_MODEL_PATH}:/tricys/model
+      - tricys_backend_state:/data
+    command: ["backend"]
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+    restart: unless-stopped
 
-    # 保持容器在前台交互运行
-    #stdin_open: true
-    #tty: true
+  tricys-visual:
+    <<: *tricys_runtime
+    depends_on:
+      tricys-backend:
+        condition: service_healthy
+      tricys-goview:
+        condition: service_healthy
+      tricys-hdf5:
+        condition: service_healthy
+    init: true
+    ports:
+      - "${TRICYS_VISUAL_PORT:-8080}:80"
+    command: ["visual"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health | grep -q ok"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
 
-    # 定义容器启动后要执行的命令
-    command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]
+  tricys-goview:
+    <<: *tricys_runtime
+    depends_on:
+      tricys-backend:
+        condition: service_healthy
+    init: true
+    ports:
+      - "${TRICYS_GOVIEW_PORT:-3020}:80"
+    command: ["goview"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/health | grep -q ok"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  tricys-hdf5:
+    <<: *tricys_runtime
+    depends_on:
+      tricys-backend:
+        condition: service_healthy
+    init: true
+    environment:
+      <<: *hdf5_visualizer_env
+    command: ["hdf5"]
+    volumes:
+      - tricys_backend_state:/data
+    ports:
+      - "${TRICYS_HDF5_PORT:-8050}:8050"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8050${TRICYS_HDF5_VISUALIZER_BASE_URL:-/hdf5/}health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  tricys_backend_state:

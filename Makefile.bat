@@ -15,7 +15,14 @@ REM   format        Automatically format and repair code.
 REM   check         Combine commands: format first, then check to make sure the codebase is clean.
 REM   test          Perform one-click tests.
 REM   uninstall     Uninstall the project.
-REM   reinstall     Re-install the project (clean and install).
+REM   reinstall     Re-install the project (uninstall , clean and install).
+REM   docs-install  Install documentation dependencies.
+REM   docs-serve    Serve documentation site locally for development.
+REM   docs-build    Build documentation site.
+REM   install-all   Install the project with ALL dependencies (dev, docs).
+REM   app-install   Install local full-stack development dependencies.
+REM   app-start     Start backend, shared hdf5, visual, and goview development services.
+REM   app-stop      Stop backend, shared hdf5, visual, and goview development services.
 REM   help          Show this help message.
 REM ------------------------------------------------------------------------------
 
@@ -46,6 +53,9 @@ echo   docs-install  Install documentation dependencies.
 echo   docs-serve    Serve documentation site locally for development.
 echo   docs-build    Build documentation site.
 echo   install-all   Install the project with ALL dependencies (dev, docs).
+echo   app-install   Install local full-stack development dependencies.
+echo   app-start     Start backend, shared hdf5, visual, and goview development services.
+echo   app-stop      Stop backend, shared hdf5, visual, and goview development services.
 echo   help          Show this help message.
 goto :eof
 
@@ -88,6 +98,24 @@ call pip install -e ".[dev,docs]"
 call pre-commit install
 call omc ./script/modelica_install/install.mos
 echo --^> Full installation complete.
+goto :eof
+
+
+:app-install
+echo --^> Installing local full-stack development dependencies...
+call "%~dp0script\dev\windows\install_all_deps.bat"
+goto :eof
+
+
+:app-start
+echo --^> Starting local full-stack development services...
+call "%~dp0script\dev\windows\start_all.bat"
+goto :eof
+
+
+:app-stop
+echo --^> Stopping local full-stack development services...
+call "%~dp0script\dev\windows\stop_all.bat"
 goto :eof
 
 

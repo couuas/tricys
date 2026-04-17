@@ -26,6 +26,8 @@ data/
 log/
 results/
 temp/
+.run/
+.hdf5_contexts/
 
 # Log files
 *.log
@@ -54,3 +56,6 @@ tricys_visual/*
 
 # Ignore tricys_goview submodule
 tricys_goview/*
+
+# Local runtime artifacts created inside submodules
+tricys_backend/hdf5_contexts/

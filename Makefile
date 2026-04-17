@@ -1,9 +1,8 @@
 # ------------------------------------------------------------------------------
 # Makefile for Python Project
 #
-.PHONY: help clean install dev-install lint format check test docs-install docs-serve docs-build
+.PHONY: help clean install dev-install lint format check test docs-install docs-serve docs-build install-all uninstall reinstall app-install app-start app-stop
 
-# 默认目标：当只输入 `make` 时，会执行此命令，显示帮助信息。
 help:
 	@echo "Usage: make <command>"
 	@echo ""
@@ -14,6 +13,9 @@ help:
 	@echo "  docs-serve    Serve the documentation site locally for development."
 	@echo "  docs-build    Build the documentation site."
 	@echo "  install-all   Install the project with ALL dependencies (dev, docs)."
+	@echo "  app-install   Install local full-stack development dependencies."
+	@echo "  app-start     Start backend, visual, and goview development services."
+	@echo "  app-stop      Stop backend, visual, and goview development services."
 	@echo "  clean         Remove all build artifacts, cache files, and logs."
 	@echo "  lint          Check code style and potential errors (report only, do not modify)."
 	@echo "  format        Automatically format and repair code."
@@ -23,64 +25,61 @@ help:
 	@echo "  reinstall     Re-install the project (clean and install)."
 	@echo "  help          Show this help message."
 
-# 安装项目的核心依赖，用于常规使用或部署。
-# -e 表示以“可编辑模式”安装，你对源代码的修改会立刻生效，无需重新安装。
 install:
 	@echo "--> Installing project in editable mode..."
 	pip install -e .
 	omc ./script/modelica_install/install.mos 
 	@echo "--> Installation complete."
 
-# 安装项目的所有依赖，包括开发和测试工具。
-# ".[dev]" 语法会读取 pyproject.toml 中 [project.optional-dependencies] 下的 dev 分组。
 dev-install:
 	@echo "--> Installing project with development dependencies..."
 	pip install -e ".[dev]"
 	omc ./script/modelica_install/install.mos 
 	@echo "--> Development installation complete."
 
-# Install documentation dependencies
 docs-install:
 	@echo "--> Installing documentation dependencies..."
 	pip install -e ".[docs]"
 	@echo "--> Documentation dependencies installed."
 
-# Serve the documentation site locally
 docs-serve:
 	@echo "--> Starting local documentation server..."
 	mkdocs serve
 
-# Build the documentation site
 docs-build:
 	@echo "--> Building documentation..."
 	mkdocs build
 
-# Install all dependencies
 install-all:
 	@echo "--> Installing project with ALL dependencies..."
 	pip install -e ".[dev,docs]"
 	omc ./script/modelica_install/install.mos
 	@echo "--> Full installation complete."
 
-# Uninstall project
+app-install:
+	@echo "--> Installing local full-stack development dependencies..."
+	bash ./script/dev/linux/install_all_deps.sh
+
+app-start:
+	@echo "--> Starting local full-stack development services..."
+	bash ./script/dev/linux/start_all.sh
+
+app-stop:
+	@echo "--> Stopping local full-stack development services..."
+	bash ./script/dev/linux/stop_all.sh
+
 uninstall:
 	@echo "--> Uninstalling project..."
 	pip uninstall tricys -y
 	@echo "--> Uninstallation complete."
 
-# Reinstall project
 reinstall: uninstall clean install
 	@echo "--> Re-installation complete."
 
-
-# 清理项目，删除所有自动生成的文件和目录。
 clean:
 	@echo "--> Cleaning up project..."
-	# 使用 find 命令安全地查找并删除所有 __pycache__ 目录
 	find . -type d -name "__pycache__" -exec rm -rf {} +
-	# 删除所有 .pyc 编译文件
 	find . -type f -name "*.pyc" -delete
-	# 删除其他常见的缓存、构建和日志目录/文件
 	rm -rf .pytest_cache
 	rm -rf .ruff_cache
 	rm -rf build/
@@ -95,12 +94,10 @@ clean:
 	rm -rf test/test_*/
 	@echo "--> Cleanup complete."
 
-# 检查代码风格和潜在错误（只报告，不修改）
 lint:
 	@echo "--> Checking code with Ruff..."
 	ruff check .
 
-# 自动格式化和修复代码
 format:
 	@echo "--> Formatting code with Black..."
 	black .
@@ -108,11 +105,9 @@ format:
 	ruff check . --fix
 	@echo "--> Code formatting complete."
 
-# 组合命令：先格式化，再检查，确保代码库是干净的
 check: format lint
 	@echo "--> All checks passed!"
 
-# 执行一键测试
 test:
 	@echo "--> Pytest Project..."
 	pytest -v test/.

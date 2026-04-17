@@ -110,6 +110,7 @@ plugins:
             '系统架构设计': 'System Architecture'
             '仿真执行流程': 'Simulation Flow'
             '协同仿真原理': 'Co-simulation Principle'
+            'RPC Worker架构': 'RPC Worker Architecture'
             '并发计算模式': 'Concurrency Model'
             '自动分析流程': 'Analysis Flow'
             '生成分析报告': 'Generating Analysis Reports'
@@ -147,6 +148,7 @@ nav:
     - '基础仿真（TRICYS BASIC）':
       - '仿真执行流程': 'explanation/tricys_basic/simulation_flow.md'
       - '协同仿真原理': 'explanation/tricys_basic/co_simulation.md'
+      - 'RPC Worker架构': 'explanation/tricys_basic/rpc_worker_architecture.md'
       - '并发计算模式': 'explanation/tricys_basic/concurrency.md'
     - '自动分析（TRICYS ANALYSIS)':
       - '自动分析流程': 'explanation/tricys_analysis/analysis_flow.md'

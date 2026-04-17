@@ -45,6 +45,32 @@ from tricys.utils.log_utils import setup_logging
 logger = logging.getLogger(__name__)
 
 
+def _resolve_built_model_paths(build_result: list, build_dir: str) -> tuple[str, str]:
+    executable_artifact = str(
+        (build_result[0] if len(build_result) > 0 else "") or ""
+    ).strip()
+    xml_artifact = str((build_result[1] if len(build_result) > 1 else "") or "").strip()
+
+    if not executable_artifact or not xml_artifact:
+        raise RuntimeError(f"Model build returned invalid artifacts: {build_result!r}")
+
+    executable_name = executable_artifact
+    if sys.platform == "win32" and not executable_name.lower().endswith(".exe"):
+        executable_name = f"{executable_name}.exe"
+
+    executable_path = (
+        executable_name
+        if os.path.isabs(executable_name)
+        else os.path.join(build_dir, executable_name)
+    )
+    xml_path = (
+        xml_artifact
+        if os.path.isabs(xml_artifact)
+        else os.path.join(build_dir, xml_artifact)
+    )
+    return executable_path, xml_path
+
+
 def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> str:
     """Runs the full co-simulation workflow in an isolated directory.
 
@@ -1012,10 +1038,11 @@ def _build_model_only(config: dict) -> tuple[str, str, str]:
             err = omc.sendExpression("getErrorString()")
             raise RuntimeError(f"Model build failed: {err}")
 
-        exe_name = build_result[0] + ".exe"
-        xml_name = build_result[1]
-        exe_path = os.path.join(build_dir, exe_name)
-        xml_path = os.path.join(build_dir, xml_name)
+        try:
+            exe_path, xml_path = _resolve_built_model_paths(build_result, build_dir)
+        except RuntimeError as exc:
+            err = omc.sendExpression("getErrorString()")
+            raise RuntimeError(f"Model build failed: {err or exc}") from exc
 
         om_home = omc.sendExpression("getInstallationDirectoryPath()")
         om_bin_path = os.path.join(om_home, "bin")
