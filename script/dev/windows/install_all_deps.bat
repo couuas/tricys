@@ -2,28 +2,18 @@
 setlocal EnableDelayedExpansion
 
 for %%I in ("%~dp0\..\..\..") do set ROOT_DIR=%%~fI
-set TRICYS_GOVIEW_BRANCH=main
+
+call :detect_python || exit /b 1
 
 cd /d "%ROOT_DIR%"
 call git submodule sync --recursive
 call git submodule update --init --recursive
 
-if exist "%ROOT_DIR%\tricys_goview" (
-  call git -C "%ROOT_DIR%\tricys_goview" fetch origin %TRICYS_GOVIEW_BRANCH%
-  call git -C "%ROOT_DIR%\tricys_goview" rev-parse --verify %TRICYS_GOVIEW_BRANCH% >nul 2>nul
-  if errorlevel 1 (
-    call git -C "%ROOT_DIR%\tricys_goview" checkout -b %TRICYS_GOVIEW_BRANCH% --track origin/%TRICYS_GOVIEW_BRANCH%
-  ) else (
-    call git -C "%ROOT_DIR%\tricys_goview" checkout %TRICYS_GOVIEW_BRANCH%
-  )
-  call git -C "%ROOT_DIR%\tricys_goview" pull --ff-only origin %TRICYS_GOVIEW_BRANCH%
-)
-
 set VENV_DIR=%ROOT_DIR%\.venv
 if exist "%ROOT_DIR%\venv\Scripts\activate.bat" set VENV_DIR=%ROOT_DIR%\venv
 
 if not exist "%VENV_DIR%\Scripts\activate.bat" (
-  py -m venv "%VENV_DIR%"
+  call %PYTHON_LAUNCHER% -m venv "%VENV_DIR%" || exit /b 1
 )
 
 call "%VENV_DIR%\Scripts\activate.bat"
@@ -48,3 +38,26 @@ cd /d "%ROOT_DIR%"
 echo Dependencies installed successfully.
 echo Python virtual environment: %VENV_DIR%
 endlocal
+goto :eof
+
+:detect_python
+where py >nul 2>nul
+if not errorlevel 1 (
+  py --version >nul 2>nul
+  if not errorlevel 1 (
+    set PYTHON_LAUNCHER=py
+    exit /b 0
+  )
+)
+
+where python >nul 2>nul
+if not errorlevel 1 (
+  python --version >nul 2>nul
+  if not errorlevel 1 (
+    set PYTHON_LAUNCHER=python
+    exit /b 0
+  )
+)
+
+echo Error: Python launcher not found. Install Python and ensure py or python is available in PATH.
+exit /b 1

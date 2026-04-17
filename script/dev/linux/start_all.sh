@@ -43,6 +43,7 @@ check_port() {
 
 check_port 8000 tricys_backend
 check_port 3020 tricys_goview
+check_port 5173 tricys_visual
 check_port 8050 tricys_hdf5
 
 HDF5_SECRET="${HDF5_VISUALIZER_SECRET:-your-super-secret-key-change-in-production}"
@@ -58,19 +59,19 @@ start_service() {
   local log_file="${LOG_DIR}/${name}.log"
 
   if [[ -f "${pid_file}" ]]; then
-    local existing_pid
-    existing_pid="$(cat "${pid_file}")"
-    if kill -0 "${existing_pid}" >/dev/null 2>&1; then
-      echo "${name} is already running with PID ${existing_pid}."
+    local existing_pgid
+    existing_pgid="$(cat "${pid_file}")"
+    if kill -0 -- "-${existing_pgid}" >/dev/null 2>&1; then
+      echo "${name} is already running with process group ${existing_pgid}."
       return
     fi
     rm -f "${pid_file}"
   fi
 
-  nohup bash -lc "cd '${workdir}' && ${command}" >"${log_file}" 2>&1 &
-  local pid=$!
-  echo "${pid}" >"${pid_file}"
-  echo "Started ${name} (PID ${pid})"
+  nohup setsid bash -lc "cd '${workdir}' && ${command}" >"${log_file}" 2>&1 &
+  local pgid=$!
+  echo "${pgid}" >"${pid_file}"
+  echo "Started ${name} (process group ${pgid})"
 }
 
 start_service \

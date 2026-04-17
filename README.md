@@ -121,6 +121,33 @@ start_all.bat
 
 This script will automatically open three separate CMD windows, start the FastAPI backend server on port 8000, and launch the Vue development servers for both `tricys_visual` and `tricys_goview`. (Ensure you have installed the respective dependencies for all submodules before running).
 
+## Interactive Deployment Wizard
+
+If you want one entry point that checks the current environment, lets you choose a deployment mode, and then executes the deployment flow automatically, use:
+
+```bash
+# Linux
+make deploy
+
+# Windows
+Makefile.bat deploy
+```
+
+You can also run the native OS scripts directly:
+
+```bash
+# Linux
+bash ./script/dev/linux/deploy.sh
+
+# Windows
+script\dev\windows\deploy.bat
+```
+
+The wizard currently supports three modes:
+- `core-local`: local Python core installation with OpenModelica registration.
+- `fullstack-local`: local backend + visual + goview + hdf5 development stack.
+- `docker-fullstack`: containerized full-stack deployment with Docker Compose.
+
 ## Documentation
 
 For more detailed feature introductions, configuration guides, and advanced tutorials, please visit our [Online Documentation](https://asipp-neutronics.github.io/tricys/en/).

@@ -3,7 +3,6 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-TRICYS_GOVIEW_BRANCH="main"
 
 find_python() {
   if command -v python3 >/dev/null 2>&1; then
@@ -34,16 +33,6 @@ cd "${ROOT_DIR}"
 
 git submodule sync --recursive
 git submodule update --init --recursive
-
-if [[ -d "${ROOT_DIR}/tricys_goview" ]]; then
-  git -C "${ROOT_DIR}/tricys_goview" fetch origin "${TRICYS_GOVIEW_BRANCH}"
-  if git -C "${ROOT_DIR}/tricys_goview" rev-parse --verify "${TRICYS_GOVIEW_BRANCH}" >/dev/null 2>&1; then
-    git -C "${ROOT_DIR}/tricys_goview" checkout "${TRICYS_GOVIEW_BRANCH}"
-  else
-    git -C "${ROOT_DIR}/tricys_goview" checkout -b "${TRICYS_GOVIEW_BRANCH}" --track "origin/${TRICYS_GOVIEW_BRANCH}"
-  fi
-  git -C "${ROOT_DIR}/tricys_goview" pull --ff-only origin "${TRICYS_GOVIEW_BRANCH}"
-fi
 
 if [[ ! -f "${VENV_DIR}/bin/activate" ]]; then
   "${PYTHON_BIN}" -m venv "${VENV_DIR}"

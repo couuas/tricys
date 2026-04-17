@@ -12,6 +12,9 @@ if errorlevel 1 goto :eof
 call :check_port 3020 tricys_goview
 if errorlevel 1 goto :eof
 
+call :check_port 5173 tricys_visual
+if errorlevel 1 goto :eof
+
 call :check_port 8050 tricys_hdf5
 if errorlevel 1 goto :eof
 

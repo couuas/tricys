@@ -9,13 +9,13 @@ REM
 REM Available commands:
 REM   install       Install the project in editable mode for regular use.
 REM   dev-install   Install the project with all development dependencies.
-REM   clean         Remove all build artifacts, cache files, and logs.
+REM   clean         Stop local services and remove all build artifacts, cache files, and logs.
 REM   lint          Check code style and potential errors (report only, do not modify).
 REM   format        Automatically format and repair code.
 REM   check         Combine commands: format first, then check to make sure the codebase is clean.
 REM   test          Perform one-click tests.
-REM   uninstall     Uninstall the project.
-REM   reinstall     Re-install the project (uninstall , clean and install).
+REM   uninstall     Stop local services and uninstall the project.
+REM   reinstall     Stop local services, clean, and reinstall the project.
 REM   docs-install  Install documentation dependencies.
 REM   docs-serve    Serve documentation site locally for development.
 REM   docs-build    Build documentation site.
@@ -23,6 +23,7 @@ REM   install-all   Install the project with ALL dependencies (dev, docs).
 REM   app-install   Install local full-stack development dependencies.
 REM   app-start     Start backend, shared hdf5, visual, and goview development services.
 REM   app-stop      Stop backend, shared hdf5, visual, and goview development services.
+REM   deploy        Run the interactive deployment wizard.
 REM   help          Show this help message.
 REM ------------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ REM Go to the directory where the script is located
 cd /d "%~dp0"
 
 REM Check if a command is provided
-if "%~1"=="" ( goto :help )
+if "%~1"=="" ( goto :deploy )
 
 REM Route to the correct command
 goto :%~1
@@ -42,13 +43,13 @@ echo.
 echo Available commands:
 echo   install       Install the project in editable mode for regular use.
 echo   dev-install   Install the project with all development dependencies.
-echo   clean         Remove all build artifacts, cache files, and logs.
+echo   clean         Stop local services and remove all build artifacts, cache files, and logs.
 echo   lint          Check code style and potential errors (report only, do not modify).
 echo   format        Automatically format and repair code.
 echo   check         Combine commands: format first, then check to make sure the codebase is clean.
 echo   test          Perform one-click tests.
-echo   uninstall     Uninstall the project.
-echo   reinstall     Re-install the project (uninstall , clean and install).
+echo   uninstall     Stop local services and uninstall the project.
+echo   reinstall     Stop local services, clean, and reinstall the project.
 echo   docs-install  Install documentation dependencies.
 echo   docs-serve    Serve documentation site locally for development.
 echo   docs-build    Build documentation site.
@@ -56,6 +57,7 @@ echo   install-all   Install the project with ALL dependencies (dev, docs).
 echo   app-install   Install local full-stack development dependencies.
 echo   app-start     Start backend, shared hdf5, visual, and goview development services.
 echo   app-stop      Stop backend, shared hdf5, visual, and goview development services.
+echo   deploy        Run the interactive deployment wizard.
 echo   help          Show this help message.
 goto :eof
 
@@ -119,7 +121,15 @@ call "%~dp0script\dev\windows\stop_all.bat"
 goto :eof
 
 
+:deploy
+echo --^> Running the interactive deployment wizard...
+call "%~dp0script\dev\windows\deploy.bat"
+goto :eof
+
+
 :clean
+echo --^> Stopping local full-stack development services before cleanup...
+call "%~dp0script\dev\windows\stop_all.bat"
 echo --^> Cleaning up project...
 REM Remove __pycache__ directories
 for /d /r . %%d in (__pycache__) do @if exist "%%d" rmdir /s /q "%%d"
@@ -178,6 +188,8 @@ goto :eof
 
 
 :uninstall
+echo --^> Stopping local full-stack development services before uninstall...
+call "%~dp0script\dev\windows\stop_all.bat"
 echo --^> Uninstalling project...
 call pip uninstall tricys -y
 echo --^> Uninstallation complete.

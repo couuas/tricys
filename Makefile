@@ -1,7 +1,9 @@
 # ------------------------------------------------------------------------------
 # Makefile for Python Project
 #
-.PHONY: help clean install dev-install lint format check test docs-install docs-serve docs-build install-all uninstall reinstall app-install app-start app-stop
+.DEFAULT_GOAL := deploy
+
+.PHONY: help clean install dev-install lint format check test docs-install docs-serve docs-build install-all uninstall reinstall app-install app-start app-stop deploy
 
 help:
 	@echo "Usage: make <command>"
@@ -16,13 +18,14 @@ help:
 	@echo "  app-install   Install local full-stack development dependencies."
 	@echo "  app-start     Start backend, visual, and goview development services."
 	@echo "  app-stop      Stop backend, visual, and goview development services."
-	@echo "  clean         Remove all build artifacts, cache files, and logs."
+	@echo "  deploy        Run the interactive deployment wizard."
+	@echo "  clean         Stop local services and remove build artifacts, cache files, and logs."
 	@echo "  lint          Check code style and potential errors (report only, do not modify)."
 	@echo "  format        Automatically format and repair code."
 	@echo "  check         Combine commands: format first, then check to make sure the codebase is clean."
 	@echo "  test          Perform one-click tests."
-	@echo "  uninstall     Uninstall the project."
-	@echo "  reinstall     Re-install the project (clean and install)."
+	@echo "  uninstall     Stop local services and uninstall the project."
+	@echo "  reinstall     Stop local services, clean, and reinstall the project."
 	@echo "  help          Show this help message."
 
 install:
@@ -68,7 +71,13 @@ app-stop:
 	@echo "--> Stopping local full-stack development services..."
 	bash ./script/dev/linux/stop_all.sh
 
+deploy:
+	@echo "--> Running the interactive deployment wizard..."
+	bash ./script/dev/linux/deploy.sh
+
 uninstall:
+	@echo "--> Stopping local full-stack development services before uninstall..."
+	-bash ./script/dev/linux/stop_all.sh
 	@echo "--> Uninstalling project..."
 	pip uninstall tricys -y
 	@echo "--> Uninstallation complete."
@@ -77,6 +86,8 @@ reinstall: uninstall clean install
 	@echo "--> Re-installation complete."
 
 clean:
+	@echo "--> Stopping local full-stack development services before cleanup..."
+	-bash ./script/dev/linux/stop_all.sh
 	@echo "--> Cleaning up project..."
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete

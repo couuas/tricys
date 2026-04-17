@@ -14,13 +14,13 @@ stop_service() {
     return
   fi
 
-  local pid
-  pid="$(cat "${pid_file}")"
-  if kill -0 "${pid}" >/dev/null 2>&1; then
-    kill "${pid}"
-    echo "Stopped ${name} (PID ${pid})"
+  local pgid
+  pgid="$(cat "${pid_file}")"
+  if kill -0 -- "-${pgid}" >/dev/null 2>&1; then
+    kill -- "-${pgid}"
+    echo "Stopped ${name} (process group ${pgid})"
   else
-    echo "${name} PID file existed but process ${pid} was not running."
+    echo "${name} PID file existed but process group ${pgid} was not running."
   fi
 
   rm -f "${pid_file}"

@@ -29,11 +29,16 @@ jobs:
         run: |
           set -euo pipefail
           docker run --rm \
+            --user root \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             --entrypoint bash \
             tricys-build-test:hdf5 \
-            -lc 'python3 -m pip install -r requirements.txt pytest && PYTHONPATH=/workspace python3 -m pytest -v -m build_test test'
+            -lc '
+              chown -R appuser:appuser /workspace
+              sudo -E -H -u appuser env PYTHONPATH=/workspace python3 -m pip install -r requirements.txt pytest
+              sudo -E -H -u appuser env PYTHONPATH=/workspace python3 -m pytest -v -m build_test test
+            '
 
       - name: Debug with tmate on failure
         if: failure()
