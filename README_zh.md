@@ -8,118 +8,168 @@
 
 我们的目标是为研究人员和工程师提供一个灵活且强大的平台，用于探索各种氚管理策略、优化系统设计，并深入理解聚变反应堆环境中氚的流动与库存动态。
 
+在本文档中，`TRICYS` 有两个常用语义：狭义上指 `tricys` 核心仿真引擎，广义上指由 `tricys`、`tricys_backend`、`tricys_visual` 和 `tricys_goview` 共同组成的 TRICYS 平台。
+
 ![Tritium Fuel Cycle System](./docs/zh/assets/cycle_system.png)
 
-## 功能特性
+## TRICYS 核心是什么
 
+这里的 TRICYS 是狭义概念，特指 `tricys` 核心仿真引擎。它负责聚变堆氚燃料循环的物理建模、Modelica 集成、参数扫描、敏感性分析以及报告生成。若您的目标是运行模型、分析结果、复现示例或在本地进行算法研究，通常只需要先完成 TRICYS 核心的部署。
+
+核心能力主要包括：
 - **参数扫描与并发**: 系统地研究多个参数对系统性能的影响，支持并发运行和大规模批量仿真。
 - **子模块协同仿真**: 支持与外部工具（如 Aspen Plus）进行数据交换，完成子模块系统集成。
 - **自动化报告生成**: 自动生成标准化的 Markdown 分析报告，包含图表、统计数据和可视化结果。
 - **高级敏感性分析**: 支持系统参数的自定义敏感性分析，并集成SALib库量化参数对输出的影响
 - **AI 增强分析**: 集成大型语言模型（LLM），能够将原始的图表和数据自动转化为结构化的学术风格报告。
 
-## 快速开始：Windows 本地安装
+## TRICYS 平台是什么
 
-为确保与 Aspen Plus 等外部 Windows 软件的协同仿真功能完全兼容，我们优先推荐 Windows 本地安装。
-
-### 1. 环境要求
-1.  **Python**: 3.8 或更高版本 (建议安装时勾选 "Add Python to PATH")。
-2.  **Git**: 用于克隆代码仓库。
-3.  **OpenModelica**: 确保其命令行工具 (`omc.exe`) 已添加到系统的 `PATH` 环境变量中。
-
-### 2. 安装步骤
-
-a. **克隆项目仓库**
-   打开终端（如 PowerShell），使用 `git` 克隆源代码。
-   ```shell
-   git clone https://github.com/asipp-neutronics/tricys.git
-   cd tricys
-   ```
-
-b. **创建并激活虚拟环境**
-   为了隔离项目依赖，建议创建一个独立的 Python 虚拟环境。
-   ```shell
-   # 创建虚拟环境
-   py -m venv venv
-   # 激活虚拟环境
-   .\venv\Scripts\activate
-   ```
-
-c. **安装项目依赖**
-   使用 `pip` 以“可编辑”模式安装 `tricys` 及其所有依赖项。
-   ```shell
-   pip install -e ".[win]"
-   ```
-   或者，您也可以使用项目提供的便捷脚本：
-   ```shell
-   Makefile.bat win-install
-   ```
-
-### 3. 运行一个示例
-
-安装完成后，您可以启动交互式示例运行器来快速体验 `tricys` 的核心功能。
-
-```shell
-tricys example
-```
-该命令会扫描并列出所有可用的基础和高级分析示例。您只需根据提示输入数字，即可自动运行对应的示例任务。
-
-
-## 备选方案：Docker（标准 0D 仿真）
-
-如果您不需要与外部 Windows 软件进行协同仿真，为了简化开发环境的配置，本项目维护了两个容器镜像, 支持 **VSCode & Dev Containers** 在容器化环境中运行和测试代码，：
-1. [ghcr.io/asipp-neutronics/tricys_openmodelica_gui:docker_dev](https://github.com/orgs/asipp-neutronics/packages/container/tricys_openmodelica_ompython/476218036?tag=docker_dev)：带有OMEdit可视化应用
-2. [ghcr.io/asipp-neutronics/tricys_openmodelica_ompython:docker_dev](https://github.com/orgs/asipp-neutronics/packages/container/tricys_openmodelica_gui/476218102?tag=docker_dev)：不带有OMEdit可视化应用
-
-**如需切换dev container请删除原容器并修改docker-compose.yml**
-```
-image: ghcr.io/asipp-neutronics/tricys_openmodelica_gui:docker_dev
-```
-
-### 1. 环境要求
-- **Docker**: 最新版本。
-- **VSCode**: 最新版本，并已安装 [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) 插件。
-
-### 2. 一键启动开发环境
-
-1.  **克隆仓库**:
-    ```bash
-    git clone https://github.com/asipp-neutronics/tricys.git
-    cd tricys
-    ```
-
-2.  **在 VSCode 中打开**:
-    ```bash
-    code .
-    ```
-
-3.  **在容器中重新打开**: VSCode 会检测到 `.devcontainer` 目录并提示“在容器中重新打开 (Reopen in Container)”，点击该按钮。
-    > 首次构建容器时，需要下载指定的 Docker 镜像，可能需要一些时间。
-
-4.  **安装项目依赖**: 容器成功启动后，在 VSCode 的终端中执行以下命令来安装项目所需的 Python 库。
-    ```bash
-    make dev-install
-    ```
-
-## 项目生态与子模块 
-
-TRICYS 平台由多个专业模块协同组成，提供从物理方程求解到前端交互与数据大屏展示的完整体验：
+这里的 TRICYS 是广义概念，指整个 TRICYS 平台，而不只是一个 Python 包。它是一套由核心仿真、后端服务和前端应用协同组成的平台：
 
 - **`tricys` (核心引擎)**: 负责物理建模、Modelica 集成、参数扫参以及基于 AI 的科研报告生成的 Python 核心库。
 - **`tricys_backend` (后端服务)**: 基于 FastAPI 的高性能 RESTful 服务，管理仿真任务队列、WebSocket 日志流推送以及 HDF5 数据切片服务。
 - **`tricys_visual` (前端主控台)**: 基于 Vue 3 的现代前端框架，提供实时的 3D 数字孪生可视化、拓扑配置编辑器和仿真进度监控。
 - **`tricys_goview` (独立大屏)**: 基于 Vue 3 GoView 架构开发的独立低代码数据大屏，用于渲染高级的全局分析与对比视图。
 
-## 全栈一键启动
+不同的使用目标，对应不同的启动方式：
+- 如果您只想运行模型、示例和分析流程，优先部署 `tricys` 核心。
+- 如果您希望体验完整平台，包括后端接口、主控前端和 GoView 大屏，则部署全栈平台。
 
-如果您希望在本地环境中同时运行整个项目生态（后端引擎 + 两套前端页面），我们在 Windows 平台提供了一个非常便捷的一键启动脚本：
+## 快速开始 TRICYS 核心
 
-```bash
-# 并行启动 Backend, Visual 和 GoView 服务
-start_all.bat
+为确保与 Aspen Plus 等外部 Windows 软件的协同仿真功能完全兼容，核心仿真优先推荐 Windows 本地安装。
+
+### 1. 环境要求
+1. **Python**: 建议使用 Python 3.10+，最低支持 Python 3.8。
+2. **Git**: 建议使用 Git 2.40+，用于克隆代码仓库和同步子模块。
+3. **OpenModelica**: 建议使用 OpenModelica 1.24+，并确保其命令行工具 `omc.exe` 已加入 `PATH`。
+
+### 2. 部署步骤
+
+1. **克隆项目仓库**
+   ```shell
+   git clone https://github.com/asipp-neutronics/tricys.git
+   cd tricys
+   ```
+
+2. **运行部署向导**
+   仓库提供统一的部署入口，会自动检查环境、在依赖缺失时给出建议版本，并让您选择部署模式。
+   ```shell
+   Makefile.bat
+   ```
+   或者显式执行：
+   ```shell
+   Makefile.bat deploy
+   ```
+
+3. **选择 `core-local` 模式**
+   该模式会完成：
+   - 本地 Python 核心环境安装。
+   - OpenModelica 注册。
+   - `tricys` 可编辑安装。
+
+### 3. 运行一个示例
+
+安装完成后，您可以启动交互式示例运行器，快速体验 TRICYS 核心能力：
+
+```shell
+tricys example
 ```
 
-运行该脚本后，它会自动检测并激活 Python 虚拟环境，并开启三个独立的命令提示符窗口：分别启动 `8000` 端口的 FastAPI 后端服务，以及 `tricys_visual` 和 `tricys_goview` 的前端开发服务器。(提示：请确保在运行脚本前已经完成了各个子工程的 `npm install` 和 `pip install` 依赖安装环节)
+该命令会扫描并列出所有可用的基础和高级分析示例。您只需根据提示输入数字，即可自动运行对应的示例任务。
+
+## 快速部署 TRICYS 平台
+
+如果您希望在本地环境中同时运行整个项目生态，包括后端引擎、HDF5 可视化服务以及两套前端页面，建议使用仓库现有的部署向导或生命周期命令。
+
+### 1. 使用部署向导
+
+```bash
+# Windows 默认入口
+Makefile.bat
+
+# Windows 显式入口
+Makefile.bat deploy
+
+# Linux 默认入口
+make
+
+# Linux 显式入口
+make deploy
+```
+
+部署向导支持三种模式：
+- `core-local`：本地安装 Python 核心能力并注册 OpenModelica。
+- `fullstack-local`：本地启动 backend、hdf5、visual 和 goview 开发栈。
+- `docker-fullstack`：通过 Docker Compose 启动完整容器化栈。
+
+如果您要部署整个平台，一般选择：
+- Windows 或本地开发环境：`fullstack-local`
+- 容器化部署或标准 0D 使用场景：`docker-fullstack`
+
+### 2. 使用生命周期命令
+
+如果您希望跳过交互式向导，也可以直接使用统一的生命周期命令：
+
+```bash
+# 安装本地全栈依赖
+Makefile.bat app-install
+
+# 启动 backend、hdf5、visual 和 goview
+Makefile.bat app-start
+
+# 停止本地全栈服务
+Makefile.bat app-stop
+```
+
+这些命令会统一调用 `script/dev/windows/` 或 `script/dev/linux/` 下的现有脚本，和仓库其余生命周期命令保持一致，并支持部署前状态判断、停服务清理等改进逻辑。
+
+### 3. Docker 备选方案
+
+如果您不需要与外部 Windows 软件进行协同仿真，为了简化开发环境配置，也可以直接选择当前维护的 Docker 镜像方案：
+
+1. `ghcr.io/asipp-neutronics/tricys:latest`
+   用于完整平台镜像，覆盖 backend、visual、goview 和 hdf5 等运行入口，对应仓库中的 `docker-compose.yml`。
+2. `ghcr.io/asipp-neutronics/tricys-hdf5:latest`
+   用于 HDF5 单服务镜像，对应仓库中的 `docker-compose.hdf5.yml`，适合 HDF5 可视化或轻量开发场景。
+
+如果您希望直接通过 Compose 启动：
+
+```bash
+# 完整平台
+docker compose up -d --build
+
+# HDF5 单服务
+docker compose -f docker-compose.hdf5.yml up -d --build
+```
+
+如果您在 VSCode 中使用 Dev Containers：
+
+1. 克隆仓库并在 VSCode 中打开。
+2. 按提示选择“在容器中重新打开”。
+3. 容器启动后，根据使用场景执行：
+   ```bash
+   make dev-install
+   ```
+
+## 交互式部署向导说明
+
+如果您希望使用单一入口完成环境检查、部署方式选择和后续启动，也可以直接运行原生脚本：
+
+```bash
+# Windows
+script\dev\windows\deploy.bat
+
+# Linux
+bash ./script/dev/linux/deploy.sh
+```
+
+部署向导会：
+- 检查 Python、Git、Node.js、npm、Docker、Compose、OpenModelica 等关键依赖。
+- 在依赖缺失时给出建议版本。
+- 检测当前是否已有本地全栈或 Docker 栈在运行。
+- 在检测到本地 fullstack 已运行时，提示您选择跳过、先停再起或继续。
 
 ##  文档
 
