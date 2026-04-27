@@ -86,6 +86,7 @@ plugins:
 
             # “基础仿真”的子项
             '基础配置': 'Basic Configuration'
+            '自定义工况': 'Fusion Operation Configuration'
             '参数扫描': 'Parameter Sweep'
             '并发运行': 'Concurrent Operation' 
             '后处理模块': 'Post-processing Module'
@@ -109,6 +110,7 @@ plugins:
             # “原理解说”的子项
             '系统架构设计': 'System Architecture'
             '仿真执行流程': 'Simulation Flow'
+            '自定义工况规则': 'Fusion Operation Principle'
             '协同仿真原理': 'Co-simulation Principle'
             'RPC Worker架构': 'RPC Worker Architecture'
             '并发计算模式': 'Concurrency Model'
@@ -132,6 +134,7 @@ nav:
       - '氚燃料循环0维系统模型': 'guides/models/cycle.md'
     - '基础仿真（TRICYS BASIC）': 
       - '基础配置': 'guides/tricys_basic/basic_configuration.md'
+      - '自定义工况配置': 'guides/tricys_basic/fusion_operation_config.md'
       - '参数扫描': 'guides/tricys_basic/parameter_sweep.md'
       - '并发运行': 'guides/tricys_basic/concurrent_operation.md'
       - '后处理模块': 'guides/tricys_basic/post_processing_module.md'
@@ -147,6 +150,7 @@ nav:
     - '系统架构设计': 'explanation/architecture.md'
     - '基础仿真（TRICYS BASIC）':
       - '仿真执行流程': 'explanation/tricys_basic/simulation_flow.md'
+      - '自定义工况原理': 'explanation/tricys_basic/fusion_operation_principle.md'
       - '协同仿真原理': 'explanation/tricys_basic/co_simulation.md'
       - 'RPC Worker架构': 'explanation/tricys_basic/rpc_worker_architecture.md'
       - '并发计算模式': 'explanation/tricys_basic/concurrency.md'

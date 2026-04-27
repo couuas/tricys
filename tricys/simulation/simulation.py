@@ -28,6 +28,7 @@ from tricys.analysis.metric import (
     build_single_job_summary_df,
     calculate_single_job_metrics,
 )
+from tricys.core.foc import prepare_foc_simulation_package
 from tricys.core.interceptor import integrate_interceptor_model
 from tricys.core.jobs import generate_simulation_jobs
 from tricys.core.modelica import (
@@ -1213,6 +1214,32 @@ def run_simulation(config: Dict[str, Any], export_csv: bool = False) -> None:
     os.makedirs(temp_dir, exist_ok=True)
 
     sim_config = config["simulation"]
+    foc_config = config.get("foc") or {}
+    foc_path = foc_config.get("foc_path")
+    foc_component = foc_config.get("foc_component")
+
+    if foc_path:
+        foc_workspace = os.path.join(temp_dir, "foc_prepared")
+        foc_result = prepare_foc_simulation_package(
+            config["paths"]["package_path"],
+            sim_config["model_name"],
+            foc_path,
+            foc_workspace,
+            strategy="table",
+            foc_component=foc_component,
+        )
+        config["paths"]["package_path"] = foc_result["package_path"]
+        if sim_config["stop_time"] < foc_result["schedule_duration"]:
+            logger.warning(
+                "Configured stop_time truncates the FOC schedule",
+                extra={
+                    "stop_time": sim_config["stop_time"],
+                    "foc_duration": foc_result["schedule_duration"],
+                    "foc_path": foc_path,
+                    "foc_component": foc_component,
+                },
+            )
+
     use_concurrent = sim_config.get("concurrent", False)
     maximize_workers = sim_config.get("maximize_workers", False)
     max_workers = get_safe_max_workers(

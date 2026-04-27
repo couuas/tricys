@@ -180,7 +180,7 @@ The deployment wizard will:
 
 ## Documentation
 
-For more detailed feature introductions, configuration guides, and advanced tutorials, please visit our [Online Documentation](https://asipp-neutronics.github.io/tricys/en/).
+For more detailed feature introductions, configuration guides, and advanced tutorials, please visit our [Online Documentation](https://asipp-neutronics.github.io/tricys/).
 
 ## Contribution
 

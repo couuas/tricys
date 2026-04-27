@@ -104,6 +104,27 @@
     *   `sds.I[1-5]`: Matches array variables from `sds.I[1]` to `sds.I[5]`.
     *   `blanket.I[1-5]|div.I[1-5]`: Matches multiple specific array variables.
 
+??? question "Q: How do I configure a fusion operating schedule (FOC)?"
+    FOC uses a top-level `foc` block instead of placing those fields under `simulation`:
+
+    ```json
+    {
+        "foc": {
+            "foc_path": "../../example_foc/example_scenario_mix.foc",
+            "foc_component": "pulseSource"
+        }
+    }
+    ```
+
+    Key points:
+
+    - `foc_path` points to the `.foc` schedule file
+    - `foc_component` selects the pulse-like child component to replace
+    - CLI/basic configs currently use `foc_path` only
+    - GUI uploads may use `foc_content`, but that is a `tricys_backend` / `tricys_visual` task transport mode; the backend materializes it into the task workspace and fills the internal `foc_path`
+
+    For a full example, see [Fusion Operation Configuration](../guides/tricys_basic/fusion_operation_config.md). For the rationale, see [Fusion Operation Principle](../explanation/tricys_basic/fusion_operation_principle.md).
+
 ??? question "Q: The simulation is very slow, how to speed it up?"
     You can take the following optimization measures:
 
