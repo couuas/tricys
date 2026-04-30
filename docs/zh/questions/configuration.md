@@ -105,6 +105,27 @@
     *   `sds.I[1-5]`：匹配数组变量 `sds.I[1]` 到 `sds.I[5]`
     *   `blanket.I[1-5]|div.I[1-5]`：匹配多个特定数组变量
 
+??? question "问：如何配置聚变运行工况（FOC）？"
+    FOC 使用顶层 `foc` 配置块，而不是放在 `simulation` 下：
+
+    ```json
+    {
+        "foc": {
+            "foc_path": "../../example_foc/example_scenario_mix.foc",
+            "foc_component": "pulseSource"
+        }
+    }
+    ```
+
+    关键点如下：
+
+    - `foc_path` 指向 `.foc` 工况文件
+    - `foc_component` 指定要被替换的 pulse-like 子组件
+    - CLI/basic 配置当前只使用 `foc_path`
+    - GUI 上传 `.foc` 时可以使用 `foc_content`，但这是 `tricys_backend` / `tricys_visual` 的任务传输方式；后端会自动写入任务工作区并补齐内部 `foc_path`
+
+    详细示例请见[自定义工况配置](../guides/tricys_basic/fusion_operation_config.md)，设计说明请见[自定义工况原理](../explanation/tricys_basic/fusion_operation_principle.md)。
+
 
 ??? question "问：仿真时间很长，如何加速？"
     可以采取以下优化措施：

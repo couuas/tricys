@@ -8,7 +8,6 @@ from pathlib import Path
 from tricys.simulation.simulation import main as simulation_main
 from tricys.simulation.simulation_analysis import main as analysis_main
 from tricys.simulation.simulation_analysis import retry_analysis
-from tricys.simulation.simulation_gui import main as gui_main
 from tricys.utils.file_utils import archive_run, unarchive_run
 from tricys.utils.model_parser_cli import parse_model_cli
 
@@ -52,9 +51,9 @@ def main() -> None:
     """Main entry point for the tricys command-line interface.
 
     Parses command-line arguments to dispatch tasks. It can run a standard
-    simulation, a simulation analysis, launch the GUI, or handle utility
-    commands like archiving runs. The behavior is determined by subcommands
-    or the content of a specified configuration file.
+    simulation, a simulation analysis, or handle utility commands like
+    archiving runs. The behavior is determined by subcommands or the content
+    of a specified configuration file.
     """
     # Main parser
     parser = argparse.ArgumentParser(
@@ -89,8 +88,6 @@ def main() -> None:
     subparsers.add_parser("basic", help="Run a standard simulation.", add_help=False)
 
     subparsers.add_parser("analysis", help="Run a simulation analysis.", add_help=False)
-
-    subparsers.add_parser("gui", help="Launch the interactive GUI.", add_help=False)
 
     subparsers.add_parser(
         "example", help="Run the interactive example runner.", add_help=False
@@ -252,9 +249,6 @@ def main() -> None:
                     sys.exit(1)
 
             analysis_main(config_path)
-        elif main_args.command == "gui":
-            sys.argv = [f"{original_argv[0]} {main_args.command}"] + remaining_argv
-            gui_main()
         elif main_args.command == "example":
             run_example_runner()
         elif main_args.command == "hdf5":

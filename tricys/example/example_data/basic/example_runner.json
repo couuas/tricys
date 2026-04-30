@@ -25,6 +25,12 @@
       "description": "运行协同仿真模块示例，该配置展示了如何进行多模型协同仿真(静态集成)",
       "path": "4_co_simulation_module",
       "config": "co_simulation_module.json"
+    },
+    {
+      "name": "BASIC - FOC 混合工况配置",
+      "description": "运行 FOC 混合工况示例，展示 PULSE、DWELL、BEGIN_SCHEDULE 与 REPEAT 的组合调度",
+      "path": "5_fusion_operation_config",
+      "config": "fusion_operation_config.json"
     }
   ]
 }

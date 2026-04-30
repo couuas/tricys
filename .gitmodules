@@ -7,3 +7,4 @@
 [submodule "tricys_goview"]
 	path = tricys_goview
 	url = https://github.com/couuas/tricys_goview.git
+	branch = main

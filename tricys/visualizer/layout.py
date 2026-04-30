@@ -3,6 +3,12 @@ import json
 import dash_bootstrap_components as dbc
 from dash import dash_table, dcc, html
 
+GRAPH_CONFIG = {
+    "displaylogo": False,
+    "responsive": False,
+    "scrollZoom": True,
+}
+
 filter_help_text = dcc.Markdown(
     """
     **Operators:** `=`, `!=`, `>`, `<`, `>=`, `<=`
@@ -38,17 +44,17 @@ def render_log_content(data):
                 else str(entry)
             )
             timestamp = entry.get("asctime", "") if isinstance(entry, dict) else ""
-            color = "black"
+            color = "#c9d1d9"
             if level == "ERROR":
-                color = "red"
+                color = "#ffb4b4"
             elif level == "WARNING":
-                color = "orange"
+                color = "#ffd28a"
             rows.append(
                 html.Div(
                     [
                         html.Span(
                             f"[{timestamp}] ",
-                            style={"color": "#6c757d", "fontSize": "0.9em"},
+                            style={"color": "#8b949e", "fontSize": "0.9em"},
                         ),
                         html.Span(
                             f"[{level}] ", style={"color": color, "fontWeight": "bold"}
@@ -67,8 +73,24 @@ def render_log_content(data):
         return str(data)
 
 
+def _overview_card(title, value_id, detail_id=None):
+    children = [
+        html.Div(title, className="overview-card-label"),
+        html.Div("--", id=value_id, className="overview-card-value"),
+    ]
+    if detail_id:
+        children.append(html.Div("", id=detail_id, className="overview-card-detail"))
+    return dbc.Card(dbc.CardBody(children), className="overview-card h-100")
+
+
 def create_layout(
-    variable_options, parameter_options, table_columns, jobs_data, config_data, log_data
+    variable_options,
+    parameter_options,
+    table_columns,
+    jobs_data,
+    config_data,
+    log_data,
+    initial_context=None,
 ):
     """
     Constructs the application layout.
@@ -85,423 +107,765 @@ def create_layout(
     return dbc.Container(
         [
             # Stores
+            dcc.Location(id="viewer-location", refresh=False),
+            dcc.Store(id="viewer-context-store", data=initial_context),
+            dcc.Store(id="viewer-error-store"),
+            dcc.Store(id="analysis-selection-store", data=[]),
+            dcc.Store(id="analysis-selection-feedback-store", data={"flash": False}),
+            dcc.Store(id="metrics-availability-store", data={"has_summary": False}),
             dcc.Store(id="full-jobs-data-store", data=jobs_data),
             dcc.Store(id="main-data-store"),
             dcc.Store(id="metrics-data-store"),
             dcc.Store(id="baseline-job-store"),
             dcc.Store(id="baseline-job-id-store"),
-            dcc.Store(id="selected-job-ids-store", data=[]),
             dcc.Store(id="variable-options-store", data=variable_options),
             dcc.Store(id="parameter-options-store", data=parameter_options),
             dcc.Store(id="config-store", data=config_data),
             dcc.Store(id="log-store", data=log_data),
-            # Header
-            dbc.Row(
-                [
-                    dbc.Col(
-                        html.H1("TRICYS HDF5 Visualizer", className="my-4"), width=True
-                    )
-                ],
-                align="center",
+            dcc.Interval(
+                id="analysis-selection-feedback-timer",
+                interval=1400,
+                n_intervals=0,
+                disabled=True,
             ),
-            # 1. Run Details
-            dbc.Card(
+            html.Div(
                 [
-                    dbc.CardHeader("1. Run Details (Config & Logs)"),
-                    dbc.CardBody(
-                        [
-                            dbc.Accordion(
-                                [
-                                    dbc.AccordionItem(
-                                        [
-                                            html.Pre(
-                                                id="config-view",
-                                                children=initial_config_content,
-                                                style={
-                                                    "backgroundColor": "#f8f9fa",
-                                                    "padding": "15px",
-                                                    "maxHeight": "500px",
-                                                    "overflow": "auto",
-                                                },
-                                            )
-                                        ],
-                                        title="Configuration",
-                                    ),
-                                    dbc.AccordionItem(
-                                        [
-                                            html.Div(
-                                                id="log-view",
-                                                children=initial_log_content,
-                                                style={
-                                                    "maxHeight": "500px",
-                                                    "overflow": "auto",
-                                                },
-                                            )
-                                        ],
-                                        title="Simulation Logs",
-                                    ),
-                                ],
-                                start_collapsed=True,
-                            )
-                        ]
+                    html.Div(
+                        "HDF5 Viewer Error", className="viewer-fatal-error-eyebrow"
+                    ),
+                    html.Div(
+                        "Unable to load HDF5 viewer",
+                        id="viewer-fatal-error-title",
+                        className="viewer-fatal-error-title",
+                    ),
+                    html.Div(
+                        id="viewer-fatal-error-message",
+                        className="viewer-fatal-error-message",
+                    ),
+                    html.Div(
+                        id="viewer-fatal-error-detail",
+                        className="viewer-fatal-error-detail",
                     ),
                 ],
-                className="mb-4",
+                id="viewer-fatal-error",
+                className="viewer-fatal-error",
+                style={"display": "none"},
             ),
-            # 2. Jobs Table
-            dbc.Card(
+            html.Div(
                 [
-                    dbc.CardHeader(
+                    dbc.Alert(
+                        id="viewer-status-alert",
+                        is_open=False,
+                        color="danger",
+                        className="mb-4",
+                    ),
+                    dbc.Row(
                         [
-                            dbc.Row(
+                            dbc.Col(
+                                _overview_card(
+                                    "Jobs", "overview-job-count", "overview-job-detail"
+                                ),
+                                md=6,
+                                xl=2,
+                                className="mb-3",
+                            ),
+                            dbc.Col(
+                                _overview_card(
+                                    "Variables",
+                                    "overview-variable-count",
+                                    "overview-variable-detail",
+                                ),
+                                md=6,
+                                xl=2,
+                                className="mb-3",
+                            ),
+                            dbc.Col(
+                                _overview_card(
+                                    "Time Range",
+                                    "overview-time-range",
+                                    "overview-time-detail",
+                                ),
+                                md=6,
+                                xl=2,
+                                className="mb-3",
+                            ),
+                            dbc.Col(
+                                _overview_card(
+                                    "Datasets",
+                                    "overview-dataset-status",
+                                    "overview-dataset-detail",
+                                ),
+                                md=6,
+                                xl=2,
+                                className="mb-3",
+                            ),
+                            dbc.Col(
+                                _overview_card(
+                                    "File Size",
+                                    "overview-file-size",
+                                    "overview-file-detail",
+                                ),
+                                md=6,
+                                xl=2,
+                                className="mb-3",
+                            ),
+                            dbc.Col(
+                                _overview_card(
+                                    "Last Modified",
+                                    "overview-modified-at",
+                                    "overview-modified-detail",
+                                ),
+                                md=6,
+                                xl=2,
+                                className="mb-3",
+                            ),
+                        ],
+                        className="mb-2",
+                    ),
+                    # 1. Run Details
+                    dbc.Card(
+                        [
+                            dbc.CardHeader("1. Run Details (Config & Logs)"),
+                            dbc.CardBody(
                                 [
-                                    dbc.Col(
+                                    dbc.Accordion(
                                         [
-                                            "2. Select Simulation Jobs ",
-                                            html.I(
-                                                className="bi bi-info-circle-fill ms-1",
-                                                id="filter-help-icon",
-                                                style={"cursor": "pointer"},
+                                            dbc.AccordionItem(
+                                                [
+                                                    html.Pre(
+                                                        id="config-view",
+                                                        children=initial_config_content,
+                                                        style={
+                                                            "padding": "15px",
+                                                            "maxHeight": "500px",
+                                                            "overflow": "auto",
+                                                        },
+                                                    )
+                                                ],
+                                                title="Configuration",
+                                            ),
+                                            dbc.AccordionItem(
+                                                [
+                                                    html.Div(
+                                                        id="log-view",
+                                                        children=initial_log_content,
+                                                        style={
+                                                            "maxHeight": "500px",
+                                                            "overflow": "auto",
+                                                        },
+                                                    )
+                                                ],
+                                                title="Simulation Logs",
                                             ),
                                         ],
-                                        width="auto",
-                                    ),
-                                    dbc.Col(
-                                        dbc.Checkbox(
-                                            id="select-all-checkbox",
-                                            label="Select All (Safe)",
-                                            value=False,
-                                        ),
-                                        width="auto",
-                                    ),
-                                ],
-                                justify="between",
-                                align="center",
-                            )
-                        ]
-                    ),
-                    dbc.Popover(
-                        [
-                            dbc.PopoverHeader("Filter Expression Syntax"),
-                            dbc.PopoverBody(filter_help_text),
+                                        start_collapsed=True,
+                                    )
+                                ]
+                            ),
                         ],
-                        target="filter-help-icon",
-                        trigger="legacy",
-                        placement="bottom",
+                        className="mb-4",
                     ),
-                    dbc.CardBody(
+                    # 2. Jobs Table
+                    dbc.Card(
                         [
-                            dbc.Alert(
-                                "",
-                                id="selection-alert",
-                                color="warning",
-                                is_open=False,
-                                dismissable=True,
-                                className="mb-2",
-                            ),
-                            dbc.Row(
-                                [
-                                    dbc.Col(
-                                        dbc.Button(
-                                            "Download All (Wide Format)",
-                                            id="btn-download-all",
-                                            className="mb-3",
-                                            size="sm",
-                                        ),
-                                        width="auto",
-                                    ),
-                                    dbc.Col(
-                                        dbc.Button(
-                                            "Download Selected (Batch)",
-                                            id="btn-download-selected",
-                                            className="mb-3",
-                                            size="sm",
-                                            color="secondary",
-                                            outline=True,
-                                        ),
-                                        width="auto",
-                                    ),
-                                ],
-                                className="mb-2",
-                            ),
-                            dcc.Download(id="download-selected-csv"),
-                            dcc.Download(id="download-all-csv"),
-                            dash_table.DataTable(
-                                id="jobs-table",
-                                columns=table_columns,
-                                data=jobs_data,
-                                sort_action="custom",
-                                filter_action="custom",
-                                page_action="custom",
-                                page_current=0,
-                                page_size=50,
-                                row_selectable="multi",
-                                style_table={
-                                    "overflowX": "auto",
-                                },
-                                style_as_list_view=True,
-                                style_cell={
-                                    "textAlign": "center",
-                                    "padding": "10px",
-                                    "height": "36px",
-                                    "lineHeight": "36px",
-                                },
-                                style_header={
-                                    "backgroundColor": "#f8f9fa",
-                                    "fontWeight": "bold",
-                                    "borderBottom": "2px solid #dee2e6",
-                                },
-                                style_data_conditional=[
-                                    {
-                                        "if": {"row_index": "odd"},
-                                        "backgroundColor": "rgba(0, 0, 0, 0.02)",
-                                    },
-                                    {
-                                        "if": {"state": "selected"},
-                                        "backgroundColor": "rgba(0, 123, 255, 0.2)",
-                                        "border": "1px solid #007bff",
-                                    },
-                                ],
-                                style_filter={"textAlign": "center"},
-                                css=[
-                                    {
-                                        "selector": ".dash-filter input",
-                                        "rule": "text-align: center !important",
-                                    }
-                                ],
-                            ),
-                        ]
-                    ),
-                ],
-                className="mb-4",
-            ),
-            # 3. Plot & Metrics
-            dbc.Card(
-                [
-                    dbc.CardHeader("3. Plot Results & Key Metrics"),
-                    dbc.CardBody(
-                        [
-                            dcc.Dropdown(
-                                id="variable-dropdown",
-                                options=variable_options,
-                                multi=True,
-                                placeholder="Select variables to plot...",
-                            ),
-                            dbc.Row(
-                                [
-                                    dbc.Col(
-                                        dbc.RadioItems(
-                                            id="plot-type-radio",
-                                            options=[
-                                                {
-                                                    "label": "Absolute Values",
-                                                    "value": "absolute",
-                                                },
-                                                {
-                                                    "label": "Difference from Baseline",
-                                                    "value": "difference",
-                                                },
-                                            ],
-                                            value="absolute",
-                                            inline=True,
-                                            className="mt-3",
-                                        ),
-                                        width="auto",
-                                    ),
-                                    dbc.Col(
-                                        html.Div(
+                            dbc.CardHeader(
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
                                             [
                                                 html.Div(
-                                                    "Baseline Job:",
-                                                    className="me-2 d-inline-block fw-bold",
+                                                    [
+                                                        html.Span(
+                                                            "2. Select Simulation Jobs"
+                                                        ),
+                                                        html.I(
+                                                            className="bi bi-info-circle-fill ms-2",
+                                                            id="filter-help-icon",
+                                                            style={"cursor": "pointer"},
+                                                        ),
+                                                    ],
+                                                    className="d-flex align-items-center",
                                                 ),
-                                                dcc.Dropdown(
-                                                    id="baseline-dropdown",
-                                                    options=(
-                                                        [
-                                                            {
-                                                                "label": f"Job {job.get('id')}",
-                                                                "value": job.get("id"),
-                                                            }
-                                                            for job in jobs_data
-                                                        ]
-                                                        if jobs_data
-                                                        else []
-                                                    ),
-                                                    placeholder="Select Baseline Job...",
-                                                    style={
-                                                        "width": "200px",
-                                                        "display": "inline-block",
-                                                        "verticalAlign": "middle",
-                                                    },
-                                                ),
-                                                dbc.Button(
-                                                    "View Details",
-                                                    id="btn-view-baseline-details",
-                                                    size="sm",
-                                                    className="ms-2",
-                                                    color="info",
-                                                    outline=True,
-                                                    disabled=True,
+                                                html.Div(
+                                                    "Select one or more jobs in the table. Charts, metrics, and export update only after you click Apply.",
+                                                    className="jobs-section-subtitle",
                                                 ),
                                             ],
-                                            className="mt-3",
+                                            width=True,
                                         ),
-                                        width="auto",
-                                    ),
-                                ],
-                                justify="between",
-                                align="center",
+                                    ],
+                                    align="center",
+                                )
                             ),
-                            dcc.Loading(
-                                dcc.Graph(id="results-graph"), className="mt-3"
-                            ),
-                            dbc.Tabs(
+                            dbc.Popover(
                                 [
-                                    dbc.Tab(
-                                        label="Metrics Summary",
-                                        tab_id="tab-metrics-summary",
-                                    ),
-                                    dbc.Tab(
-                                        label="Metrics Plots",
-                                        tab_id="tab-metrics-plots",
-                                    ),
-                                    dbc.Tab(
-                                        label="Heatmap Analysis",
-                                        tab_id="tab-heatmap-analysis",
-                                    ),
-                                    dbc.Tab(
-                                        label="Multidimensional Analysis",
-                                        tab_id="tab-parallel-coords",
-                                    ),
+                                    dbc.PopoverHeader("Filter Expression Syntax"),
+                                    dbc.PopoverBody(filter_help_text),
                                 ],
-                                id="metrics-tabs",
-                                active_tab="tab-metrics-summary",
-                                className="mt-4",
+                                target="filter-help-icon",
+                                trigger="legacy",
+                                placement="bottom",
                             ),
-                            # Persistent Containers for each tab content
-                            html.Div(
+                            dbc.CardBody(
                                 [
-                                    dcc.Loading(
-                                        dash_table.DataTable(
-                                            id="metrics-summary-table",
-                                            sort_action="native",
-                                            style_table={"overflowX": "auto"},
-                                            style_cell={
-                                                "textAlign": "center",
-                                                "minWidth": "150px",
+                                    dbc.Alert(
+                                        "",
+                                        id="selection-alert",
+                                        color="info",
+                                        is_open=False,
+                                        dismissable=True,
+                                        className="mb-3 selection-alert",
+                                    ),
+                                    dbc.Row(
+                                        [
+                                            dbc.Col(
+                                                html.Div(
+                                                    [
+                                                        html.Div(
+                                                            [
+                                                                html.Div(
+                                                                    "Selection",
+                                                                    className="selection-stage-label",
+                                                                ),
+                                                                html.Div(
+                                                                    "Current Table Selection",
+                                                                    className="selection-stage-title",
+                                                                ),
+                                                                html.Div(
+                                                                    "No jobs currently selected",
+                                                                    id="current-selection-summary",
+                                                                    className="selection-stage-value",
+                                                                ),
+                                                                html.Div(
+                                                                    "You can change the selection freely. Nothing updates until Apply is clicked.",
+                                                                    id="current-selection-detail",
+                                                                    className="selection-stage-detail",
+                                                                ),
+                                                            ],
+                                                            className="selection-stage-copy",
+                                                        ),
+                                                        html.Div(
+                                                            dbc.Checkbox(
+                                                                id="select-all-checkbox",
+                                                                label="Select all jobs on the current page",
+                                                                value=False,
+                                                            ),
+                                                            className="selection-stage-inline-control",
+                                                        ),
+                                                        html.Div(
+                                                            dbc.Button(
+                                                                "Apply Selection",
+                                                                id="btn-apply-selection",
+                                                                size="sm",
+                                                                color="primary",
+                                                                disabled=True,
+                                                            ),
+                                                            className="selection-stage-actions",
+                                                        ),
+                                                    ],
+                                                    className="selection-stage-panel selection-stage-panel--current h-100",
+                                                ),
+                                                lg=6,
+                                                className="mb-3",
+                                            ),
+                                            dbc.Col(
+                                                html.Div(
+                                                    [
+                                                        html.Div(
+                                                            [
+                                                                html.Div(
+                                                                    "Applied",
+                                                                    className="selection-stage-label",
+                                                                ),
+                                                                html.Div(
+                                                                    "Active Analysis Selection",
+                                                                    className="selection-stage-title",
+                                                                ),
+                                                                html.Div(
+                                                                    "No jobs applied",
+                                                                    id="analysis-selection-summary",
+                                                                    className="selection-stage-value",
+                                                                ),
+                                                                html.Div(
+                                                                    "Charts, metrics, and exports use only this applied job set.",
+                                                                    id="analysis-selection-detail",
+                                                                    className="selection-stage-detail",
+                                                                ),
+                                                            ],
+                                                            className="selection-stage-copy",
+                                                        ),
+                                                        html.Div(
+                                                            [
+                                                                html.Div(
+                                                                    "Actions",
+                                                                    className="selection-toolbar-label",
+                                                                ),
+                                                                html.Div(
+                                                                    [
+                                                                        dbc.Button(
+                                                                            "Clear",
+                                                                            id="btn-clear-analysis-selection",
+                                                                            size="sm",
+                                                                            color="secondary",
+                                                                            outline=True,
+                                                                            disabled=True,
+                                                                            className="selection-toolbar-button",
+                                                                        ),
+                                                                        dbc.Button(
+                                                                            "Batch CSV",
+                                                                            id="btn-download-selected",
+                                                                            size="sm",
+                                                                            color="secondary",
+                                                                            outline=True,
+                                                                            disabled=True,
+                                                                            className="selection-toolbar-button",
+                                                                        ),
+                                                                        dbc.Button(
+                                                                            "Wide CSV",
+                                                                            id="btn-download-all",
+                                                                            size="sm",
+                                                                            className="selection-toolbar-button selection-toolbar-button--primary",
+                                                                        ),
+                                                                    ],
+                                                                    className="selection-toolbar",
+                                                                ),
+                                                            ],
+                                                            className="selection-stage-actions selection-stage-actions--wrap",
+                                                        ),
+                                                    ],
+                                                    id="analysis-selection-panel",
+                                                    className="selection-stage-panel selection-stage-panel--applied h-100",
+                                                ),
+                                                lg=6,
+                                                className="mb-3",
+                                            ),
+                                        ],
+                                        className="jobs-workspace-row",
+                                    ),
+                                    dcc.Download(id="download-selected-csv"),
+                                    dcc.Download(id="download-all-csv"),
+                                    dash_table.DataTable(
+                                        id="jobs-table",
+                                        columns=table_columns,
+                                        data=jobs_data,
+                                        sort_action="custom",
+                                        filter_action="custom",
+                                        page_action="custom",
+                                        page_current=0,
+                                        page_size=50,
+                                        row_selectable="multi",
+                                        style_table={
+                                            "overflowX": "auto",
+                                        },
+                                        style_as_list_view=True,
+                                        style_cell={
+                                            "textAlign": "center",
+                                            "padding": "10px",
+                                            "height": "36px",
+                                            "lineHeight": "36px",
+                                        },
+                                        style_header={
+                                            "fontWeight": "bold",
+                                            "backgroundColor": "#11141a",
+                                            "color": "#f0f6fc",
+                                            "borderBottom": "2px solid #30363d",
+                                        },
+                                        style_data_conditional=[
+                                            {
+                                                "if": {"row_index": "odd"},
+                                                "backgroundColor": "rgba(255, 255, 255, 0.015)",
                                             },
-                                        )
-                                    )
-                                ],
-                                id="metrics-summary-container",
-                                style={"marginTop": "20px"},
+                                            {
+                                                "if": {"state": "active"},
+                                                "backgroundColor": "rgba(0, 210, 255, 0.08)",
+                                                "border": "1px solid rgba(0, 210, 255, 0.28)",
+                                                "color": "#f0f6fc",
+                                            },
+                                            {
+                                                "if": {"state": "selected"},
+                                                "backgroundColor": "rgba(0, 210, 255, 0.12)",
+                                                "border": "1px solid rgba(0, 210, 255, 0.38)",
+                                                "color": "#f0f6fc",
+                                            },
+                                        ],
+                                        style_filter={"textAlign": "center"},
+                                        css=[
+                                            {
+                                                "selector": ".dash-filter input",
+                                                "rule": "text-align: center !important",
+                                            }
+                                        ],
+                                    ),
+                                ]
                             ),
-                            html.Div(
+                        ],
+                        className="mb-4",
+                    ),
+                    # 3. Plot & Metrics
+                    dbc.Card(
+                        [
+                            dbc.CardHeader("3. Plot Results & Key Metrics"),
+                            dbc.CardBody(
                                 [
-                                    dbc.Row(
+                                    html.Div(
                                         [
-                                            dbc.Col(
-                                                dcc.Dropdown(
-                                                    id="xaxis-param-dropdown",
-                                                    placeholder="X-Axis (Parameter)",
-                                                ),
-                                                width=6,
+                                            dcc.Dropdown(
+                                                id="variable-dropdown",
+                                                options=variable_options,
+                                                multi=True,
+                                                placeholder="Select variables to plot...",
                                             ),
-                                            dbc.Col(
-                                                dcc.Dropdown(
-                                                    id="yaxis-metric-dropdown",
-                                                    placeholder="Y-Axis (Metric)",
-                                                ),
-                                                width=6,
+                                            dbc.Row(
+                                                [
+                                                    dbc.Col(
+                                                        dbc.RadioItems(
+                                                            id="plot-type-radio",
+                                                            options=[
+                                                                {
+                                                                    "label": "Absolute Values",
+                                                                    "value": "absolute",
+                                                                },
+                                                                {
+                                                                    "label": "Difference from Baseline",
+                                                                    "value": "difference",
+                                                                },
+                                                            ],
+                                                            value="absolute",
+                                                            inline=True,
+                                                            className="mt-3",
+                                                        ),
+                                                        width="auto",
+                                                    ),
+                                                    dbc.Col(
+                                                        html.Div(
+                                                            [
+                                                                html.Div(
+                                                                    "Baseline Job:",
+                                                                    className="me-2 d-inline-block fw-bold",
+                                                                ),
+                                                                dcc.Dropdown(
+                                                                    id="baseline-dropdown",
+                                                                    options=[
+                                                                        {
+                                                                            "label": f"Job {job.get('id')}",
+                                                                            "value": job.get(
+                                                                                "id"
+                                                                            ),
+                                                                        }
+                                                                        for job in (
+                                                                            jobs_data
+                                                                            or []
+                                                                        )
+                                                                        if job.get("id")
+                                                                        is not None
+                                                                    ],
+                                                                    placeholder="Select Baseline Job...",
+                                                                    style={
+                                                                        "width": "200px",
+                                                                        "display": "inline-block",
+                                                                        "verticalAlign": "middle",
+                                                                    },
+                                                                ),
+                                                                dbc.Button(
+                                                                    "Clear",
+                                                                    id="btn-clear-baseline",
+                                                                    size="sm",
+                                                                    className="ms-2",
+                                                                    color="secondary",
+                                                                    outline=True,
+                                                                    disabled=True,
+                                                                ),
+                                                                dbc.Button(
+                                                                    "View Details",
+                                                                    id="btn-view-baseline-details",
+                                                                    size="sm",
+                                                                    className="ms-2",
+                                                                    color="info",
+                                                                    outline=True,
+                                                                    disabled=True,
+                                                                ),
+                                                            ],
+                                                            className="mt-3",
+                                                        ),
+                                                        width="auto",
+                                                    ),
+                                                ],
+                                                justify="between",
+                                                align="center",
                                             ),
-                                        ]
+                                            dcc.Loading(
+                                                dcc.Graph(
+                                                    id="results-graph",
+                                                    className="tricys-plotly-graph",
+                                                    config=GRAPH_CONFIG,
+                                                    responsive=False,
+                                                    style={
+                                                        "minHeight": "420px",
+                                                        "width": "100%",
+                                                    },
+                                                ),
+                                                className="mt-3",
+                                            ),
+                                            dbc.Alert(
+                                                id="metrics-unavailable-alert",
+                                                children="Summary dataset missing. Metrics Summary and derived metrics charts are unavailable for this file.",
+                                                color="secondary",
+                                                is_open=False,
+                                                className="mt-4 mb-0 metrics-note-alert",
+                                            ),
+                                            html.Div(
+                                                [
+                                                    dbc.Tabs(
+                                                        [
+                                                            dbc.Tab(
+                                                                label="Metrics Summary",
+                                                                tab_id="tab-metrics-summary",
+                                                            ),
+                                                            dbc.Tab(
+                                                                label="Metrics Plots",
+                                                                tab_id="tab-metrics-plots",
+                                                            ),
+                                                            dbc.Tab(
+                                                                label="Heatmap Analysis",
+                                                                tab_id="tab-heatmap-analysis",
+                                                            ),
+                                                            dbc.Tab(
+                                                                label="Multidimensional Analysis",
+                                                                tab_id="tab-parallel-coords",
+                                                            ),
+                                                        ],
+                                                        id="metrics-tabs",
+                                                        active_tab="tab-metrics-summary",
+                                                        className="mt-4 tricys-metrics-tabs",
+                                                    ),
+                                                    html.Div(
+                                                        [
+                                                            dcc.Loading(
+                                                                dash_table.DataTable(
+                                                                    id="metrics-summary-table",
+                                                                    sort_action="native",
+                                                                    style_table={
+                                                                        "overflowX": "auto"
+                                                                    },
+                                                                    style_cell={
+                                                                        "textAlign": "center",
+                                                                        "minWidth": "150px",
+                                                                        "padding": "10px",
+                                                                        "height": "36px",
+                                                                        "lineHeight": "36px",
+                                                                    },
+                                                                    style_header={
+                                                                        "fontWeight": "bold",
+                                                                        "backgroundColor": "#11141a",
+                                                                        "color": "#f0f6fc",
+                                                                        "borderBottom": "2px solid #30363d",
+                                                                    },
+                                                                    style_data_conditional=[
+                                                                        {
+                                                                            "if": {
+                                                                                "row_index": "odd"
+                                                                            },
+                                                                            "backgroundColor": "rgba(255, 255, 255, 0.015)",
+                                                                        },
+                                                                        {
+                                                                            "if": {
+                                                                                "state": "active"
+                                                                            },
+                                                                            "backgroundColor": "rgba(0, 210, 255, 0.08)",
+                                                                            "border": "1px solid rgba(0, 210, 255, 0.28)",
+                                                                            "color": "#f0f6fc",
+                                                                        },
+                                                                        {
+                                                                            "if": {
+                                                                                "state": "selected"
+                                                                            },
+                                                                            "backgroundColor": "rgba(0, 210, 255, 0.12)",
+                                                                            "border": "1px solid rgba(0, 210, 255, 0.38)",
+                                                                            "color": "#f0f6fc",
+                                                                        },
+                                                                    ],
+                                                                    style_filter={
+                                                                        "textAlign": "center"
+                                                                    },
+                                                                    css=[
+                                                                        {
+                                                                            "selector": ".dash-filter input",
+                                                                            "rule": "text-align: center !important",
+                                                                        }
+                                                                    ],
+                                                                )
+                                                            )
+                                                        ],
+                                                        id="metrics-summary-container",
+                                                        className="metrics-tab-panel",
+                                                        style={"marginTop": "20px"},
+                                                    ),
+                                                    html.Div(
+                                                        [
+                                                            dbc.Row(
+                                                                [
+                                                                    dbc.Col(
+                                                                        dcc.Dropdown(
+                                                                            id="xaxis-param-dropdown",
+                                                                            placeholder="X-Axis (Parameter)",
+                                                                        ),
+                                                                        width=6,
+                                                                    ),
+                                                                    dbc.Col(
+                                                                        dcc.Dropdown(
+                                                                            id="yaxis-metric-dropdown",
+                                                                            placeholder="Y-Axis (Metric)",
+                                                                        ),
+                                                                        width=6,
+                                                                    ),
+                                                                ]
+                                                            ),
+                                                            dcc.Loading(
+                                                                dcc.Graph(
+                                                                    id="metric-plot-graph",
+                                                                    className="tricys-plotly-graph mt-3",
+                                                                    config=GRAPH_CONFIG,
+                                                                    responsive=False,
+                                                                    style={
+                                                                        "minHeight": "360px",
+                                                                        "width": "100%",
+                                                                    },
+                                                                )
+                                                            ),
+                                                        ],
+                                                        id="metrics-plot-container",
+                                                        className="metrics-tab-panel",
+                                                        style={
+                                                            "display": "none",
+                                                            "marginTop": "20px",
+                                                        },
+                                                    ),
+                                                    html.Div(
+                                                        [
+                                                            dbc.Alert(
+                                                                "Select X and Y parameters and one Metric (Z) to generate a contour map.",
+                                                                color="info",
+                                                                className="mb-2 chart-help-alert",
+                                                            ),
+                                                            dbc.Row(
+                                                                [
+                                                                    dbc.Col(
+                                                                        dcc.Dropdown(
+                                                                            id="heatmap-x-dropdown",
+                                                                            placeholder="X-Axis (Parameter A)",
+                                                                        ),
+                                                                        width=4,
+                                                                    ),
+                                                                    dbc.Col(
+                                                                        dcc.Dropdown(
+                                                                            id="heatmap-y-dropdown",
+                                                                            placeholder="Y-Axis (Parameter B)",
+                                                                        ),
+                                                                        width=4,
+                                                                    ),
+                                                                    dbc.Col(
+                                                                        dcc.Dropdown(
+                                                                            id="heatmap-z-dropdown",
+                                                                            placeholder="Z-Axis (Metric)",
+                                                                        ),
+                                                                        width=4,
+                                                                    ),
+                                                                ]
+                                                            ),
+                                                            dcc.Loading(
+                                                                dcc.Graph(
+                                                                    id="heatmap-graph",
+                                                                    className="tricys-plotly-graph mt-3",
+                                                                    config=GRAPH_CONFIG,
+                                                                    responsive=False,
+                                                                    style={
+                                                                        "minHeight": "420px",
+                                                                        "width": "100%",
+                                                                    },
+                                                                )
+                                                            ),
+                                                        ],
+                                                        id="heatmap-container",
+                                                        className="metrics-tab-panel",
+                                                        style={
+                                                            "display": "none",
+                                                            "marginTop": "20px",
+                                                        },
+                                                    ),
+                                                    html.Div(
+                                                        [
+                                                            dbc.Alert(
+                                                                "Visualize high-dimensional trade-offs. Each line is a job.",
+                                                                color="info",
+                                                                className="mb-2 chart-help-alert",
+                                                            ),
+                                                            html.Label(
+                                                                "Select Metrics/Parameters to visualize:"
+                                                            ),
+                                                            dcc.Dropdown(
+                                                                id="parcoords-dims-dropdown",
+                                                                multi=True,
+                                                                placeholder="Select dimensions...",
+                                                            ),
+                                                            dcc.Loading(
+                                                                dcc.Graph(
+                                                                    id="parcoords-graph",
+                                                                    className="tricys-plotly-graph mt-3",
+                                                                    config=GRAPH_CONFIG,
+                                                                    responsive=False,
+                                                                    style={
+                                                                        "minHeight": "420px",
+                                                                        "width": "100%",
+                                                                    },
+                                                                )
+                                                            ),
+                                                        ],
+                                                        id="parallel-coords-container",
+                                                        className="metrics-tab-panel",
+                                                        style={
+                                                            "display": "none",
+                                                            "marginTop": "20px",
+                                                        },
+                                                    ),
+                                                ],
+                                                id="metrics-section",
+                                            ),
+                                        ],
+                                        id="plot-metrics-panel",
+                                        className="plot-metrics-panel",
                                     ),
-                                    dcc.Loading(
-                                        dcc.Graph(
-                                            id="metric-plot-graph", className="mt-3"
-                                        )
-                                    ),
-                                ],
-                                id="metrics-plot-container",
-                                style={"display": "none", "marginTop": "20px"},
-                            ),
-                            html.Div(
-                                [
-                                    dbc.Alert(
-                                        "Select X and Y parameters and one Metric (Z) to generate a contour map.",
-                                        color="info",
-                                        className="mb-2",
-                                    ),
-                                    dbc.Row(
+                                    html.Div(
                                         [
-                                            dbc.Col(
-                                                dcc.Dropdown(
-                                                    id="heatmap-x-dropdown",
-                                                    placeholder="X-Axis (Parameter A)",
-                                                ),
-                                                width=4,
+                                            html.Div(
+                                                "Please select jobs.",
+                                                className="plot-metrics-lock-title",
                                             ),
-                                            dbc.Col(
-                                                dcc.Dropdown(
-                                                    id="heatmap-y-dropdown",
-                                                    placeholder="Y-Axis (Parameter B)",
-                                                ),
-                                                width=4,
+                                            html.Div(
+                                                "Please select and apply jobs from the table above before analyzing charts and metrics.",
+                                                className="plot-metrics-lock-detail",
                                             ),
-                                            dbc.Col(
-                                                dcc.Dropdown(
-                                                    id="heatmap-z-dropdown",
-                                                    placeholder="Z-Axis (Metric)",
-                                                ),
-                                                width=4,
-                                            ),
-                                        ]
-                                    ),
-                                    dcc.Loading(
-                                        dcc.Graph(id="heatmap-graph", className="mt-3")
+                                        ],
+                                        id="plot-metrics-lock-overlay",
+                                        className="plot-metrics-lock-overlay plot-metrics-lock-overlay--visible",
                                     ),
                                 ],
-                                id="heatmap-container",
-                                style={"display": "none", "marginTop": "20px"},
+                                className="plot-metrics-card-body",
                             ),
-                            html.Div(
-                                [
-                                    dbc.Alert(
-                                        "Visualize high-dimensional trade-offs. Each line is a job.",
-                                        color="info",
-                                        className="mb-2",
-                                    ),
-                                    html.Label(
-                                        "Select Metrics/Parameters to visualize:"
-                                    ),
-                                    dcc.Dropdown(
-                                        id="parcoords-dims-dropdown",
-                                        multi=True,
-                                        placeholder="Select dimensions...",
-                                    ),
-                                    dcc.Loading(
-                                        dcc.Graph(
-                                            id="parcoords-graph", className="mt-3"
-                                        )
-                                    ),
-                                ],
-                                id="parallel-coords-container",
-                                style={"display": "none", "marginTop": "20px"},
-                            ),
-                        ]
+                        ],
+                        className="mb-4",
+                    ),
+                    dbc.Offcanvas(
+                        html.Div(id="baseline-details-content"),
+                        id="baseline-details-offcanvas",
+                        title="Baseline Job Details",
+                        is_open=False,
+                        placement="end",
+                        scrollable=True,
                     ),
                 ],
-                className="mb-4",
-            ),
-            dbc.Offcanvas(
-                html.Div(id="baseline-details-content"),
-                id="baseline-details-offcanvas",
-                title="Baseline Job Details",
-                is_open=False,
-                placement="end",
-                scrollable=True,
+                id="viewer-main-content",
             ),
         ],
         fluid=True,
+        className="tricys-dash-theme py-3",
     )

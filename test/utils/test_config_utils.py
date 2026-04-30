@@ -70,6 +70,113 @@ def test_basic_validate_config_missing_key():
         basic_validate_config(config)
 
 
+def test_basic_validate_config_rejects_missing_foc_file():
+    package_path = Path(TEST_DIR) / "model.mo"
+    package_path.touch()
+
+    config = {
+        "paths": {"package_path": str(package_path)},
+        "simulation": {
+            "model_name": "MyModel",
+            "stop_time": 10,
+            "step_size": 0.1,
+            "variableFilter": "time|sub.var",
+        },
+        "foc": {
+            "foc_path": str(Path(TEST_DIR) / "missing.foc"),
+            "foc_component": "pulseSource",
+        },
+    }
+
+    with pytest.raises(SystemExit):
+        basic_validate_config(config)
+
+
+def test_basic_validate_config_rejects_invalid_foc_component():
+    package_path = Path(TEST_DIR) / "model.mo"
+    foc_path = Path(TEST_DIR) / "scenario.foc"
+    package_path.touch()
+    foc_path.write_text("PULSE 1000 10 5 1\n", encoding="utf-8")
+
+    config = {
+        "paths": {"package_path": str(package_path)},
+        "simulation": {
+            "model_name": "MyModel",
+            "stop_time": 10,
+            "step_size": 0.1,
+            "variableFilter": "time|sub.var",
+        },
+        "foc": {
+            "foc_path": str(foc_path),
+            "foc_component": "   ",
+        },
+    }
+
+    with pytest.raises(SystemExit):
+        basic_validate_config(config)
+
+
+def test_basic_validate_config_requires_foc_component_when_foc_is_enabled():
+    package_path = Path(TEST_DIR) / "model.mo"
+    foc_path = Path(TEST_DIR) / "scenario.foc"
+    package_path.touch()
+    foc_path.write_text("PULSE 1000 10 5 1\n", encoding="utf-8")
+
+    config = {
+        "paths": {"package_path": str(package_path)},
+        "simulation": {
+            "model_name": "MyModel",
+            "stop_time": 10,
+            "step_size": 0.1,
+            "variableFilter": "time|sub.var",
+        },
+        "foc": {
+            "foc_path": str(foc_path),
+        },
+    }
+
+    with pytest.raises(SystemExit):
+        basic_validate_config(config)
+
+
+def test_basic_validate_config_rejects_unreplaceable_foc_component():
+    package_path = Path(TEST_DIR) / "model.mo"
+    foc_path = Path(TEST_DIR) / "scenario.foc"
+    package_path.write_text(
+        """
+package Example
+model Cycle
+  SupportSignal helper annotation(
+    Placement(transformation(origin = {-90, 10}, extent = {{-10, -10}, {10, 10}})));
+end Cycle;
+
+block SupportSignal
+  Modelica.Blocks.Interfaces.RealOutput y;
+end SupportSignal;
+end Example;
+""".strip(),
+        encoding="utf-8",
+    )
+    foc_path.write_text("PULSE 1000 10 5 1\n", encoding="utf-8")
+
+    config = {
+        "paths": {"package_path": str(package_path)},
+        "simulation": {
+            "model_name": "Example.Cycle",
+            "stop_time": 10,
+            "step_size": 0.1,
+            "variableFilter": "time|sub.var",
+        },
+        "foc": {
+            "foc_path": str(foc_path),
+            "foc_component": "helper",
+        },
+    }
+
+    with pytest.raises(SystemExit):
+        basic_validate_config(config)
+
+
 def test_analysis_validate_analysis_cases_config_success():
     """Test analysis_validate_analysis_cases_config with a valid config."""
     config = {

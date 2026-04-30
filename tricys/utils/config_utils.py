@@ -11,6 +11,7 @@ from typing import Any, Dict, List, Optional, Union
 
 from dotenv import load_dotenv
 
+from tricys.core.foc import validate_foc_component_replacement
 from tricys.core.modelica import (
     get_model_default_parameters,
     get_om_session,
@@ -246,6 +247,44 @@ def basic_validate_config(
         if package_path and not os.path.exists(package_path):
             print(
                 f"ERROR: File specified in 'paths.package_path' not found: {package_path}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
+        foc_path = config.get("foc", {}).get("foc_path")
+        if foc_path and not os.path.exists(foc_path):
+            print(
+                f"ERROR: File specified in 'foc.foc_path' not found: {foc_path}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
+        foc_component = config.get("foc", {}).get("foc_component")
+        if foc_path:
+            if not isinstance(foc_component, str) or not foc_component.strip():
+                print(
+                    "ERROR: 'foc.foc_component' is required when 'foc.foc_path' is set.",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+
+            try:
+                validate_foc_component_replacement(
+                    package_path,
+                    config.get("simulation", {}).get("model_name", ""),
+                    foc_component,
+                )
+            except Exception as error:
+                print(
+                    f"ERROR: Invalid 'foc.foc_component': {error}",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+        elif foc_component is not None and (
+            not isinstance(foc_component, str) or not foc_component.strip()
+        ):
+            print(
+                "ERROR: 'foc.foc_component' must be a non-empty string when provided.",
                 file=sys.stderr,
             )
             sys.exit(1)

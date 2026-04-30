@@ -28,6 +28,7 @@ from tricys.analysis.metric import (
     build_single_job_summary_df,
     calculate_single_job_metrics,
 )
+from tricys.core.foc import prepare_foc_simulation_package
 from tricys.core.interceptor import integrate_interceptor_model
 from tricys.core.jobs import generate_simulation_jobs
 from tricys.core.modelica import (
@@ -43,6 +44,32 @@ from tricys.utils.log_utils import setup_logging
 
 # Standard logger setup
 logger = logging.getLogger(__name__)
+
+
+def _resolve_built_model_paths(build_result: list, build_dir: str) -> tuple[str, str]:
+    executable_artifact = str(
+        (build_result[0] if len(build_result) > 0 else "") or ""
+    ).strip()
+    xml_artifact = str((build_result[1] if len(build_result) > 1 else "") or "").strip()
+
+    if not executable_artifact or not xml_artifact:
+        raise RuntimeError(f"Model build returned invalid artifacts: {build_result!r}")
+
+    executable_name = executable_artifact
+    if sys.platform == "win32" and not executable_name.lower().endswith(".exe"):
+        executable_name = f"{executable_name}.exe"
+
+    executable_path = (
+        executable_name
+        if os.path.isabs(executable_name)
+        else os.path.join(build_dir, executable_name)
+    )
+    xml_path = (
+        xml_artifact
+        if os.path.isabs(xml_artifact)
+        else os.path.join(build_dir, xml_artifact)
+    )
+    return executable_path, xml_path
 
 
 def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> str:
@@ -1012,10 +1039,11 @@ def _build_model_only(config: dict) -> tuple[str, str, str]:
             err = omc.sendExpression("getErrorString()")
             raise RuntimeError(f"Model build failed: {err}")
 
-        exe_name = build_result[0] + ".exe"
-        xml_name = build_result[1]
-        exe_path = os.path.join(build_dir, exe_name)
-        xml_path = os.path.join(build_dir, xml_name)
+        try:
+            exe_path, xml_path = _resolve_built_model_paths(build_result, build_dir)
+        except RuntimeError as exc:
+            err = omc.sendExpression("getErrorString()")
+            raise RuntimeError(f"Model build failed: {err or exc}") from exc
 
         om_home = omc.sendExpression("getInstallationDirectoryPath()")
         om_bin_path = os.path.join(om_home, "bin")
@@ -1186,6 +1214,32 @@ def run_simulation(config: Dict[str, Any], export_csv: bool = False) -> None:
     os.makedirs(temp_dir, exist_ok=True)
 
     sim_config = config["simulation"]
+    foc_config = config.get("foc") or {}
+    foc_path = foc_config.get("foc_path")
+    foc_component = foc_config.get("foc_component")
+
+    if foc_path:
+        foc_workspace = os.path.join(temp_dir, "foc_prepared")
+        foc_result = prepare_foc_simulation_package(
+            config["paths"]["package_path"],
+            sim_config["model_name"],
+            foc_path,
+            foc_workspace,
+            strategy="table",
+            foc_component=foc_component,
+        )
+        config["paths"]["package_path"] = foc_result["package_path"]
+        if sim_config["stop_time"] < foc_result["schedule_duration"]:
+            logger.warning(
+                "Configured stop_time truncates the FOC schedule",
+                extra={
+                    "stop_time": sim_config["stop_time"],
+                    "foc_duration": foc_result["schedule_duration"],
+                    "foc_path": foc_path,
+                    "foc_component": foc_component,
+                },
+            )
+
     use_concurrent = sim_config.get("concurrent", False)
     maximize_workers = sim_config.get("maximize_workers", False)
     max_workers = get_safe_max_workers(
