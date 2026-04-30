@@ -90,6 +90,34 @@ def test_run_tricys_simulations(analyzer):
     assert "param1" in df.columns
 
 
+def test_run_tricys_simulations_with_case_level_simulation_parameters(base_config):
+    """Case-level fixed parameters should be written into SALib sampling CSV."""
+    base_config.pop("simulation_parameters", None)
+    base_config["sensitivity_analysis"] = {
+        "analysis_case": {
+            "simulation_parameters": {
+                "fixed_param": 42.0,
+                "another_fixed_param": 0.5,
+            }
+        }
+    }
+
+    with open(base_config["paths"]["package_path"], "w") as f:
+        f.write("model dummy_model parameter Real param1=1; end dummy_model;")
+
+    analyzer = TricysSALibAnalyzer(base_config)
+    analyzer.define_problem({"x1": [-1.0, 1.0]})
+    analyzer.generate_samples(method="latin", N=5)
+
+    csv_path = analyzer.run_tricys_simulations()
+
+    df = pd.read_csv(csv_path)
+    assert "fixed_param" in df.columns
+    assert "another_fixed_param" in df.columns
+    assert (df["fixed_param"] == 42.0).all()
+    assert (df["another_fixed_param"] == 0.5).all()
+
+
 def test_generate_tricys_config(analyzer):
     """Test the generate_tricys_config method."""
     param_bounds = {"x1": [-3.14, 3.14], "x2": [0.0, 1.0]}

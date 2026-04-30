@@ -148,6 +148,24 @@ def calculate_doubling_time(series: pd.Series, time_series: pd.Series) -> float:
         return np.nan
 
 
+def net_tritium_balance(
+    series: pd.Series, time_series: Optional[pd.Series] = None
+) -> float:
+    """Calculates the net change in tritium inventory over the simulation period.
+
+    Args:
+        series: The inventory time series data.
+        time_series: The corresponding time data (unused).
+
+    Returns:
+        The difference between the final and initial inventory values,
+        or NaN if the series is empty or contains only NaN values.
+    """
+    if series.empty or series.isna().all():
+        return np.nan
+    return series.iloc[-1] - series.iloc[0]
+
+
 def extract_metrics(
     results_df: pd.DataFrame,
     metrics_definition: Dict[str, Any],
@@ -239,6 +257,8 @@ def extract_metrics(
                 calculation_func = time_of_turning_point
             elif method_name == "calculate_doubling_time":
                 calculation_func = calculate_doubling_time
+            elif method_name == "net_tritium_balance":
+                calculation_func = net_tritium_balance
             else:
                 print(
                     f"Warning: Calculation method '{method_name}' not implemented. Skipping."
