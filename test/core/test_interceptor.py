@@ -6,6 +6,18 @@ import pytest
 
 from tricys.core.interceptor import integrate_interceptor_model
 
+
+def _require_omc():
+    """Skip the calling test if OMPython + OMC are not available."""
+    try:
+        from OMPython import OMCSessionZMQ  # noqa: F401
+
+        omc = OMCSessionZMQ()
+        omc.sendExpression("getVersion()")
+    except Exception as exc:
+        pytest.skip(f"OMCSessionZMQ not available: {exc}")
+
+
 TEST_DIR = "temp_interceptor_test"
 
 
@@ -72,9 +84,9 @@ end SystemModel;
     )
 
 
-@pytest.mark.skip(reason="OMCSessionZMQ not available in test environment")
 def test_integrate_interceptor_single_file():
     """Test the interceptor mode with a single-file package."""
+    _require_omc()
     package_path = Path(TEST_DIR) / "TestPackage.mo"
     create_single_file_package(package_path)
 
@@ -102,9 +114,9 @@ def test_integrate_interceptor_single_file():
     assert "connect(sub.y, sub_interceptor.physical_y)" in modified_code
 
 
-@pytest.mark.skip(reason="OMCSessionZMQ not available in test environment")
 def test_integrate_interceptor_multi_file():
     """Test the interceptor mode with a multi-file package."""
+    _require_omc()
     package_dir = Path(TEST_DIR) / "TestPackage"
     create_multi_file_package(package_dir)
     package_path = package_dir / "package.mo"
@@ -135,9 +147,9 @@ def test_integrate_interceptor_multi_file():
     assert "connect(sub.y, sub_interceptor.physical_y)" in modified_code
 
 
-@pytest.mark.skip(reason="OMCSessionZMQ not available in test environment")
 def test_integrate_replacement_single_file():
     """Test the replacement mode with a single-file package."""
+    _require_omc()
     package_path = Path(TEST_DIR) / "TestPackage.mo"
     create_single_file_package(package_path)
 
@@ -163,9 +175,9 @@ def test_integrate_replacement_single_file():
     assert "y = if columns_y[2] == 1 then 0.0 else table_y.y[1];" in modified_code
 
 
-@pytest.mark.skip(reason="OMCSessionZMQ not available in test environment")
 def test_integrate_replacement_multi_file():
     """Test the replacement mode with a multi-file package."""
+    _require_omc()
     package_dir = Path(TEST_DIR) / "TestPackage"
     create_multi_file_package(package_dir)
     package_path = package_dir / "package.mo"
