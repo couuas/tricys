@@ -92,7 +92,7 @@
 
 ### Phase 2: Aspen 参数提取（Windows 端执行）
 
-#### Task 2.1: 编写 Aspen COM 参数提取脚本
+#### ✅ Task 2.1: 编写 Aspen COM 参数提取脚本
 - **目标**：从 `T2-Threetowers4.bkp` 中提取全部构建 DWSIM 等效模型所需的参数
 - **依赖**：无（可与 Phase 1 并行）
 - **执行者**：需在 Windows + Aspen Plus 环境执行
