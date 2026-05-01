@@ -156,7 +156,7 @@
   - ✅ 对 H2 进行 T=30K, P=2atm 的 flash 计算不报 ConvergenceError
 - **潜在风险**：HD/HT/DT 等异核分子的蒸汽压曲线不在常见数据库中，需要从文献拟合 Antoine 或 Wagner 系数
 
-#### Task 3.2: 配置 SRK 物性包与 BIP
+#### ✅ Task 3.2: 配置 SRK 物性包与 BIP
 - **目标**：在 DWSIM 中创建 SRK 物性包并设置 15 对二元交互参数
 - **依赖**：T3.1
 - **修改内容**：
