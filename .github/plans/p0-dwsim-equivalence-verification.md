@@ -113,7 +113,7 @@
   - ✅ 3 个塔均有 stage_count、feed_stage、condenser_type、reboiler_type、pressure
 - **潜在风险**：Aspen COM 树节点路径因版本（V11 vs V14）不同而变化；脚本需处理多个候选路径
 
-#### Task 2.2: 生成 Aspen 基准数据集
+#### ✅ Task 2.2: 生成 Aspen 基准数据集
 - **目标**：用 Aspen 跑 5 组有代表性的进料工况，记录精确的输出结果作为对照基准
 - **依赖**：T2.1（需要 Aspen 环境可用）
 - **执行者**：需在 Windows + Aspen Plus 环境执行
