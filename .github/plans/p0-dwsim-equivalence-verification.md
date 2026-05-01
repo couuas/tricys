@@ -187,7 +187,7 @@
   - ✅ 各塔的 stage count、feed stage 与 `aspen_params.json` 一致
 - **潜在风险**：DWSIM DistillationColumn API 可能不支持某些 Aspen 特有的塔规格（如 Design Spec / Vary 对）→ 需用等效的 condenser/reboiler spec 替代
 
-#### Task 3.4: 单点手动对照
+#### ✅ Task 3.4: 单点手动对照
 - **目标**：对 TC1 工况执行 DWSIM 求解，与 Aspen 结果人工对比，确认模型构建正确
 - **依赖**：T3.3, T2.2
 - **修改内容**：
