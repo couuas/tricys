@@ -171,7 +171,7 @@
   - ✅ H2/D2 二元 VLE 的相对挥发度在文献范围内
 - **潜在风险**：DWSIM 的 SRK BIP 矩阵存储格式可能与 Aspen 的 `kij` 定义（是否对称、温度依赖项）不一致 → 需核查 DWSIM 源码中 `SRKPropertyPackage` 的 BIP 设置方法
 
-#### Task 3.3: 构建三塔精馏流程
+#### ✅ Task 3.3: 构建三塔精馏流程
 - **目标**：在 DWSIM 中构建与 Aspen T2-Threetowers4.bkp 等效的三塔（CD1/CD2/CD3）精馏流程
 - **依赖**：T3.2, T2.1（塔规格数据）
 - **修改内容**：

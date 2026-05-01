@@ -203,17 +203,180 @@ def verify_vle(sim, interf):
         return False
 
 
+# Default column configurations (from hydrogen isotope separation literature)
+# Will be overridden by aspen_params.json "columns" section if available
+# Note: Using moderate stage counts for initial convergence.
+# These can be tuned once Aspen params are extracted.
+DEFAULT_COLUMNS = {
+    "CD1": {
+        "stage_count": 30,
+        "feed_stage": 15,
+        "condenser_type": "Total_Condenser",
+        "pressure": 101325.0,
+        "pressure_drop": 0.0,
+        "condenser_spec": ("R", 3.0, "mol/mol", ""),
+        "reboiler_spec": ("B", 0.003, "mol/s", ""),
+    },
+    "CD2": {
+        "stage_count": 30,
+        "feed_stage": 15,
+        "condenser_type": "Total_Condenser",
+        "pressure": 101325.0,
+        "pressure_drop": 0.0,
+        "condenser_spec": ("R", 3.0, "mol/mol", ""),
+        "reboiler_spec": ("B", 0.001, "mol/s", ""),
+    },
+    "CD3": {
+        "stage_count": 30,
+        "feed_stage": 15,
+        "condenser_type": "Total_Condenser",
+        "pressure": 101325.0,
+        "pressure_drop": 0.0,
+        "condenser_spec": ("R", 3.0, "mol/mol", ""),
+        "reboiler_spec": ("B", 0.0005, "mol/s", ""),
+    },
+}
+
+
+def build_three_towers(sim, column_overrides=None):
+    """Build the three-column distillation flowsheet.
+
+    Topology (matching Aspen T2-Threetowers4):
+        FROMTEP → CD1 → distillate=S4(WDS, H-rich)
+                       → bottoms → CD2 → distillate=S16(SDSD2, D-rich)
+                                       → bottoms → CD3 → distillate=S_CD3_DIST
+                                                       → bottoms=S17(SDST2, T-rich)
+
+    Args:
+        sim: DWSIM flowsheet with compounds and property package
+        column_overrides: dict from aspen_params.json "columns" section
+
+    Returns:
+        dict of created objects {"columns": {...}, "streams": {...}}
+    """
+    from DWSIM.Interfaces.Enums.GraphicObjects import ObjectType
+
+    col_configs = dict(DEFAULT_COLUMNS)
+    if column_overrides:
+        for col_name, overrides in column_overrides.items():
+            if col_name in col_configs:
+                for key, val in overrides.items():
+                    if val is not None and key in col_configs[col_name]:
+                        col_configs[col_name][key] = val
+
+    objects = {"columns": {}, "streams": {}}
+    x_offset = 200  # Horizontal spacing
+
+    # Create material streams
+    stream_defs = {
+        "FROMTEP": (50, 200, 22.0, 101325.0, 1.0),
+        "S4":      (x_offset + 150, 50, None, None, None),
+        "S_CD1_BOTT": (x_offset + 150, 350, None, None, None),
+        "S16":     (2 * x_offset + 150, 50, None, None, None),
+        "S_CD2_BOTT": (2 * x_offset + 150, 350, None, None, None),
+        "S_CD3_DIST": (3 * x_offset + 150, 50, None, None, None),
+        "S17":     (3 * x_offset + 150, 350, None, None, None),
+    }
+
+    for name, (x, y, T, P, F) in stream_defs.items():
+        s = sim.AddObject(ObjectType.MaterialStream, x, y, name)
+        s_obj = s.GetAsObject()
+        if T is not None:
+            s_obj.SetTemperature(T)
+        if P is not None:
+            s_obj.SetPressure(P)
+        if F is not None:
+            s_obj.SetMolarFlow(F)
+        objects["streams"][name] = s_obj
+
+    # Set initial feed composition (equimolar for all 6 compounds)
+    feed = objects["streams"]["FROMTEP"]
+    for comp in DWSIM_COMPOUNDS:
+        feed.SetOverallCompoundMolarFlow(comp, 1.0 / len(DWSIM_COMPOUNDS))
+
+    # Create energy streams for column condensers/reboilers (required for convergence)
+    col_names_ordered = ["CD1", "CD2", "CD3"]
+    energy_streams = {}
+    for col_name in col_names_ordered:
+        i = col_names_ordered.index(col_name)
+        x = (i + 1) * x_offset
+        qc = sim.AddObject(ObjectType.EnergyStream, x + 100, 30, f"QC_{col_name}")
+        qr = sim.AddObject(ObjectType.EnergyStream, x + 100, 370, f"QR_{col_name}")
+        energy_streams[f"QC_{col_name}"] = qc.GetAsObject()
+        energy_streams[f"QR_{col_name}"] = qr.GetAsObject()
+
+    # Create and configure columns
+    for i, col_name in enumerate(col_names_ordered):
+        cfg = col_configs[col_name]
+        x = (i + 1) * x_offset
+        dc = sim.AddObject(ObjectType.DistillationColumn, x, 200, col_name)
+        dc_obj = dc.GetAsObject()
+
+        dc_obj.SetNumberOfStages(cfg["stage_count"])
+        dc_obj.SetTopPressure(cfg["pressure"])
+        dc_obj.ColumnPressureDrop = cfg["pressure_drop"]
+
+        # Relax mass/energy balance tolerances for convergence
+        dc_obj.ExternalLoopTolerance = 0.001
+        dc_obj.InternalLoopTolerance = 0.001
+        dc_obj.MaxIterations = 200
+
+        # Set condenser spec
+        cs = cfg["condenser_spec"]
+        dc_obj.SetCondenserSpec(cs[0], cs[1], cs[2], cs[3])
+
+        # Set reboiler spec
+        rs = cfg["reboiler_spec"]
+        dc_obj.SetReboilerSpec(rs[0], rs[1], rs[2], rs[3])
+
+        objects["columns"][col_name] = dc_obj
+        print(f"  {col_name}: {cfg['stage_count']} stages, feed@{cfg['feed_stage']}, "
+              f"P={cfg['pressure']:.0f} Pa")
+
+    # Connect streams to columns
+    # CD1: feed=FROMTEP, distillate=S4, bottoms=S_CD1_BOTT
+    objects["columns"]["CD1"].ConnectFeed(objects["streams"]["FROMTEP"],
+                                          col_configs["CD1"]["feed_stage"])
+    objects["columns"]["CD1"].ConnectDistillate(objects["streams"]["S4"])
+    objects["columns"]["CD1"].ConnectBottoms(objects["streams"]["S_CD1_BOTT"])
+    objects["columns"]["CD1"].ConnectCondenserDuty(energy_streams["QC_CD1"])
+    objects["columns"]["CD1"].ConnectReboilerDuty(energy_streams["QR_CD1"])
+
+    # CD2: feed=S_CD1_BOTT, distillate=S16, bottoms=S_CD2_BOTT
+    objects["columns"]["CD2"].ConnectFeed(objects["streams"]["S_CD1_BOTT"],
+                                          col_configs["CD2"]["feed_stage"])
+    objects["columns"]["CD2"].ConnectDistillate(objects["streams"]["S16"])
+    objects["columns"]["CD2"].ConnectBottoms(objects["streams"]["S_CD2_BOTT"])
+    objects["columns"]["CD2"].ConnectCondenserDuty(energy_streams["QC_CD2"])
+    objects["columns"]["CD2"].ConnectReboilerDuty(energy_streams["QR_CD2"])
+
+    # CD3: feed=S_CD2_BOTT, distillate=S_CD3_DIST, bottoms=S17
+    objects["columns"]["CD3"].ConnectFeed(objects["streams"]["S_CD2_BOTT"],
+                                          col_configs["CD3"]["feed_stage"])
+    objects["columns"]["CD3"].ConnectDistillate(objects["streams"]["S_CD3_DIST"])
+    objects["columns"]["CD3"].ConnectBottoms(objects["streams"]["S17"])
+    objects["columns"]["CD3"].ConnectCondenserDuty(energy_streams["QC_CD3"])
+    objects["columns"]["CD3"].ConnectReboilerDuty(energy_streams["QR_CD3"])
+
+    print(f"\n  Topology: FROMTEP→CD1→S4(WDS) + →CD2→S16(SDSD2) + →CD3→S17(SDST2)")
+    return objects
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="Build DWSIM three-tower flowsheet")
     parser.add_argument("--params", help="Path to aspen_params.json")
-    parser.add_argument("--output", help="Output .dwxmz flowsheet path")
+    parser.add_argument("--output", help="Output .dwxmz flowsheet path",
+                        default="example/example_dwsim/T2_Threetowers4.dwxmz")
     parser.add_argument("--verify-only", action="store_true",
                         help="Only verify BIP + VLE, don't build columns")
     args = parser.parse_args()
 
     print(f"DWSIM_DIR  = {DWSIM_DIR}")
     print(f"DOTNET_ROOT = {DOTNET_ROOT}")
+
+    # Remember project root before any DWSIM calls might change CWD
+    project_root = os.getcwd()
 
     setup_runtime()
     import clr
@@ -264,16 +427,62 @@ def main():
             print("\nSRK + BIP configuration FAILED")
             return 1
 
-    # Step 5: Save flowsheet (if output specified)
-    if args.output:
-        output_path = os.path.abspath(args.output)
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        interf.SaveFlowsheet2(sim, output_path)
-        print(f"\nFlowsheet saved to {output_path}")
+    # Step 5: Build three-tower topology
+    print("\n=== Step 5: Build three-tower distillation flowsheet ===")
+    column_overrides = {}
+    if args.params and os.path.exists(args.params):
+        with open(args.params, "r") as f:
+            column_overrides = json.load(f).get("columns", {})
+    objects = build_three_towers(sim, column_overrides)
 
-    if ok:
+    # Step 6: Save flowsheet
+    output_path = os.path.join(project_root, args.output)
+    output_path = os.path.abspath(output_path)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    interf.SaveFlowsheet2(sim, output_path)
+    fsize = os.path.getsize(output_path)
+    print(f"\n=== Step 6: Save flowsheet ===")
+    print(f"  Saved to {output_path} ({fsize} bytes)")
+
+    # Step 7: Verify by reloading
+    print("\n=== Step 7: Verify saved flowsheet ===")
+    sim2 = interf.LoadFlowsheet(output_path)
+    col_count = 0
+    stream_count = 0
+    for kv in sim2.SimulationObjects:
+        tp = kv.Value.GetType().Name
+        if "DistillationColumn" in tp:
+            col_count += 1
+        elif "MaterialStream" in tp:
+            stream_count += 1
+
+    print(f"  Columns: {col_count}, Material streams: {stream_count}")
+
+    # Acceptance checks
+    passed = True
+    if col_count != 3:
+        print(f"  ❌ Expected 3 columns, got {col_count}")
+        passed = False
+    else:
+        print(f"  ✅ 3 DistillationColumn objects")
+
+    if stream_count < 6:
+        print(f"  ❌ Expected ≥6 material streams, got {stream_count}")
+        passed = False
+    else:
+        print(f"  ✅ {stream_count} MaterialStream objects (≥6)")
+
+    if fsize < 1024:
+        print(f"  ❌ File too small ({fsize} bytes < 1KB)")
+        passed = False
+    else:
+        print(f"  ✅ File size {fsize} bytes > 1KB")
+
+    if passed:
         print("\nbuild_dwsim_flowsheet PASSED")
-    return 0 if ok else 1
+    else:
+        print("\nbuild_dwsim_flowsheet FAILED")
+    return 0 if passed else 1
 
 
 if __name__ == "__main__":
