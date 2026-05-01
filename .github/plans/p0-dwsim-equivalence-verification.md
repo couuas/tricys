@@ -75,7 +75,7 @@
   - ✅ DWSIM 目录存在且包含 `DWSIM.Automation.dll`
 - **潜在风险**：部分 Linux 发行版（如 CentOS 7）的 glibc 版本过低不支持 .NET 8；需要 Ubuntu 20.04+ 或等效
 
-#### Task 1.2: DWSIM headless 冒烟测试
+#### ✅ Task 1.2: DWSIM headless 冒烟测试
 - **目标**：验证 DWSIM 可在 Linux 上无 GUI 运行，能创建流程、添加化合物、求解
 - **依赖**：T1.1
 - **修改内容**：
