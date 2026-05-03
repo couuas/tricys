@@ -110,7 +110,8 @@ def configure_srk_bip(sim, bip_overrides=None):
             if kij_value != 0.0:
                 print(f"  BIP {c1}/{c2}: kij={kij_value}")
 
-    print(f"  Set {pair_count} BIP pairs (non-zero: {sum(1 for _ in _iter_nonzero_bip(ip))})")
+    print(
+        f"  Set {pair_count} BIP pairs (non-zero: {sum(1 for _ in _iter_nonzero_bip(ip))})")
     return pair_count
 
 
@@ -140,7 +141,8 @@ def verify_vle(sim, interf):
     m = sim.AddObject(ObjectType.MaterialStream, 300, 50, "vle_check")
     m = m.GetAsObject()
 
-    m.SetTemperature(22.0)    # K — between H2 Tb (20.3K) and D2 Tb (23.7K) at 1 atm
+    # K — between H2 Tb (20.3K) and D2 Tb (23.7K) at 1 atm
+    m.SetTemperature(22.0)
     m.SetPressure(101325.0)   # 1 atm
     m.SetMolarFlow(1.0)       # mol/s
     m.SetOverallCompoundMolarFlow("Hydrogen", 0.5)
@@ -172,7 +174,8 @@ def verify_vle(sim, interf):
             print("  VLE flash completed, accepting as pass")
             return True
 
-        print(f"  Liquid fraction={liq_frac:.4f}, Vapor fraction={vap_frac:.4f}")
+        print(
+            f"  Liquid fraction={liq_frac:.4f}, Vapor fraction={vap_frac:.4f}")
 
         x_h2 = liq_phase.Compounds["Hydrogen"].MoleFraction
         x_d2 = liq_phase.Compounds["Deuterium"].MoleFraction
@@ -190,7 +193,8 @@ def verify_vle(sim, interf):
                 if 1.5 <= alpha <= 2.5:
                     print(f"  ✅ α in literature range [1.5, 2.5]")
                 else:
-                    print(f"  ⚠ α slightly outside [1.5, 2.5]; acceptable with kij=0")
+                    print(
+                        f"  ⚠ α slightly outside [1.5, 2.5]; acceptable with kij=0")
             else:
                 print(f"  ❌ α outside reasonable range")
                 return False
@@ -300,8 +304,10 @@ def build_three_towers(sim, column_overrides=None):
     for col_name in col_names_ordered:
         i = col_names_ordered.index(col_name)
         x = (i + 1) * x_offset
-        qc = sim.AddObject(ObjectType.EnergyStream, x + 100, 30, f"QC_{col_name}")
-        qr = sim.AddObject(ObjectType.EnergyStream, x + 100, 370, f"QR_{col_name}")
+        qc = sim.AddObject(ObjectType.EnergyStream, x +
+                           100, 30, f"QC_{col_name}")
+        qr = sim.AddObject(ObjectType.EnergyStream, x +
+                           100, 370, f"QR_{col_name}")
         energy_streams[f"QC_{col_name}"] = qc.GetAsObject()
         energy_streams[f"QR_{col_name}"] = qr.GetAsObject()
 
@@ -353,7 +359,8 @@ def build_three_towers(sim, column_overrides=None):
     # CD3: feed=S_CD2_BOTT, distillate=S_CD3_DIST, bottoms=S17
     objects["columns"]["CD3"].ConnectFeed(objects["streams"]["S_CD2_BOTT"],
                                           col_configs["CD3"]["feed_stage"])
-    objects["columns"]["CD3"].ConnectDistillate(objects["streams"]["S_CD3_DIST"])
+    objects["columns"]["CD3"].ConnectDistillate(
+        objects["streams"]["S_CD3_DIST"])
     objects["columns"]["CD3"].ConnectBottoms(objects["streams"]["S17"])
     objects["columns"]["CD3"].ConnectCondenserDuty(energy_streams["QC_CD3"])
     objects["columns"]["CD3"].ConnectReboilerDuty(energy_streams["QR_CD3"])
@@ -364,7 +371,8 @@ def build_three_towers(sim, column_overrides=None):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Build DWSIM three-tower flowsheet")
+    parser = argparse.ArgumentParser(
+        description="Build DWSIM three-tower flowsheet")
     parser.add_argument("--params", help="Path to aspen_params.json")
     parser.add_argument("--output", help="Output .dwxmz flowsheet path",
                         default="example/example_dwsim/T2_Threetowers4.dwxmz")

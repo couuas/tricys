@@ -132,13 +132,15 @@ def extract_stream_hdt(stream_obj, debug=False):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run single-point DWSIM simulation")
+    parser = argparse.ArgumentParser(
+        description="Run single-point DWSIM simulation")
     parser.add_argument("--case", choices=list(TEST_CASES.keys()), default="TC1",
                         help="Test case name")
     parser.add_argument("--flowsheet",
                         default="example/example_dwsim/T2_Threetowers4.dwxmz",
                         help="Path to DWSIM flowsheet")
-    parser.add_argument("--baseline", help="Path to Aspen baseline CSV for comparison")
+    parser.add_argument(
+        "--baseline", help="Path to Aspen baseline CSV for comparison")
     parser.add_argument("--build", action="store_true",
                         help="Build flowsheet from scratch instead of loading")
     args = parser.parse_args()
@@ -151,7 +153,8 @@ def main():
     # Compute feed composition
     feed_comp, total_mol = compute_feed_composition(T_flow, D_flow, H_flow)
     print(f"  Total molar flow: {total_mol:.4f} mol/h")
-    print(f"  Feed composition: {', '.join(f'{k}={v:.6f}' for k, v in feed_comp.items())}")
+    print(
+        f"  Feed composition: {', '.join(f'{k}={v:.6f}' for k, v in feed_comp.items())}")
 
     # Setup DWSIM
     from pythonnet import set_runtime
@@ -246,7 +249,8 @@ def main():
             print(f"  ✅ All columns converged (iter {solve_iter+1})")
             break
         elif solve_iter < max_iters - 1:
-            print(f"  Iteration {solve_iter+1}: not all converged, retrying...")
+            print(
+                f"  Iteration {solve_iter+1}: not all converged, retrying...")
         else:
             print(f"  ⚠ Not all converged after {max_iters} iterations")
 
@@ -264,7 +268,8 @@ def main():
     # Extract results
     print("\n=== Results ===")
     results = {}
-    all_output_names = {"WDS": "S4", "SDSD2": "S16", "SDST2": "S17", "CD3_DIST": "S_CD3_DIST"}
+    all_output_names = {"WDS": "S4", "SDSD2": "S16",
+                        "SDST2": "S17", "CD3_DIST": "S_CD3_DIST"}
 
     for stream_label, stream_key in all_output_names.items():
         if args.build:
@@ -283,7 +288,7 @@ def main():
     terminal_streams = ["WDS", "SDSD2", "SDST2", "CD3_DIST"]
     in_total = T_flow + D_flow + H_flow
     out_total = sum(results[s]["H"] + results[s]["D"] + results[s]["T"]
-                     for s in terminal_streams if s in results)
+                    for s in terminal_streams if s in results)
     if in_total > 0:
         mb_err = abs(out_total - in_total) / in_total
         print(f"\nMass balance (terminal streams): in={in_total:.4f}, out={out_total:.4f}, "
@@ -336,7 +341,8 @@ def compare_with_baseline(dwsim_results, baseline_row):
         status = "PASS" if rel_err < 0.20 else "FAIL"
         if status == "PASS":
             pass_count += 1
-        print(f"{csv_key:<12} {aspen_val:>10.4f} {dwsim_val:>10.4f} {rel_err:>10.2%} {status:>6}")
+        print(
+            f"{csv_key:<12} {aspen_val:>10.4f} {dwsim_val:>10.4f} {rel_err:>10.2%} {status:>6}")
 
     print(f"\n{pass_count}/9 within 20% tolerance")
 

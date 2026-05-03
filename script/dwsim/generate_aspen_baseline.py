@@ -25,7 +25,8 @@ import logging
 import os
 import sys
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Molar masses (g/mol)
@@ -104,7 +105,8 @@ def run_single_case(aspen_enhanced, T_flow, D_flow, H_flow):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate Aspen baseline for DWSIM parity test")
+    parser = argparse.ArgumentParser(
+        description="Generate Aspen baseline for DWSIM parity test")
     parser.add_argument("--bkp", required=True, help="Path to Aspen .bkp file")
     parser.add_argument("--output", required=True, help="Output CSV file path")
     args = parser.parse_args()
@@ -122,7 +124,8 @@ def main():
         from tricys.handlers.i_iss_handler import AspenEnhanced
     except ImportError as e:
         logger.error(f"Cannot import AspenEnhanced: {e}")
-        logger.error("This script must run on Windows with Aspen Plus and pywin32.")
+        logger.error(
+            "This script must run on Windows with Aspen Plus and pywin32.")
         sys.exit(1)
 
     aspen = None
@@ -134,7 +137,8 @@ def main():
 
         rows = []
         for case_id, T_flow, D_flow, H_flow, desc in TEST_CASES:
-            logger.info(f"Running {case_id}: T={T_flow}, D={D_flow}, H={H_flow} ({desc})")
+            logger.info(
+                f"Running {case_id}: T={T_flow}, D={D_flow}, H={H_flow} ({desc})")
 
             comp, results = run_single_case(aspen, T_flow, D_flow, H_flow)
             EH2, EHD, ED2, EHT, EDT, ET2, total = comp
@@ -162,9 +166,12 @@ def main():
             ]
             rows.append(row)
 
-            logger.info(f"  WDS:   H={wds[0]:.4f}, D={wds[1]:.4f}, T={wds[2]:.4f}")
-            logger.info(f"  SDST2: H={sdst2[0]:.4f}, D={sdst2[1]:.4f}, T={sdst2[2]:.4f}")
-            logger.info(f"  SDSD2: H={sdsd2[0]:.4f}, D={sdsd2[1]:.4f}, T={sdsd2[2]:.4f}")
+            logger.info(
+                f"  WDS:   H={wds[0]:.4f}, D={wds[1]:.4f}, T={wds[2]:.4f}")
+            logger.info(
+                f"  SDST2: H={sdst2[0]:.4f}, D={sdst2[1]:.4f}, T={sdst2[2]:.4f}")
+            logger.info(
+                f"  SDSD2: H={sdsd2[0]:.4f}, D={sdsd2[1]:.4f}, T={sdsd2[2]:.4f}")
             logger.info(f"  Mass balance rel err: {rel_err:.6f}")
 
         # Write CSV
@@ -179,7 +186,8 @@ def main():
         # Validate mass balance
         max_err = max(r[-1] for r in rows)
         if max_err > 0.01:
-            logger.warning(f"Max mass balance error {max_err:.4f} exceeds 1% threshold!")
+            logger.warning(
+                f"Max mass balance error {max_err:.4f} exceeds 1% threshold!")
         else:
             logger.info(f"All mass balances within 1% (max={max_err:.6f})")
 

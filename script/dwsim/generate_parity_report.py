@@ -51,7 +51,8 @@ def run_all_cases():
     configure_srk_bip(sim, {})
     objects = build_three_towers(sim, {})
 
-    terminal_streams = {"WDS": "S4", "SDSD2": "S16", "SDST2": "S17", "CD3_DIST": "S_CD3_DIST"}
+    terminal_streams = {"WDS": "S4", "SDSD2": "S16",
+                        "SDST2": "S17", "CD3_DIST": "S_CD3_DIST"}
     all_results = {}
 
     for case_name, (T_flow, D_flow, H_flow) in TEST_CASES.items():
@@ -178,8 +179,10 @@ def generate_report(all_results, baseline, output_path):
                 all_points.append(point)
 
     if has_baseline:
-        lines.append("| Case | Variable | Aspen (g/h) | DWSIM (g/h) | Rel. Dev. | Status |")
-        lines.append("|------|----------|------------|------------|-----------|--------|")
+        lines.append(
+            "| Case | Variable | Aspen (g/h) | DWSIM (g/h) | Rel. Dev. | Status |")
+        lines.append(
+            "|------|----------|------------|------------|-----------|--------|")
     else:
         lines.append("| Case | Variable | DWSIM (g/h) | Status |")
         lines.append("|------|----------|------------|--------|")
@@ -294,7 +297,8 @@ def generate_report(all_results, baseline, output_path):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Generate DWSIM parity report")
+    parser = argparse.ArgumentParser(
+        description="Generate DWSIM parity report")
     parser.add_argument("--baseline", help="Path to Aspen baseline CSV")
     parser.add_argument("--output",
                         default="example/example_dwsim/parity_report.md",

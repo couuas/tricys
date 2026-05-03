@@ -82,7 +82,8 @@ def main():
     P_result = m1.GetPressure()
     F_result = m1.GetMolarFlow()
 
-    print(f"Results: T={T_result:.2f} K, P={P_result:.2f} Pa, F={F_result:.4f} mol/s")
+    print(
+        f"Results: T={T_result:.2f} K, P={P_result:.2f} Pa, F={F_result:.4f} mol/s")
 
     # Step 8: Validate
     ok = True

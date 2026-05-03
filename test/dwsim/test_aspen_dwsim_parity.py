@@ -9,6 +9,12 @@ When no Aspen baseline is available, tests verify:
 - All 9 output values (3 streams × 3 components) are non-negative
 """
 
+from run_dwsim_point import (
+    TEST_CASES,
+    COMPOUNDS,
+    compute_feed_composition,
+    extract_stream_hdt,
+)
 import sys
 import os
 import pytest
@@ -18,12 +24,6 @@ SCRIPT_DIR = os.path.join(
     os.path.dirname(__file__), "..", "..", "script", "dwsim"
 )
 sys.path.insert(0, os.path.abspath(SCRIPT_DIR))
-from run_dwsim_point import (
-    TEST_CASES,
-    COMPOUNDS,
-    compute_feed_composition,
-    extract_stream_hdt,
-)
 
 # Parity thresholds
 REL_TOLERANCE = 0.20  # 20% relative deviation (coarse, Phase 4.2 uses 5%)
@@ -108,7 +108,8 @@ def _format_deviation_table(dwsim_results, aspen_results):
                     rel_dev = abs(dw_val - asp_val) / abs(asp_val)
                 else:
                     rel_dev = abs(dw_val - asp_val)
-                passed = rel_dev < REL_TOLERANCE or abs(dw_val - asp_val) < ABS_TOLERANCE
+                passed = rel_dev < REL_TOLERANCE or abs(
+                    dw_val - asp_val) < ABS_TOLERANCE
             else:
                 asp_val = None
                 rel_dev = None
@@ -148,13 +149,15 @@ def test_parity(case_name, dwsim_interf, dwsim_flowsheet, aspen_baseline):
     table = _format_deviation_table(result["results"], aspen)
 
     # Print deviation table
-    print(f"\n{'Variable':<15} {'Aspen':>10} {'DWSIM':>10} {'RelDev':>10} {'Status':>6}")
+    print(
+        f"\n{'Variable':<15} {'Aspen':>10} {'DWSIM':>10} {'RelDev':>10} {'Status':>6}")
     print("-" * 55)
     for row in table:
         asp_str = f"{row['aspen']:.4f}" if row["aspen"] is not None else "N/A"
         dev_str = f"{row['rel_dev']:.2%}" if row["rel_dev"] is not None else "N/A"
         status = "PASS" if row["pass"] else "FAIL"
-        print(f"{row['variable']:<15} {asp_str:>10} {row['dwsim']:>10.4f} {dev_str:>10} {status:>6}")
+        print(
+            f"{row['variable']:<15} {asp_str:>10} {row['dwsim']:>10.4f} {dev_str:>10} {status:>6}")
 
     # Check pass rate
     pass_count = sum(1 for r in table if r["pass"])

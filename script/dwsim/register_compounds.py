@@ -248,8 +248,10 @@ def verify_compounds(sim, interf):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Register H-isotopologue compounds in DWSIM")
-    parser.add_argument("--params", help="Path to aspen_params.json for overrides")
+    parser = argparse.ArgumentParser(
+        description="Register H-isotopologue compounds in DWSIM")
+    parser.add_argument(
+        "--params", help="Path to aspen_params.json for overrides")
     parser.add_argument("--verify", action="store_true", default=True,
                         help="Run flash verification after registration")
     args = parser.parse_args()

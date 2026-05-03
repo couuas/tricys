@@ -24,7 +24,8 @@ import os
 import sys
 import time
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # The 6 hydrogen isotopologue compounds in the I_ISS model
@@ -93,7 +94,8 @@ def extract_compound_properties(aspen):
                     break
             props[prop_name] = value
         compounds[comp] = props
-        logger.info(f"  {comp}: MW={props.get('MW')}, Tc={props.get('Tc')}, Pc={props.get('Pc')}")
+        logger.info(
+            f"  {comp}: MW={props.get('MW')}, Tc={props.get('Tc')}, Pc={props.get('Pc')}")
 
     return compounds
 
@@ -159,34 +161,41 @@ def extract_column_config(aspen):
         base_path = rf"\Data\Blocks\{col_name}"
 
         # Number of stages
-        col["stage_count"] = safe_get_value(tree, f"{base_path}\\Input\\NSTAGE")
+        col["stage_count"] = safe_get_value(
+            tree, f"{base_path}\\Input\\NSTAGE")
 
         # Feed stage (may be multiple feeds)
-        col["feed_stage"] = safe_get_value(tree, f"{base_path}\\Input\\FEED_STAGE\\FROMTEP")
+        col["feed_stage"] = safe_get_value(
+            tree, f"{base_path}\\Input\\FEED_STAGE\\FROMTEP")
         if col["feed_stage"] is None:
             # Try to find any feed stage
             for stream in ["FROMTEP", "S1", "S2", "S3", "S4", "S5"]:
-                val = safe_get_value(tree, f"{base_path}\\Input\\FEED_STAGE\\{stream}")
+                val = safe_get_value(
+                    tree, f"{base_path}\\Input\\FEED_STAGE\\{stream}")
                 if val is not None:
                     col["feed_stage"] = val
                     col["feed_stream"] = stream
                     break
 
         # Condenser type: TOTAL, PARTIAL-V, PARTIAL-V-L, NONE
-        col["condenser_type"] = safe_get_value(tree, f"{base_path}\\Input\\CONDENSER")
+        col["condenser_type"] = safe_get_value(
+            tree, f"{base_path}\\Input\\CONDENSER")
 
         # Reboiler type: KETTLE, THERMOSIPHON, NONE
-        col["reboiler_type"] = safe_get_value(tree, f"{base_path}\\Input\\REBOILER")
+        col["reboiler_type"] = safe_get_value(
+            tree, f"{base_path}\\Input\\REBOILER")
 
         # Column pressure (top stage)
         col["pressure"] = safe_get_value(tree, f"{base_path}\\Input\\PRES1")
 
         # Pressure drop
-        col["pressure_drop"] = safe_get_value(tree, f"{base_path}\\Input\\DP_STAGE")
+        col["pressure_drop"] = safe_get_value(
+            tree, f"{base_path}\\Input\\DP_STAGE")
 
         # Reflux ratio or distillate rate spec
         col["reflux_ratio"] = safe_get_value(tree, f"{base_path}\\Input\\RR")
-        col["distillate_rate"] = safe_get_value(tree, f"{base_path}\\Input\\D:F")
+        col["distillate_rate"] = safe_get_value(
+            tree, f"{base_path}\\Input\\D:F")
         col["bottoms_rate"] = safe_get_value(tree, f"{base_path}\\Input\\B:F")
 
         # Condenser/reboiler duty specs
@@ -194,11 +203,12 @@ def extract_column_config(aspen):
         col["reboiler_duty"] = safe_get_value(tree, f"{base_path}\\Input\\QN")
 
         # Property method used
-        col["property_method"] = safe_get_value(tree, f"{base_path}\\Input\\PROPERTIES")
+        col["property_method"] = safe_get_value(
+            tree, f"{base_path}\\Input\\PROPERTIES")
 
         columns[col_name] = col
         logger.info(f"  {col_name}: stages={col.get('stage_count')}, feed={col.get('feed_stage')}, "
-                     f"cond={col.get('condenser_type')}, reb={col.get('reboiler_type')}")
+                    f"cond={col.get('condenser_type')}, reb={col.get('reboiler_type')}")
 
     return columns
 
@@ -227,11 +237,14 @@ def extract_stream_topology(aspen):
         s["temperature"] = temp
         s["pressure"] = safe_get_value(tree, f"{base}\\Input\\PRES\\MIXED")
         if s["pressure"] is None:
-            s["pressure"] = safe_get_value(tree, f"{base}\\Output\\PRES_OUT\\MIXED")
+            s["pressure"] = safe_get_value(
+                tree, f"{base}\\Output\\PRES_OUT\\MIXED")
 
-        s["total_flow"] = safe_get_value(tree, f"{base}\\Input\\TOTFLOW\\MIXED")
+        s["total_flow"] = safe_get_value(
+            tree, f"{base}\\Input\\TOTFLOW\\MIXED")
         if s["total_flow"] is None:
-            s["total_flow"] = safe_get_value(tree, f"{base}\\Output\\TOT_FLOW\\MIXED")
+            s["total_flow"] = safe_get_value(
+                tree, f"{base}\\Output\\TOT_FLOW\\MIXED")
 
         # Source and destination blocks
         s["from_block"] = safe_get_value(tree, f"{base}\\Input\\SOURCE\\BLOCK")
@@ -248,12 +261,15 @@ def extract_property_methods(aspen):
     tree = aspen.Tree
     methods = {}
 
-    methods["global"] = safe_get_value(tree, r"\Data\Properties\Analysis\SYS-PROP\Input\GLOBAL_PROPERTY_METHOD")
-    methods["global_alt"] = safe_get_value(tree, r"\Data\Setup\SimulationOptions\Input\SIM_PROPMETHOD")
+    methods["global"] = safe_get_value(
+        tree, r"\Data\Properties\Analysis\SYS-PROP\Input\GLOBAL_PROPERTY_METHOD")
+    methods["global_alt"] = safe_get_value(
+        tree, r"\Data\Setup\SimulationOptions\Input\SIM_PROPMETHOD")
 
     # Per-block property methods
     for col_name in COLUMNS:
-        val = safe_get_value(tree, rf"\Data\Blocks\{col_name}\Input\PROPERTIES")
+        val = safe_get_value(
+            tree, rf"\Data\Blocks\{col_name}\Input\PROPERTIES")
         if val:
             methods[col_name] = val
 
@@ -261,9 +277,11 @@ def extract_property_methods(aspen):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Extract Aspen Plus parameters for DWSIM migration")
+    parser = argparse.ArgumentParser(
+        description="Extract Aspen Plus parameters for DWSIM migration")
     parser.add_argument("--bkp", required=True, help="Path to Aspen .bkp file")
-    parser.add_argument("--output", required=True, help="Output JSON file path")
+    parser.add_argument("--output", required=True,
+                        help="Output JSON file path")
     args = parser.parse_args()
 
     bkp_path = os.path.abspath(args.bkp)
@@ -278,7 +296,8 @@ def main():
         import pythoncom
         import win32com.client as win32
     except ImportError:
-        logger.error("This script requires pywin32 (pip install pywin32). Must run on Windows.")
+        logger.error(
+            "This script requires pywin32 (pip install pywin32). Must run on Windows.")
         sys.exit(1)
 
     pythoncom.CoInitialize()
