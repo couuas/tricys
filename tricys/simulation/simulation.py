@@ -39,10 +39,12 @@ def _resolve_built_model_paths(build_result: list, build_dir: str) -> tuple[str,
     executable_artifact = str(
         (build_result[0] if len(build_result) > 0 else "") or ""
     ).strip()
-    xml_artifact = str((build_result[1] if len(build_result) > 1 else "") or "").strip()
+    xml_artifact = str((build_result[1] if len(
+        build_result) > 1 else "") or "").strip()
 
     if not executable_artifact or not xml_artifact:
-        raise RuntimeError(f"Model build returned invalid artifacts: {build_result!r}")
+        raise RuntimeError(
+            f"Model build returned invalid artifacts: {build_result!r}")
 
     executable_name = executable_artifact
     if sys.platform == "win32" and not executable_name.lower().endswith(".exe"):
@@ -131,7 +133,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
                 original_package_dir = original_package_path
 
             package_dir_name = os.path.basename(original_package_dir)
-            isolated_package_dir = os.path.join(job_workspace, package_dir_name)
+            isolated_package_dir = os.path.join(
+                job_workspace, package_dir_name)
 
             if os.path.exists(isolated_package_dir):
                 shutil.rmtree(isolated_package_dir)
@@ -140,10 +143,12 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
             # Reconstruct the path to the main package file inside the new isolated directory
             if os.path.isfile(original_package_path):
                 isolated_package_path = os.path.join(
-                    isolated_package_dir, os.path.basename(original_package_path)
+                    isolated_package_dir, os.path.basename(
+                        original_package_path)
                 )
             else:  # path was a directory, so we assume package.mo
-                isolated_package_path = os.path.join(isolated_package_dir, "package.mo")
+                isolated_package_path = os.path.join(
+                    isolated_package_dir, "package.mo")
 
             logger.info(
                 "Copied multi-file package",
@@ -160,7 +165,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
 
         # Parse co_simulation config - new format with mode at top level
         co_sim_config = config["co_simulation"]
-        mode = co_sim_config.get("mode", "interceptor")  # Get mode from top level
+        # Get mode from top level
+        mode = co_sim_config.get("mode", "interceptor")
         handlers = co_sim_config.get("handlers", [])  # Get handlers array
 
         # Validate that handlers is a list
@@ -214,7 +220,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
 
                         # Update the path in the config to point to the new location
                         new_asset_path = dest_dir / original_asset_path.name
-                        handler_config["params"][param_key] = new_asset_path.as_posix()
+                        handler_config["params"][param_key] = new_asset_path.as_posix(
+                        )
                         logger.info(
                             "Updated asset parameter path",
                             extra={
@@ -254,7 +261,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
                 },
             )
             for port in input_ports:
-                full_name = f"{instance_name}.{port['name']}".replace(".", "\\.")
+                full_name = f"{instance_name}.{port['name']}".replace(
+                    ".", "\\.")
                 if port["dim"] > 1:
                     full_name += f"\\[[1-{port['dim']}]\\]"
                 all_input_vars.append(full_name)
@@ -329,7 +337,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
                         f"Co-simulation handler script not found at {script_path}"
                     )
 
-                spec = importlib.util.spec_from_file_location(module_name, script_path)
+                spec = importlib.util.spec_from_file_location(
+                    module_name, script_path)
                 if spec and spec.loader:
                     module = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(module)
@@ -357,7 +366,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
                 )
 
             if not module:
-                raise ImportError("Failed to load co-simulation handler module.")
+                raise ImportError(
+                    "Failed to load co-simulation handler module.")
 
             handler_function = getattr(module, handler_function_name)
             instance_name = handler_config["instance_name"]
@@ -391,7 +401,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
         )
 
         verif_config = config["simulation"]["variableFilter"]
-        logger.info("Proceeding with Final simulation.", extra={"job_id": job_id})
+        logger.info("Proceeding with Final simulation.",
+                    extra={"job_id": job_id})
 
         # Use mode from top-level config
         if mode == "replacement":
@@ -405,7 +416,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
         else:
             # For interceptor mode, load the interceptor models and use modified system
             for model_path in intercepted_model_paths["interceptor_model_paths"]:
-                omc.sendExpression(f"""loadFile("{Path(model_path).as_posix()}")""")
+                omc.sendExpression(
+                    f"""loadFile("{Path(model_path).as_posix()}")""")
             omc.sendExpression(
                 f"""loadFile("{Path(intercepted_model_paths["system_model_path"]).as_posix()}")"""
             )
@@ -515,7 +527,8 @@ def run_single_job(config: dict, job_params: dict, job_id: int = 0) -> str:
         omc = get_om_session()
         package_path = os.path.abspath(paths_config["package_path"])
         if not load_modelica_package(omc, Path(package_path).as_posix()):
-            raise RuntimeError(f"Job {job_id}: Failed to load Modelica package.")
+            raise RuntimeError(
+                f"Job {job_id}: Failed to load Modelica package.")
 
         mod = ModelicaSystem(
             fileName=Path(package_path).as_posix(),
@@ -618,7 +631,8 @@ def run_sequential_sweep(
         omc = get_om_session()
         package_path = os.path.abspath(paths_config["package_path"])
         if not load_modelica_package(omc, Path(package_path).as_posix()):
-            raise RuntimeError("Failed to load Modelica package for sequential sweep.")
+            raise RuntimeError(
+                "Failed to load Modelica package for sequential sweep.")
 
         mod = ModelicaSystem(
             fileName=Path(package_path).as_posix(),
@@ -660,7 +674,8 @@ def run_sequential_sweep(
                 if os.path.exists(result_file_path):
                     try:
                         df = pd.read_csv(result_file_path)
-                        df.drop_duplicates(subset=["time"], keep="last", inplace=True)
+                        df.drop_duplicates(
+                            subset=["time"], keep="last", inplace=True)
                         df.dropna(subset=["time"], inplace=True)
                         df.to_csv(result_file_path, index=False)
                     except Exception as e:
@@ -773,7 +788,8 @@ def run_post_processing(
                     )
                     continue
 
-                spec = importlib.util.spec_from_file_location(module_name, script_path)
+                spec = importlib.util.spec_from_file_location(
+                    module_name, script_path)
                 if spec and spec.loader:
                     module = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(module)
@@ -883,7 +899,8 @@ def _build_model_only(config: dict) -> tuple[str, str, str]:
             raise RuntimeError(f"Model build failed: {err}")
 
         try:
-            exe_path, xml_path = _resolve_built_model_paths(build_result, build_dir)
+            exe_path, xml_path = _resolve_built_model_paths(
+                build_result, build_dir)
         except RuntimeError as exc:
             err = omc.sendExpression("getErrorString()")
             raise RuntimeError(f"Model build failed: {err or exc}") from exc
@@ -931,7 +948,8 @@ def _run_fast_subprocess_job(
         build_dir = os.path.dirname(exe_source)
         model_prefix = os.path.splitext(os.path.basename(exe_source))[0]
         artifacts = glob.glob(os.path.join(build_dir, f"{model_prefix}*"))
-        ignored_extensions = {".c", ".h", ".o", ".cpp", ".log", ".makefile", ".libs"}
+        ignored_extensions = {".c", ".h", ".o",
+                              ".cpp", ".log", ".makefile", ".libs"}
 
         run_exe_path = ""
         try:
@@ -942,7 +960,8 @@ def _run_fast_subprocess_job(
                 if ext.lower() in ignored_extensions:
                     continue
 
-                dst_file = os.path.join(job_workspace, os.path.basename(src_file))
+                dst_file = os.path.join(
+                    job_workspace, os.path.basename(src_file))
                 shutil.copy(src_file, dst_file)
                 if os.path.basename(exe_source) == os.path.basename(src_file):
                     run_exe_path = dst_file
@@ -1108,7 +1127,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
                 if os.path.exists(job_dir) and "job_" in os.path.basename(job_dir):
                     shutil.rmtree(job_dir)
             except OSError as e:
-                logger.warning(f"Failed to clean up job directory {job_dir}: {e}")
+                logger.warning(
+                    f"Failed to clean up job directory {job_dir}: {e}")
 
         except Exception as e:
             logger.error(f"Failed to process result for Job {job_id}: {e}")
@@ -1138,14 +1158,16 @@ def run_simulation(config: Dict[str, Any]) -> None:
                 ) as store:
                     # Save configuration
                     try:
-                        config_df = pd.DataFrame({"config_json": [json.dumps(config)]})
+                        config_df = pd.DataFrame(
+                            {"config_json": [json.dumps(config)]})
                         store.put("config", config_df, format="fixed")
                     except Exception as e:
                         logger.warning(f"Failed to save config to HDF5: {e}")
 
                     # 1. Compile Once
                     master_exe, master_xml, om_bin = _build_model_only(config)
-                    temp_dir = os.path.abspath(config["paths"].get("temp_dir", "temp"))
+                    temp_dir = os.path.abspath(
+                        config["paths"].get("temp_dir", "temp"))
 
                     # 2. Run Many
                     if use_concurrent:
@@ -1201,7 +1223,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
                                 ),
                                 inplace_execution=True,
                             )
-                            process_result(store, i + 1, job_params, result_path)
+                            process_result(
+                                store, i + 1, job_params, result_path)
 
                 # Mark that we used HDF5 so we skip the legacy aggregation
                 simulation_results = None
@@ -1239,7 +1262,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
                                     exc_info=True,
                                 )
                 else:
-                    logger.info("Starting simulation", extra={"mode": "SEQUENTIAL"})
+                    logger.info("Starting simulation",
+                                extra={"mode": "SEQUENTIAL"})
                     result_paths = run_sequential_sweep(config, jobs)
                     for i, result_path in enumerate(result_paths):
                         if result_path:
@@ -1297,7 +1321,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
                                 },
                             )
             else:
-                logger.info("Starting co-simulation", extra={"mode": "SEQUENTIAL"})
+                logger.info("Starting co-simulation",
+                            extra={"mode": "SEQUENTIAL"})
                 for i, job_params in enumerate(jobs):
                     job_id = i + 1
                     logger.info(
@@ -1387,7 +1412,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
                 time_df_added = True
 
             # Prepare the parameter string for column renaming
-            param_string = "&".join([f"{k}={v}" for k, v in job_params.items()])
+            param_string = "&".join(
+                [f"{k}={v}" for k, v in job_params.items()])
 
             # Isolate the data columns (everything except 'time')
             data_columns = df.drop(columns=["time"], errors="ignore")
@@ -1451,7 +1477,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
             results_file_path=path_to_pass,
         )
     else:
-        logger.warning("No simulation results generated, skipping post-processing")
+        logger.warning(
+            "No simulation results generated, skipping post-processing")
 
     # --- Save Logs to HDF5 ---
     if os.path.exists(hdf_path):
@@ -1481,7 +1508,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
                                 log_content.append(json.loads(line.strip()))
                             except json.JSONDecodeError:
                                 # Fallback for non-JSON lines if any
-                                log_content.append({"raw_message": line.strip()})
+                                log_content.append(
+                                    {"raw_message": line.strip()})
 
                     if log_content:
                         with pd.HDFStore(
@@ -1499,7 +1527,8 @@ def run_simulation(config: Dict[str, Any]) -> None:
     # The primary cleanup of job workspaces is handled by the `finally` block in `_run_co_simulation`.
     # This is an additional safeguard.
     if not config["simulation"].get("keep_temp_files", True):
-        temp_dir_path = os.path.abspath(config["paths"].get("temp_dir", "temp"))
+        temp_dir_path = os.path.abspath(
+            config["paths"].get("temp_dir", "temp"))
         logger.info(
             "Cleaning up temporary directory",
             extra={
@@ -1530,7 +1559,8 @@ def main(config_or_path: Union[str, Dict[str, Any]], base_dir: str = None) -> No
         config_or_path: The path to the JSON configuration file OR a config dict.
         base_dir: Optional base directory for resolving relative paths if a dict is passed.
     """
-    config, original_config = basic_prepare_config(config_or_path, base_dir=base_dir)
+    config, original_config = basic_prepare_config(
+        config_or_path, base_dir=base_dir)
     setup_logging(config, original_config)
     logger.info(
         "Loading configuration",
