@@ -87,4 +87,5 @@ known-first-party = ["tricys"]
 [tool.pytest.ini_options]
 markers = [
     "build_test: marks tests for github action",
+    "slow: marks tests requiring OpenModelica environment (deselect with '-m \"not slow\"')",
 ]

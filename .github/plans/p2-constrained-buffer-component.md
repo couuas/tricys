@@ -171,7 +171,7 @@
   - ✅ 速率约束生效：peak `sum(outflow)` ≤ `rate_max * (1 + 2*softness)`
 - **潜在风险**：`variableFilter` 正则转义需双反斜杠（JSON 中 `\\[`）
 
-#### Task 2.3: 编写 pytest 自动化验证
+#### ✅ Task 2.3: 编写 pytest 自动化验证
 - **目标**：确保 CI 中约束行为可回归验证
 - **依赖**：T2.2
 - **修改内容**：
