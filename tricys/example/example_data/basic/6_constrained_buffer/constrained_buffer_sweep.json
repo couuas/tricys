@@ -9,7 +9,17 @@
         "step_size": 1.0
     },
     "simulation_parameters": {
-        "blanket_c.capacity_max": [200, 500, 1000, 2000],
-        "blanket_c.rate_max": [20, 50, 100, 1000000000]
+        "blanket_c.capacity_max": [
+            200,
+            500,
+            1000,
+            2000
+        ],
+        "blanket_c.rate_max": [
+            20,
+            50,
+            100,
+            1000000000
+        ]
     }
 }
