@@ -31,6 +31,18 @@
       "description": "运行 FOC 混合工况示例，展示 PULSE、DWELL、BEGIN_SCHEDULE 与 REPEAT 的组合调度",
       "path": "5_fusion_operation_config",
       "config": "fusion_operation_config.json"
+    },
+    {
+      "name": "BASIC - Blanket 容量/速率约束",
+      "description": "演示 Blanket 默认约束机制，通过 simulation_parameters 在 JSON 中配置 capacity_max 与 rate_max",
+      "path": "7_blanket_constraints",
+      "config": "blanket_constraints.json"
+    },
+    {
+      "name": "BASIC - Blanket 约束参数扫描",
+      "description": "Blanket capacity_max × rate_max 4×4 参数扫描（含 1e9 等价于无约束基线）",
+      "path": "7_blanket_constraints",
+      "config": "blanket_constraints_sweep.json"
     }
   ]
 }
