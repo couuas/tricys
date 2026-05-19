@@ -154,7 +154,7 @@
   - ✅ 默认（无 simulation_parameters）等价于原 Cycle 行为
 - **潜在风险**：variableFilter 中的 `blanket.I_total` 在原 Blanket.mo 中不存在 → 必须在 Task 1.2 中确实添加该变量
 
-#### Task 2.2: 创建 pytest 自动化验证
+#### ✅ Task 2.2: 创建 pytest 自动化验证
 - **目标**：5 项测试确保约束功能正确 + 无回归
 - **依赖**：T1.2, T2.1
 - **修改内容**：
