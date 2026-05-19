@@ -209,7 +209,7 @@
   - ✅ 4 个原子 commit
   - ✅ 不含任何与 PR #81 冲突的文件修改（验证：`git diff feature/constrained-buffer..feature/blanket-default-constraints --name-only` 不出现 Blanket.mo 之外的冲突项 — 实际上 PR #81 不改 Blanket.mo，所以无冲突）
 
-#### Task 3.2: 创建 PR
+#### ✅ Task 3.2: 创建 PR
 - **目标**：提交到 asipp-neutronics/tricys main
 - **依赖**：T3.1 + PR #81 状态判断
 - **修改内容**：使用 github-pull-request 工具创建 PR
