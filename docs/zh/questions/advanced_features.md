@@ -140,3 +140,49 @@
     在 `tricys/analysis/metric.py` 中注册您的函数，或直接在配置中引用。
 
 ---
+??? question "如何为 Blanket 设置盘存与处理速率上限？"
+    自 PR #82 起，`example_model.Blanket` 内置 **sigmoid 软约束**：当氚盘存 `I_total`
+    接近 `capacity_max` 或瞬时出流接近 `rate_max` 时，会被平滑地限幅，并把溢出
+    部分通过 `overflow_out[5]` 与 `rate_clip_out[5]` 端口暴露出来。
+
+    **默认行为**：`capacity_max = rate_max = 1e9`，等价于"无约束"，
+    与历史版本完全一致（无回归）。
+
+    **通过 JSON 配置启用**：
+
+    ```json
+    {
+      "paths": { "package_path": "../../example_model/package.mo" },
+      "simulation": {
+        "model_name": "example_model.Cycle",
+        "variableFilter": "time|blanket.I[1]|blanket.I_total|blanket.overflow_out[1]|blanket.rate_clip_out[1]|sds.I[1]",
+        "stop_time": 5000.0,
+        "step_size": 1.0
+      },
+      "simulation_parameters": {
+        "blanket.capacity_max": 500,
+        "blanket.rate_max": 50,
+        "blanket.softness": 0.02
+      }
+    }
+    ```
+
+    **参数说明**：
+
+    | 参数 | 单位 | 含义 |
+    |------|------|------|
+    | `blanket.capacity_max` | g | Blanket 总盘存上限（sigmoid 软约束） |
+    | `blanket.rate_max`     | g/h | 瞬时出流上限（sigmoid 软约束） |
+    | `blanket.softness`     | – | 软过渡区相对宽度，默认 0.02；越小越接近硬约束 |
+
+    **输出端口**：
+
+    * `blanket.overflow_out[i]`：因容量约束被拒收的入流（i 对应同位素索引）
+    * `blanket.rate_clip_out[i]`：因速率约束被截断的出流
+
+    **完整示例**：见 `tricys/example/example_data/basic/7_blanket_constraints/`
+    （单点配置 + 4×4 参数扫描）。
+
+    **与 ConstrainedBuffer 的关系**：`ConstrainedBuffer`（PR #81 示例 6）是
+    通用的"带约束储罐"组件，**没有** TBR 产氚源；而本特性把同样的约束机制
+    **直接嵌入 Blanket**，保留其产氚行为，**不需要替换主模型 `Cycle.mo` 中的实例**。

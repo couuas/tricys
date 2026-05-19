@@ -139,3 +139,54 @@
     Register your function in `tricys/analysis/metric.py` or reference it directly in the configuration.
 
 ---
+??? question "How do I set inventory and processing-rate caps on the Blanket?"
+    Since PR #82, `example_model.Blanket` includes a built-in **sigmoid soft
+    constraint**: when the tritium inventory `I_total` approaches `capacity_max`
+    or the instantaneous outflow approaches `rate_max`, it is smoothly clipped,
+    and the excess is exposed via the `overflow_out[5]` and `rate_clip_out[5]`
+    output ports.
+
+    **Default behaviour**: `capacity_max = rate_max = 1e9`, which is
+    effectively "no constraint" and reproduces the legacy behaviour exactly
+    (no regressions).
+
+    **Enable via JSON configuration**:
+
+    ```json
+    {
+      "paths": { "package_path": "../../example_model/package.mo" },
+      "simulation": {
+        "model_name": "example_model.Cycle",
+        "variableFilter": "time|blanket.I[1]|blanket.I_total|blanket.overflow_out[1]|blanket.rate_clip_out[1]|sds.I[1]",
+        "stop_time": 5000.0,
+        "step_size": 1.0
+      },
+      "simulation_parameters": {
+        "blanket.capacity_max": 500,
+        "blanket.rate_max": 50,
+        "blanket.softness": 0.02
+      }
+    }
+    ```
+
+    **Parameters**:
+
+    | Parameter | Unit | Meaning |
+    |-----------|------|---------|
+    | `blanket.capacity_max` | g | Total blanket inventory cap (sigmoid soft) |
+    | `blanket.rate_max`     | g/h | Instantaneous outflow cap (sigmoid soft) |
+    | `blanket.softness`     | – | Relative transition width, default 0.02; smaller = harder |
+
+    **Output ports**:
+
+    * `blanket.overflow_out[i]`: inflow rejected because of the capacity constraint
+    * `blanket.rate_clip_out[i]`: outflow clipped because of the rate constraint
+
+    **Full example**: see `tricys/example/example_data/basic/7_blanket_constraints/`
+    (single-point config + 4×4 parameter sweep).
+
+    **Relation to ConstrainedBuffer**: `ConstrainedBuffer` (PR #81, example 6) is
+    a generic "constrained buffer" component **without** a TBR breeding source.
+    This feature embeds the same constraint mechanism **directly into Blanket**,
+    preserving its breeding behaviour, so there is **no need to replace the
+    `Blanket blanket` instance in the main `Cycle.mo`**.
