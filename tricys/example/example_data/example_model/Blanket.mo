@@ -20,9 +20,27 @@ model Blanket
     Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}),
               iconTransformation(origin = {114, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
 
+  // 新增端口：容量超限溢流（守恒，默认悬空）
+  Modelica.Blocks.Interfaces.RealOutput overflow_out[5] "容量超限溢流（守恒）" annotation(
+    Placement(transformation(origin = {110, -40}, extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(origin = {114, 20}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
+
+  // 新增端口：速率超限截流（守恒，默认悬空）
+  Modelica.Blocks.Interfaces.RealOutput rate_clip_out[5] "速率超限截流（守恒）" annotation(
+    Placement(transformation(origin = {110, -80}, extent = {{-10, -10}, {10, 10}}),
+              iconTransformation(origin = {114, -20}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
+
   // 状态变量：系统中5种物质的储存量
   Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
-  Real outflow[5](start = {0, 0, 0, 0, 0}) "总输出流";
+  Real outflow[5](start = {0, 0, 0, 0, 0}) "总输出流（约束后）";
+
+  // 新增中间变量
+  Real I_total "总盘存量";
+  Real outflow_nominal[5] "未约束的名义出流";
+  Real outflow_total_nominal "名义总出流";
+  Real inflow_total[5] "合计入流（含 TBR 增殖）";
+  Real rate_scale "速率约束缩放因子 (0,1]";
+  Real admit_scale "容量约束准入因子 [0,1]";
 
   // 参数定义
   parameter Real T = 24 "平均滞留时间 (mean residence time)";
@@ -32,13 +50,49 @@ model Blanket
   parameter Real to_CL_Fraction = 0.01 "输出到CL的比例";
   parameter Real to_TES_Fraction = 1 - to_CL_Fraction "输出到TES的比例";
 
+  // 新增约束参数（默认 1e9 = 等价无约束）
+  parameter Real capacity_max(unit = "g") = 1e9
+    "最大盘存量上限（总氚当量）。默认 1e9 = 无约束";
+  parameter Real rate_max(unit = "g/h") = 1e9
+    "最大出流速率上限（总氚当量）。默认 1e9 = 无约束";
+  parameter Real softness = 0.02
+    "sigmoid 平滑因子：0=硬约束（带事件），0.01-0.1=软约束";
+
 equation
-  // 计算每种物质的动态变化和输出
+  // --- 聚合计算 ---
+  I_total = sum(I);
   for i in 1:5 loop
-    der(I[i]) = (if i == 1 then pulseInput * TBR else 0) + from_TES[i] - (1 + nonradio_loss[i]) * I[i] / T  - decay_loss[i] * I[i];
-    outflow[i] = I[i] / T;
+    inflow_total[i] = (if i == 1 then pulseInput * TBR else 0) + from_TES[i];
+    outflow_nominal[i] = I[i] / T;
+  end for;
+  outflow_total_nominal = sum(outflow_nominal);
+
+  // --- 速率约束 ---
+  if softness <= 0 then
+    rate_scale = min(1.0, rate_max / max(outflow_total_nominal, 1e-30));
+  else
+    rate_scale = (rate_max / max(outflow_total_nominal, 1e-30))
+               + (1.0 - rate_max / max(outflow_total_nominal, 1e-30))
+                 / (1.0 + exp((outflow_total_nominal - rate_max) / (softness * rate_max + 1e-30)));
+  end if;
+
+  // --- 容量约束 ---
+  if softness <= 0 then
+    admit_scale = if I_total >= capacity_max then 0.0 else 1.0;
+  else
+    admit_scale = 1.0 / (1.0 + exp((I_total - capacity_max) / (softness * capacity_max + 1e-30)));
+  end if;
+
+  // --- 逐同位素质量平衡 ---
+  for i in 1:5 loop
+    outflow[i] = rate_scale * outflow_nominal[i];
+    der(I[i]) = admit_scale * inflow_total[i]
+              - (1 + nonradio_loss[i]) * outflow[i]
+              - decay_loss[i] * I[i];
     to_TES[i] = to_TES_Fraction * outflow[i];
     to_CL[i] = to_CL_Fraction * outflow[i];
+    overflow_out[i] = (1.0 - admit_scale) * inflow_total[i];
+    rate_clip_out[i] = (1.0 - rate_scale) * outflow_nominal[i];
   end for;
 
 annotation(

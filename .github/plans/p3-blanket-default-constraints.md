@@ -91,7 +91,7 @@
   - ✅ 与 feature/constrained-buffer 无 merge-base 之外的共同提交
 - **潜在风险**：本地 main 可能落后于 upstream/main，需要先 pull
 
-#### Task 1.2: 扩展 Blanket.mo 添加约束参数与端口
+#### ✅ Task 1.2: 扩展 Blanket.mo 添加约束参数与端口
 - **目标**：在 Blanket.mo 中追加 sigmoid 约束逻辑，默认行为不变
 - **依赖**：T1.1
 - **修改内容**：
