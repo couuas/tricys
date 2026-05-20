@@ -139,3 +139,46 @@
     Register your function in `tricys/analysis/metric.py` or reference it directly in the configuration.
 
 ---
+
+??? question "How do I set maximum inventory capacity and processing rate for a subsystem?"
+    Use the `ConstrainedBuffer` component to replace a standard subsystem model (e.g., Blanket) to gain capacity and rate constraint capabilities.
+
+    **Key Parameters**:
+
+    | Parameter | Description | Default | Unit |
+    |-----------|-------------|---------|------|
+    | `capacity_max` | Maximum inventory (total tritium equivalent) | 1e9 (unconstrained) | g |
+    | `rate_max` | Maximum outflow rate | 1e9 (unconstrained) | g/h |
+    | `softness` | Sigmoid soft constraint coefficient | 0.02 | — |
+    | `to_Down_Fraction` | Fraction routed to downstream | 1.0 | — |
+
+    **JSON Configuration Example** (cap at 500g, rate at 50 g/h):
+    ```json
+    {
+        "simulation_parameters": {
+            "blanket_c.capacity_max": 500,
+            "blanket_c.rate_max": 50
+        }
+    }
+    ```
+
+    **Parameter Sweep Example**:
+    ```json
+    {
+        "simulation_parameters": {
+            "blanket_c.capacity_max": [200, 500, 1000, 2000],
+            "blanket_c.rate_max": [20, 50, 100, 1000000000]
+        }
+    }
+    ```
+
+    **Constraint Behavior**:
+
+    - Over-capacity: Inflow is soft-limited by a sigmoid function; excess is routed to the `overflow_out` port
+    - Over-rate: Outflow is capped at `rate_max`; excess is routed to the `rate_clip_out` port
+    - Mass conservation: All constrained mass is exported through the corresponding ports — nothing disappears
+
+    **Full example configuration** available at `tricys/example/example_data/basic/6_constrained_buffer/`.
+
+
+---
