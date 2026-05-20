@@ -186,3 +186,46 @@
     **与 ConstrainedBuffer 的关系**：`ConstrainedBuffer`（PR #81 示例 6）是
     通用的"带约束储罐"组件，**没有** TBR 产氚源；而本特性把同样的约束机制
     **直接嵌入 Blanket**，保留其产氚行为，**不需要替换主模型 `Cycle.mo` 中的实例**。
+
+??? question "问：如何为子系统设置最大盘存量和最大处理速率？"
+    使用 `ConstrainedBuffer` 组件替换标准子系统模型（如 Blanket），即可获得容量上限和速率上限约束能力。
+
+    **核心参数**：
+
+    | 参数 | 含义 | 默认值 | 单位 |
+    |------|------|--------|------|
+    | `capacity_max` | 最大盘存量（总氚当量） | 1e9（无约束） | g |
+    | `rate_max` | 最大出流速率 | 1e9（无约束） | g/h |
+    | `softness` | Sigmoid 软约束系数 | 0.02 | — |
+    | `to_Down_Fraction` | 送往下游的比例 | 1.0 | — |
+
+    **JSON 配置示例**（设置容量 500g、速率 50 g/h）：
+    ```json
+    {
+        "simulation_parameters": {
+            "blanket_c.capacity_max": 500,
+            "blanket_c.rate_max": 50
+        }
+    }
+    ```
+
+    **参数扫描示例**：
+    ```json
+    {
+        "simulation_parameters": {
+            "blanket_c.capacity_max": [200, 500, 1000, 2000],
+            "blanket_c.rate_max": [20, 50, 100, 1000000000]
+        }
+    }
+    ```
+
+    **约束行为**：
+
+    - 超容量时：入流被 sigmoid 函数软限制，超限部分导出至 `overflow_out` 端口
+    - 超速率时：出流被限制在 `rate_max` 以内，超限部分导出至 `rate_clip_out` 端口
+    - 质量守恒：所有被约束截流的物质均通过对应端口导出，不会凭空消失
+
+    **完整示例配置**参见 `tricys/example/example_data/basic/6_constrained_buffer/`。
+
+
+---

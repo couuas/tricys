@@ -15,3 +15,5 @@ Cycle
 Coolant_Pipe
 CPS
 Blanket
+ConstrainedBuffer
+Cycle_Constrained
