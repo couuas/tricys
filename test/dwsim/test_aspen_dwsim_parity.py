@@ -9,21 +9,22 @@ When no Aspen baseline is available, tests verify:
 - All 9 output values (3 streams × 3 components) are non-negative
 """
 
-from run_dwsim_point import (
+import sys
+import os
+import pytest
+
+# Set up path before importing run_dwsim_point
+SCRIPT_DIR = os.path.join(
+    os.path.dirname(__file__), "..", "..", "script", "dwsim"
+)
+sys.path.insert(0, os.path.abspath(SCRIPT_DIR))
+
+from run_dwsim_point import (  # noqa: E402
     TEST_CASES,
     COMPOUNDS,
     compute_feed_composition,
     extract_stream_hdt,
 )
-import sys
-import os
-import pytest
-
-# Import run_dwsim_point utilities
-SCRIPT_DIR = os.path.join(
-    os.path.dirname(__file__), "..", "..", "script", "dwsim"
-)
-sys.path.insert(0, os.path.abspath(SCRIPT_DIR))
 
 # Parity thresholds
 REL_TOLERANCE = 0.20  # 20% relative deviation (coarse, Phase 4.2 uses 5%)
