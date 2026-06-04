@@ -7,12 +7,12 @@ Modelica initialization scripts (`.mos` files) for tricys.
 ## Requirements
 
 ```bash
-pip install h2iso>=0.2.0
+pip install "h2iso[solver]>=0.1.0"
 ```
 
 Or install from source:
 ```bash
-pip install -e /path/to/h2iso
+pip install -e "/path/to/h2iso[solver]"
 ```
 
 ## Usage
