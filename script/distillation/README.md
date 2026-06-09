@@ -23,12 +23,12 @@ python init_from_h2iso.py --config <flowsheet.json> --output <output_dir>
 
 ### Arguments
 
-| Argument | Description | Default |
-|----------|-------------|---------|
-| `--config` | Path to flowsheet JSON configuration | (required) |
-| `--output` | Output directory for `.mos` files | `.` (current) |
-| `--max-iter` | Max tear stream iterations | 50 |
-| `--tol` | Convergence tolerance | 1e-4 |
+| Argument     | Description                          | Default       |
+| ------------ | ------------------------------------ | ------------- |
+| `--config`   | Path to flowsheet JSON configuration | (required)    |
+| `--output`   | Output directory for `.mos` files    | `.` (current) |
+| `--max-iter` | Max tear stream iterations           | 50            |
+| `--tol`      | Convergence tolerance                | 1e-4          |
 
 ### Example
 
