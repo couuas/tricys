@@ -3,7 +3,7 @@ numpy
 matplotlib
 seaborn
 pathlib
-OMPython == 3.6.0
+OMPython >= 4.0.0
 openai
 python-dotenv
 SALib
