@@ -7,7 +7,7 @@ Modelica initialization scripts (`.mos` files) for tricys.
 ## Requirements
 
 ```bash
-pip install "h2iso[solver]>=0.1.0"
+pip install "h2iso[solver]>=0.2.0"
 ```
 
 Or install from source:
@@ -23,12 +23,13 @@ python init_from_h2iso.py --config <flowsheet.json> --output <output_dir>
 
 ### Arguments
 
-| Argument     | Description                          | Default       |
-| ------------ | ------------------------------------ | ------------- |
-| `--config`   | Path to flowsheet JSON configuration | (required)    |
-| `--output`   | Output directory for `.mos` files    | `.` (current) |
-| `--max-iter` | Max tear stream iterations           | 50            |
-| `--tol`      | Convergence tolerance                | 1e-4          |
+| Argument     | Description                               | Default       |
+| ------------ | ----------------------------------------- | ------------- |
+| `--config`   | Path to flowsheet JSON configuration      | (required)    |
+| `--output`   | Output directory for `.mos` files         | `.` (current) |
+| `--max-iter` | Max tear stream iterations                | 50            |
+| `--tol`      | Convergence tolerance                     | 1e-4          |
+| `--strict`   | Abort with error if flowsheet diverges    | off           |
 
 ### Example
 

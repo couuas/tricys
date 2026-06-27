@@ -8,7 +8,7 @@ Usage:
     python init_from_h2iso.py --config <flowsheet.json> [--output <dir>]
 
 Requirements:
-    pip install "h2iso[solver]>=0.1.0"
+    pip install "h2iso[solver]>=0.2.0"
 """
 
 from __future__ import annotations
@@ -39,7 +39,7 @@ def _load_h2iso_dependencies():
             reason = f"h2iso dependency import failed: {exc}"
         print(
             f"Error: {reason}. Install with:\n"
-            "  pip install \"h2iso[solver]>=0.1.0\"\n"
+            "  pip install \"h2iso[solver]>=0.2.0\"\n"
             "Or from source:\n"
             "  pip install -e /path/to/h2iso[solver]",
             file=sys.stderr,
@@ -184,6 +184,10 @@ def main():
         "--tol", type=float, default=1e-4,
         help="Convergence tolerance (default: 1e-4)",
     )
+    parser.add_argument(
+        "--strict", action="store_true",
+        help="Abort if flowsheet does not converge",
+    )
     args = parser.parse_args()
 
     config_path = Path(args.config)
@@ -211,11 +215,14 @@ def main():
     result = solver.solve(max_iter=args.max_iter, tol=args.tol)
 
     if not result.converged:
-        print(
-            "Warning: flowsheet did not converge "
-            f"(residual={result.tear_residual:.2e})",
-            file=sys.stderr,
+        msg = (
+            "flowsheet did not converge "
+            f"(residual={result.tear_residual:.2e})"
         )
+        if args.strict:
+            print(f"Error: {msg}", file=sys.stderr)
+            raise SystemExit(1)
+        print(f"Warning: {msg}", file=sys.stderr)
 
     status = "CONVERGED" if result.converged else "NOT CONVERGED"
     print(f"  Status: {status}, iterations: {result.iterations}")
