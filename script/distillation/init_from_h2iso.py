@@ -118,7 +118,7 @@ def generate_column_mos(
         _set_parameter_line(col_name, "T_top", f"{top_temperature:.4f}"),
     ]
 
-    for i, sp in enumerate(TRICYS_SPECIES):
+    for i, _ in enumerate(TRICYS_SPECIES):
         lines.append(
             _set_parameter_line(col_name, f"x_top[{i + 1}]", f"{top_5[i]:.8f}")
         )
@@ -130,7 +130,7 @@ def generate_column_mos(
         _set_parameter_line(col_name, "T_bottom", f"{bottom_temperature:.4f}"),
     ])
 
-    for i, sp in enumerate(TRICYS_SPECIES):
+    for i, _ in enumerate(TRICYS_SPECIES):
         lines.append(
             _set_parameter_line(
                 col_name,
@@ -143,7 +143,7 @@ def generate_column_mos(
     return "\n".join(lines)
 
 
-def generate_init_all_mos(column_names: list[str], output_dir: Path) -> str:
+def generate_init_all_mos(column_names: list[str]) -> str:
     """Generate master .mos that loads all column init scripts."""
     lines = [
         "// Master initialization script for ISS columns",
@@ -255,7 +255,7 @@ def main():
 
     # Generate master init script
     if column_names:
-        master_content = generate_init_all_mos(column_names, output_dir)
+        master_content = generate_init_all_mos(column_names)
         master_path = output_dir / "init_all_columns.mos"
         master_path.write_text(master_content)
         print(f"  Generated: {master_path}")
