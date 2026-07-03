@@ -22,7 +22,10 @@ package example_model
     parameter Real threshold = 1000 "铺底量";
   // 辅助变量：计算I的总和
     Real I_total "I的5个分量之和";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算I的总和
     I_total = sum(I);
     // 计算每种物质的动态变化和输出
@@ -31,12 +34,15 @@ for i in 1:5 loop
       if I_total > threshold then
         der(I[i]) = from_I_ISS[i] + from_CL[i] - (1 + nonradio_loss[i]) * (1 - threshold / I_total) * I[i] / T  - decay_loss[i] * I[i];
         outflow[i] = (1 - threshold / I_total) * I[i] / T;
+        leak_rate[i] = nonradio_loss[i] * (1 - threshold / I_total) * I[i] / T;
       else
         der(I[i]) = from_I_ISS[i] + from_CL[i] -  nonradio_loss[i] * I[i]/T  - decay_loss[i] * I[i];
         outflow[i] = 0;
+        leak_rate[i] = nonradio_loss[i] * I[i]/T;
       end if;
 // 输出流分配到O_ISS
       to_O_ISS[i] = outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
     end for;
   annotation(
       Icon(graphics = {
@@ -76,7 +82,10 @@ for i in 1:5 loop
     parameter Real to_BZ_Fraction = 1 - to_O_ISS_Fraction;
     // 辅助变量：计算I的总和
     Real I_total "I的5个分量之和";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算I的总和
     I_total = sum(I);
   // 计算每种物质的动态变化和输出
@@ -85,13 +94,16 @@ for i in 1:5 loop
       if I_total > threshold then
         der(I[i]) = from_BZ[i] - (1 + nonradio_loss[i])*(1 - threshold/I_total)*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = (1 - threshold/I_total)*I[i]/T;
+        leak_rate[i] = nonradio_loss[i] * (1 - threshold / I_total) * I[i] / T;
       else
         der(I[i]) = from_BZ[i] - nonradio_loss[i]*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = 0;
+        leak_rate[i] = nonradio_loss[i] * I[i]/T;
       end if;
 // 输出流分配到ISS_O
       to_O_ISS[i] = to_O_ISS_Fraction*outflow[i];
       to_BZ[i] = to_BZ_Fraction*outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {1, 1}, extent = {{-73, 37}, {73, -37}}, textString = "TES", fontName = "Arial")}),
@@ -112,13 +124,18 @@ for i in 1:5 loop
     parameter Real T = 0.5 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     parameter Real nonradio_loss[5](each unit = "1") = {0.0001, 0.0001, 0, 0, 0} "非放射性损失";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算每个维度流体的动态变化
     for i in 1:5 loop
       der(I[i]) = from_TEP_FEP[i] - (1 + nonradio_loss[i])*I[i]/T - decay_loss[i]*I[i];
 // 输出流分配到TEP_FCU
       outflow[i] = I[i]/T;
       to_TEP_FCU[i] = I[i]/T;
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*I[i]/T;
     end for;
     annotation(
       Diagram,
@@ -145,7 +162,10 @@ for i in 1:5 loop
     parameter Real nonradio_loss[5](each unit = "1") = {0.0001, 0.0001, 0, 0, 0} "非放射性损失";
     //DIR比例，逻辑不对，因为DT不一定一样多，需要改
     parameter Real to_SDS_Fraction[5] = {0.5, 0.5, 0, 0, 0} "输出到SDS的比例";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算每个维度流体的动态变化
     for i in 1:5 loop
       der(I[i]) = from_pump[i] - (1 + nonradio_loss[i])*I[i]/T - decay_loss[i]*I[i];
@@ -153,6 +173,8 @@ for i in 1:5 loop
 // 输出流分配到SDS和TEP_IP
       to_SDS[i] = outflow[i]*to_SDS_Fraction[i];
       to_TEP_IP[i] = outflow[i]*(1 - to_SDS_Fraction[i]);
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*I[i]/T;
     end for;
     annotation(
       Diagram,
@@ -174,13 +196,18 @@ for i in 1:5 loop
     parameter Real T = 0.1 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     parameter Real nonradio_loss[5](each unit = "1") = {0.0001, 0.0001, 0, 0, 0} "非放射性损失";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算每个维度流体的动态变化
     for i in 1:5 loop
       der(I[i]) = from_TEP_IP[i] - (1 + nonradio_loss[i])*I[i]/T - decay_loss[i]*I[i];
 // 输出流分配到I_ISS
       outflow[i] = I[i]/T;
       to_I_ISS[i] = I[i]/T;
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*I[i]/T;
     end for;
     annotation(
       Diagram,
@@ -207,10 +234,15 @@ for i in 1:5 loop
     // parameter Real T = 0.5 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     parameter Real nonradio_loss[5](each unit = "1") = {0, 0, 0, 0, 0} "非放射性损失";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
     for i in 1:5 loop
 // 只对 T, D, H 进行计算
       der(I[i]) = from_I_ISS[i] + from_O_ISS[i] + from_TEP_FEP[i] - (1 + nonradio_loss[i])*to_FS[i] - decay_loss[i]*I[i];
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*to_FS[i];
     end for;
     annotation(
       Diagram,
@@ -235,7 +267,10 @@ for i in 1:5 loop
     parameter Real threshold = 640 "铺底量";
     // 辅助变量：计算I的总和
     Real I_total "I的5个分量之和";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算I的总和
     I_total = sum(I);
   // 计算每种物质的动态变化和输出
@@ -244,12 +279,15 @@ for i in 1:5 loop
       if I_total > threshold then
         der(I[i]) = from_Plasma[i] - (1 + nonradio_loss[i])*(1 - threshold/I_total)*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = (1 - threshold/I_total)*I[i]/T;
+        leak_rate[i] = nonradio_loss[i] * (1 - threshold / I_total) * I[i] / T;
       else
         der(I[i]) = from_Plasma[i] - nonradio_loss[i]*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = 0;
+        leak_rate[i] = nonradio_loss[i] * I[i]/T;
       end if;
 // 输出流分配到TEP_FEP
       to_TEP_FEP[i] = outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
     end for;
     annotation(
       Diagram,
@@ -282,7 +320,11 @@ for i in 1:5 loop
     parameter Real to_Div_fraction[5] = {1e-4, 1e-4, 1e-4, 1e-1, 1e-2} "流向偏滤器的比例，无单位";
     parameter Real to_FW_fraction[5] = {1e-4, 1e-4, 1e-4, 1e-1, 1e-2} "流向第一壁的比例，无单位";
     parameter Real He_yield = 4.002602/3.01693 "氦产额 (每单位质量氚+氘生成的氦质量，无单位)";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+    Real cumulative_burn[5](start = {0, 0, 0, 0, 0}) "累计燃烧";
+equation
 // 计算氦生成（仅在脉冲开启时生成）
     He_generated = if pulseInput > 0 then He_yield*pulseInput else 0;
     H_injection = (pulseInput*(1.00784/3.01693))/(fb*nf)*2/99;
@@ -298,6 +340,9 @@ for i in 1:5 loop
       to_FW[i] = (from_Fueling_System[i] + (if i == 4 then He_generated else 0))*to_FW_fraction[i];
       to_Div[i] = (from_Fueling_System[i] + (if i == 4 then He_generated else 0))*to_Div_fraction[i];
       to_Pump[i] = (from_Fueling_System[i] + (if i == 4 then He_generated else 0))*(1 - to_Div_fraction[i] - to_FW_fraction[i] - fb*nf);
+      decay_rate[i] = 0;
+      leak_rate[i] = 0;
+      der(cumulative_burn[i]) = from_Fueling_System[i] * fb * nf;
     end for;
     annotation(
       Diagram,
@@ -328,7 +373,10 @@ for i in 1:5 loop
     parameter Real threshold = 20 "铺底量";
     // 辅助变量：计算I的总和
     Real I_total "I的5个分量之和";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算I的总和
     I_total = sum(I);
   // 计算每种物质的动态变化和输出
@@ -337,12 +385,15 @@ for i in 1:5 loop
       if I_total > threshold then
         der(I[i]) = from_CPS[i] + from_TES[i] + from_WDS[i] - (1 + nonradio_loss[i])*(1 - threshold/I_total)*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = (1 - threshold/I_total)*I[i]/T;
+        leak_rate[i] = nonradio_loss[i] * (1 - threshold / I_total) * I[i] / T;
       else
         der(I[i]) = from_CPS[i] + from_TES[i] + from_WDS[i] - nonradio_loss[i]*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = 0;
+        leak_rate[i] = nonradio_loss[i] * I[i]/T;
       end if;
 // 输出流分配到SDS
       to_SDS[i] = outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 85, 0}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {5, 7}, extent = {{-75, 33}, {75, -33}}, textString = "O-ISS", fontName = "Arial")}),
@@ -363,15 +414,18 @@ for i in 1:5 loop
     Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
-    parameter Real T = 4 "平均滞留时间 (mean residence time)";
+    parameter Real T = 2.4 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
-    parameter Real nonradio_loss[5](each unit = "1") = {0.0001, 0.0001, 0, 0, 0} "非放射性损失";
+    parameter Real nonradio_loss[5](each unit = "1") = {0, 0, 0, 0, 0} "非放射性损失";
     parameter Real threshold = 300 "铺底量";
     parameter Real to_WDS_Fraction = 1e-8 "输出到WDS的比例";
     parameter Real to_SDS_Fraction = 1 - to_WDS_Fraction "输出到SDS的比例";
     // 辅助变量：计算I的总和
     Real I_total "I的5个分量之和";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算I的总和
     I_total = sum(I);
   // 计算每种物质的动态变化和输出
@@ -380,13 +434,16 @@ for i in 1:5 loop
       if I_total > threshold then
         der(I[i]) = from_TEP_FCU[i] - (1 + nonradio_loss[i])*(1 - threshold/I_total)*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = (1 - threshold/I_total)*I[i]/T;
+        leak_rate[i] = nonradio_loss[i] * (1 - threshold / I_total) * I[i] / T;
       else
         der(I[i]) = from_TEP_FCU[i] - nonradio_loss[i]*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = 0;
+        leak_rate[i] = nonradio_loss[i] * I[i]/T;
       end if;
 // 输出流分配到SDS和WDS
       to_WDS[i] = to_WDS_Fraction*outflow[i];
       to_SDS[i] = to_SDS_Fraction*outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 85, 0}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {4, 3}, extent = {{-72, 33}, {72, -33}}, textString = "I-ISS", fontName = "Arial")}),
@@ -407,12 +464,17 @@ for i in 1:5 loop
     parameter Real T = 0.5 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     //parameter Real nonradio_loss[5] (each unit="1") = {0, 0, 0, 0, 0} "非放射性损失";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算每种物质的动态变化和输出
     for i in 1:5 loop
       der(I[i]) = from_SDS[i] - 1*I[i]/T - decay_loss[i]*I[i];
       outflow[i] = I[i]/T;
       to_Plasma[i] = outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = 0;
     end for;
     annotation(
       Diagram,
@@ -441,12 +503,17 @@ for i in 1:5 loop
     parameter Real T = 0.28 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     parameter Real nonradio_loss[5](each unit = "1") = {0, 0, 0, 0, 0} "非放射性损失";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算每种物质的动态变化和输出
     for i in 1:5 loop
       der(I[i]) = from_plasma[i] + from_CL[i] + from_CPS[i] - (1 + nonradio_loss[i])*I[i]/T - decay_loss[i]*I[i];
       outflow[i] = I[i]/T;
       to_CL[i] = outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*I[i]/T;
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 170, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {1, 1}, extent = {{-73, 37}, {73, -37}}, textString = "FW", fontName = "Arial")}),
@@ -473,12 +540,17 @@ for i in 1:5 loop
     parameter Real T = 0.28 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     parameter Real nonradio_loss[5](each unit = "1") = {0, 0, 0, 0, 0} "非放射性损失";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算每种物质的动态变化和输出
     for i in 1:5 loop
       der(I[i]) = from_plasma[i] + from_CL[i] + from_CPS[i] - (1 + nonradio_loss[i])*I[i]/T - decay_loss[i]*I[i];
       outflow[i] = I[i]/T;
       to_CL[i] = outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*I[i]/T;
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 170, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {1, 1}, extent = {{-73, 37}, {73, -37}}, textString = "DIV", fontName = "Arial")}),
@@ -517,7 +589,10 @@ for i in 1:5 loop
     parameter Real to_WDS_Fraction = 1e-4;
     parameter Real to_CPS_Fraction = 1e-2;
     parameter Real to_FW_Fraction = 0.6;
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算每种物质的动态变化和输出
     for i in 1:5 loop
       der(I[i]) = from_DIV[i] + from_FW[i] + from_BZ[i] - (1 + nonradio_loss[i])*I[i]/T - decay_loss[i]*I[i];
@@ -526,6 +601,8 @@ for i in 1:5 loop
       to_CPS[i] = to_CPS_Fraction*(1 - to_WDS_Fraction)*outflow[i];
       to_FW[i] = to_FW_Fraction*(1 - to_CPS_Fraction)*(1 - to_WDS_Fraction)*outflow[i];
       to_DIV[i] = (1 - to_FW_Fraction)*(1 - to_CPS_Fraction)*(1 - to_WDS_Fraction)*outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*I[i]/T;
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 255, 127}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {1, 1}, extent = {{-73, 37}, {73, -37}}, textString = "Coolant
@@ -558,7 +635,10 @@ for i in 1:5 loop
     parameter Real to_FW_Fraction = 0.06 "输出到FW的比例";
     // 辅助变量：计算I的总和
     Real I_total "I的5个分量之和";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+equation
 // 计算I的总和
     I_total = sum(I);
   // 计算每种物质的动态变化和输出
@@ -567,14 +647,17 @@ for i in 1:5 loop
       if I_total > threshold then
         der(I[i]) = from_CL[i] - (1 + nonradio_loss[i])*(1 - threshold/I_total)*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = (1 - threshold/I_total)*I[i]/T;
+        leak_rate[i] = nonradio_loss[i] * (1 - threshold / I_total) * I[i] / T;
       else
         der(I[i]) = from_CL[i] - nonradio_loss[i]*I[i]/T - decay_loss[i]*I[i];
         outflow[i] = 0;
+        leak_rate[i] = nonradio_loss[i] * I[i]/T;
       end if;
 // 输出流分配到ISS_O、FW、DIV
       to_ISS_O[i] = to_ISS_O_Fraction*outflow[i];
       to_FW[i] = to_FW_Fraction*(1 - to_ISS_O_Fraction)*outflow[i];
       to_DIV[i] = (1 - to_FW_Fraction)*(1 - to_ISS_O_Fraction)*outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 85, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {-3, 3}, extent = {{-75, 35}, {75, -35}}, textString = "CPS", fontName = "Arial")}),
@@ -604,13 +687,20 @@ for i in 1:5 loop
     parameter Real TBR = 1.1 "Tritium Breeding Ratio (TBR), range: 1.05-1.15";
     parameter Real to_CL_Fraction = 0.01 "输出到CL的比例";
     parameter Real to_TES_Fraction = 1 - to_CL_Fraction "输出到TES的比例";
-  equation
+  
+    Real decay_rate[5] "衰变速率";
+    Real leak_rate[5] "泄漏速率";
+    Real cumulative_breed[5](start = {0, 0, 0, 0, 0}) "累计增殖";
+equation
 // 计算每种物质的动态变化和输出
     for i in 1:5 loop
       der(I[i]) = (if i == 1 then pulseInput*TBR else 0) + from_TES[i] - (1 + nonradio_loss[i])*I[i]/T - decay_loss[i]*I[i];
       outflow[i] = I[i]/T;
       to_TES[i] = to_TES_Fraction*outflow[i];
       to_CL[i] = to_CL_Fraction*outflow[i];
+      decay_rate[i] = decay_loss[i]*I[i];
+      leak_rate[i] = nonradio_loss[i]*I[i]/T;
+      der(cumulative_breed[i]) = if i == 1 then pulseInput*TBR else 0;
     end for;
     annotation(
       Icon(graphics = {Line(origin = {-100, -100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, 100}, points = {{0, 0}, {200, 0}}, color = {0, 0, 127}), Line(origin = {-100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Line(origin = {100, -100}, points = {{0, 0}, {0, 200}}, color = {0, 0, 127}), Rectangle(fillColor = {255, 170, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(origin = {1, 1}, extent = {{-73, 37}, {73, -37}}, textString = "Blanket", fontName = "Arial")}),
@@ -619,7 +709,7 @@ for i in 1:5 loop
   
   model Cycle
     // 实例化脉冲信号模块
-    Modelica.Blocks.Sources.Pulse pulseSource(amplitude = 9.60984, period = 10, width = 90) annotation(
+    Modelica.Blocks.Sources.Pulse pulseSource(amplitude = 9.60984, period = 10, width = 100) annotation(
       Placement(transformation(origin = {-120, -20}, extent = {{-60, 20}, {-40, 40}})));
     // 实例化 plasma 模型
     Plasma plasma annotation(
