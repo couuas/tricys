@@ -162,7 +162,7 @@ class LocalMassCompensatorWrapper(AbstractTrackProcessor):
                     for idx, corr in correction_flow_rates.items()
                     if abs(corr) > 0
                 )
-                logger.debug(
+                logger.info(
                     f"[{self.delegate.__class__.__name__}] 局部补偿激活: 端口={main_out_port}, 修正量=[{corrections_log}] g/h"
                 )
 
