@@ -13,7 +13,7 @@ package example_model
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}),
                 iconTransformation(origin = {-114, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -180)));
   // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
   // 参数定义
     parameter Real T = 24 "平均滞留时间 (mean residence time)";
@@ -71,7 +71,7 @@ for i in 1:5 loop
     Modelica.Blocks.Interfaces.RealOutput to_BZ[5] "输出到BZ系统" annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-114, -60}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 12 "平均滞留时间 (mean residence time)";
@@ -118,7 +118,7 @@ for i in 1:5 loop
     Modelica.Blocks.Interfaces.RealOutput to_TEP_FCU[5] "输出到TEP_FCU系统" annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, 0}, extent = {{-10, -10}, {10, 10}})));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 0.5 "平均滞留时间 (mean residence time)";
@@ -154,7 +154,7 @@ equation
     Modelica.Blocks.Interfaces.RealOutput to_TEP_IP[5] "输出到TEP_IP系统" annotation(
       Placement(transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 0.1 "平均滞留时间 (mean residence time)";
@@ -190,7 +190,7 @@ equation
     Modelica.Blocks.Interfaces.RealOutput to_I_ISS[5] "输出到I_ISS系统" annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 0.1 "平均滞留时间 (mean residence time)";
@@ -226,12 +226,13 @@ equation
     Modelica.Blocks.Interfaces.RealInput from_TEP_FEP[5] "来自TEP/FEP 的输入" annotation(
       Placement(transformation(origin = {-120, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, -114}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
     // 输出端口：输出到Fueling_System（5维）
-    Modelica.Blocks.Interfaces.RealInput to_FS[5] "输出到Fueling_System" annotation(
+    Modelica.Blocks.Interfaces.RealInput to_FS[5] "Fueling_System" annotation(
       Placement(transformation(origin = {120, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-114, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
     // 状态变量：SDS 内部的氚存储量
-    Real I[5](start = {3000, 3000, 0, 0, 0}) "SDS 内的氚存储量";
+    Real I[5](start = {3000, 3000, 0, 0, 0}, each fixed=true) "SDS 内的氚存储量";
     // 参数定义
     // parameter Real T = 0.5 "平均滞留时间 (mean residence time)";
+    parameter Real T = 0.5 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     parameter Real nonradio_loss[5](each unit = "1") = {0, 0, 0, 0, 0} "非放射性损失";
   
@@ -252,13 +253,13 @@ equation
   
   model Pump_System
     // 输入端口：来自Plasma的输入（5维）
-    Modelica.Blocks.Interfaces.RealInput from_Plasma[5] "来自Plasma的输入" annotation(
-      Placement(transformation(origin = {-120, 40}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 114}, extent = {{10, 10}, {-10, -10}}, rotation = 90)));
+    Modelica.Blocks.Interfaces.RealInput from_Plasma[5] "Plasma" annotation(
+      Placement(transformation(origin = {-120, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-114, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
     // 输出端口：输出到TEP_FEP（5维）
     Modelica.Blocks.Interfaces.RealOutput to_TEP_FEP[5] "输出到TEP_FEP系统" annotation(
       Placement(transformation(origin = {120, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, -114}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 0.17 "平均滞留时间 (mean residence time)";
@@ -323,7 +324,7 @@ for i in 1:5 loop
   
     Real decay_rate[5] "衰变速率";
     Real leak_rate[5] "泄漏速率";
-    Real cumulative_burn[5](start = {0, 0, 0, 0, 0}) "累计燃烧";
+    Real cumulative_burn[5](start = {0, 0, 0, 0, 0}, each fixed=true) "累计燃烧";
 equation
 // 计算氦生成（仅在脉冲开启时生成）
     He_generated = if pulseInput > 0 then He_yield*pulseInput else 0;
@@ -364,7 +365,7 @@ for i in 1:5 loop
     Modelica.Blocks.Interfaces.RealOutput to_SDS[5] "输出到SDS系统" annotation(
       Placement(transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, -114}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 12 "平均滞留时间 (mean residence time)";
@@ -411,7 +412,7 @@ for i in 1:5 loop
     Modelica.Blocks.Interfaces.RealOutput to_WDS[5] "输出到WDS系统" annotation(
       Placement(transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, 0}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 2.4 "平均滞留时间 (mean residence time)";
@@ -458,21 +459,26 @@ for i in 1:5 loop
     Modelica.Blocks.Interfaces.RealOutput from_SDS[5] "来自SDS的输入（燃料输入）" annotation(
       Placement(transformation(origin = {-114, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 0.5 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
     //parameter Real nonradio_loss[5] (each unit="1") = {0, 0, 0, 0, 0} "非放射性损失";
+    parameter Real Refill_T(unit="h") = 0.05 "First-order refill time constant";
+    Real target_inventory[5](each unit="g");
+    Real inflow_demand[5](each unit="g/h");
   
     Real decay_rate[5] "衰变速率";
     Real leak_rate[5] "泄漏速率";
 equation
 // 计算每种物质的动态变化和输出
     for i in 1:5 loop
-      der(I[i]) = from_SDS[i] - 1*I[i]/T - decay_loss[i]*I[i];
-      outflow[i] = I[i]/T;
-      to_Plasma[i] = outflow[i];
+      target_inventory[i] = to_Plasma[i]*T;
+      inflow_demand[i] = to_Plasma[i] + decay_loss[i]*I[i] + (target_inventory[i] - I[i])/Refill_T;
+      from_SDS[i] = inflow_demand[i];
+      der(I[i]) = from_SDS[i] - to_Plasma[i] - decay_loss[i]*I[i];
+      outflow[i] = to_Plasma[i];
       decay_rate[i] = decay_loss[i]*I[i];
       leak_rate[i] = 0;
     end for;
@@ -497,7 +503,7 @@ equation
     Modelica.Blocks.Interfaces.RealOutput to_CL[5] annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 0.28 "平均滞留时间 (mean residence time)";
@@ -534,7 +540,7 @@ equation
     Modelica.Blocks.Interfaces.RealOutput to_CL[5] "输出到Coolant_Loop" annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, -60}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 0.28 "平均滞留时间 (mean residence time)";
@@ -580,8 +586,8 @@ equation
     Modelica.Blocks.Interfaces.RealOutput to_WDS[5] "输出到WDS系统" annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 114}, extent = {{10, -10}, {-10, 10}}, rotation = 270)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
-    Real outflow[5](start = {0, 0, 0, 0, 0}) "总输出流";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
+    Real outflow[5](start = {0, 0, 0, 0, 0}, each fixed=true) "总输出流";
     // 参数定义
     parameter Real T = 24 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
@@ -624,7 +630,7 @@ equation
     Modelica.Blocks.Interfaces.RealOutput to_DIV[5] "输出到DIV系统" annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-114, -60}, extent = {{-10, -10}, {10, 10}}, rotation = -180)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
     Real outflow[5] "总输出流";
     // 参数定义
     parameter Real T = 48 "平均滞留时间 (mean residence time)";
@@ -678,8 +684,8 @@ for i in 1:5 loop
     Modelica.Blocks.Interfaces.RealOutput to_TES[5] "输出到TES系统" annotation(
       Placement(transformation(origin = {110, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {114, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 180)));
     // 状态变量：系统中5种物质的储存量
-    Real I[5](start = {0, 0, 0, 0, 0}) "系统中5种物质的储存量";
-    Real outflow[5](start = {0, 0, 0, 0, 0}) "总输出流";
+    Real I[5](start = {0, 0, 0, 0, 0}, each fixed=true) "系统中5种物质的储存量";
+    Real outflow[5](start = {0, 0, 0, 0, 0}, each fixed=true) "总输出流";
     // 参数定义
     parameter Real T = 24 "平均滞留时间 (mean residence time)";
     parameter Real decay_loss[5](each unit = "1/h") = {6.4e-6, 0, 0, 0, 0} "Tritium decay loss for 5 materials (放射性衰变损失)";
@@ -690,7 +696,7 @@ for i in 1:5 loop
   
     Real decay_rate[5] "衰变速率";
     Real leak_rate[5] "泄漏速率";
-    Real cumulative_breed[5](start = {0, 0, 0, 0, 0}) "累计增殖";
+    Real cumulative_breed[5](start = {0, 0, 0, 0, 0}, each fixed=true) "累计增殖";
 equation
 // 计算每种物质的动态变化和输出
     for i in 1:5 loop

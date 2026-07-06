@@ -759,8 +759,8 @@ def _process_h5_result(
             if col != "job_id" and pd.api.types.is_numeric_dtype(df[col]):
                 df[col] = df[col].astype(float)
 
-        # Use 'append' with data_columns=True for queryability if needed
-        store.append("results", df, index=False, data_columns=True)
+        # Use 'append' with data_columns=["job_id"] for queryability to avoid 512 column limit
+        store.append("results", df, index=False, data_columns=["job_id"])
 
         # Calculate and Save Summary Metrics
         if metrics_definition:

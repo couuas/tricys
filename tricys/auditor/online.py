@@ -184,8 +184,8 @@ class OnlineGlobalAuditor:
                 total_fmu += val
                 if val > 0:
                     masses.append(f"{comp_name}.{var_name}={val:.4f}")
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to read init {comp_name}.{var_name}: {e}")
         self.state.current_mass = total_fmu + initial_processor_inventory
         self.state.initial_mass = self.state.current_mass
         self.state.time = 0.0
@@ -234,8 +234,8 @@ class OnlineGlobalAuditor:
         for comp_name, var_name in bindings:
             try:
                 total += float(oms_runtime.get_value(system_name, comp_name, var_name))
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to read {comp_name}.{var_name}: {e}")
         return total
 
     def execute_audit_step(
