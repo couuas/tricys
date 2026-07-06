@@ -789,11 +789,11 @@ def _process_h5_result(
                 )
 
         param_df = pd.DataFrame([params])
-        param_df["job_id"] = job_id
+        param_df["id"] = job_id
 
-        # Force all numeric columns (except job_id) to float to avoid HDF5 schema conflicts
+        # Force all numeric columns (except id) to float to avoid HDF5 schema conflicts
         for col in param_df.columns:
-            if col != "job_id" and pd.api.types.is_numeric_dtype(param_df[col]):
+            if col != "id" and pd.api.types.is_numeric_dtype(param_df[col]):
                 param_df[col] = param_df[col].astype(float)
 
         # Force object dtype only for string/object columns to avoid HDF5 issues with StringDtype
