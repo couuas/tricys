@@ -307,6 +307,10 @@ class OnlineGlobalAuditor:
         )
         self.state.mass_error = self.state.current_mass - expected_mass
 
+        logger.info(
+            f"Audit Step (dt={dt}h): TotalSources={total_sources:.3f}, CurrentMass={self.state.current_mass:.3f}, MassError={self.state.mass_error:.2e}"
+        )
+
         if self.config.warn_threshold_g == 0:
             logger.info(
                 f"Audit [t={self.state.time:.2f}]: Mass error = {self.state.mass_error:.4f} g"
