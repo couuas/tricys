@@ -20,6 +20,14 @@
                     "bkp_path": "../../example_aspenbkp/T2-Threetowers4.bkp",
                     "base_inventory_mol": 20.0,
                     "retime_h": 1.0
+                },
+                "local_mass_control": {
+                    "enabled": true,
+                    "deadband_g": 0.1,
+                    "relaxation_time_h": 1.0
+                },
+                "shadow_fmu_fallback": {
+                    "enabled": true
                 }
             }
         ]
