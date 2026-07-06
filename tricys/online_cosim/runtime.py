@@ -10,6 +10,8 @@ from typing import Iterable, Sequence
 
 import pandas as pd
 
+from tricys.auditor.offline import parse_auditor_config
+from tricys.auditor.online import OnlineGlobalAuditor
 from tricys.core.modelica import get_om_session, load_modelica_package
 from tricys.online_cosim.oms_runtime import OmsSystemRuntime
 from tricys.online_cosim.processor_base import AbstractTrackProcessor
@@ -43,9 +45,11 @@ class OnlineCosimulationRunner:
         self,
         processors: Sequence[AbstractTrackProcessor],
         recorder: object | None = None,
+        auditor: OnlineGlobalAuditor | None = None,
     ) -> None:
         self._processors = list(processors)
         self._recorder = recorder
+        self._auditor = auditor
         self._initialized = False
         self._contexts: list[TrackProcessorContext] = []
 
@@ -150,6 +154,10 @@ class OnlineCosimulationRunner:
                         _serialize_signal_bindings(step.output_bindings),
                     )
 
+                global_mass_error = 0.0
+                if self._auditor is not None:
+                    global_mass_error = self._auditor.state.mass_error
+
                 extra_state_vals = oms_runtime.get_bound_values(
                     step.extra_state_bindings,
                     system_name=system_name,
@@ -171,6 +179,7 @@ class OnlineCosimulationRunner:
                         system_name=system_name,
                     ),
                     extra_state=extra_state_dict,
+                    global_mass_error=global_mass_error,
                 )
                 processor_result = self._ensure_track_result(
                     self._processors[processor_index].process(request)
@@ -195,6 +204,24 @@ class OnlineCosimulationRunner:
 
             oms_runtime.step_until(batch[0].target_time_h)
 
+            if self._auditor is not None:
+                processor_inventory = sum(
+                    p.get_mass_inventory() for p in self._processors
+                )
+
+                processor_decay_rate = 0.0
+                for processor in self._processors:
+                    if hasattr(processor, "get_decay_rate"):
+                        processor_decay_rate += float(processor.get_decay_rate())
+
+                self._auditor.execute_audit_step(
+                    oms_runtime,
+                    batch[0].dt_slow_h,
+                    system_name=system_name,
+                    processor_inventory=processor_inventory,
+                    processor_decay_rate=processor_decay_rate,
+                )
+
             step_results: list[TrackResult] = []
             for _, request, result in batch_records:
                 if self._recorder is not None:
@@ -205,7 +232,14 @@ class OnlineCosimulationRunner:
 
             all_results.append(step_results)
 
-        for step in steps:
+        logger = logging.getLogger(__name__)
+        total_steps = len(steps) if hasattr(steps, '__len__') else "unknown"
+        logger.info(f"Starting online cosimulation with {total_steps} steps.")
+
+        for i, step in enumerate(steps, 1):
+            if i % 10 == 0 or i == 1:
+                logger.info(f"Processing co-simulation step {i}/{total_steps} (Time: {step.current_time_h:.3f}h -> {step.target_time_h:.3f}h)")
+
             batch_key = (
                 step.step_id,
                 step.seq_id,
@@ -332,6 +366,49 @@ def build_online_processor(handler_config: dict) -> AbstractTrackProcessor:
     if not isinstance(processor, AbstractTrackProcessor):
         raise TypeError(
             "online_oms handler factory must return an AbstractTrackProcessor instance"
+        )
+
+    fmu_fallback = handler_config.get("shadow_fmu_fallback", {})
+    if fmu_fallback.get("enabled"):
+        import logging
+
+        from tricys.online_cosim.processor_wrappers import ShadowFMUFallbackWrapper
+
+        logging.getLogger(__name__).info(
+            f"Enabling shadow FMU fallback for {handler_config.get('instance_name', 'processor')}"
+        )
+        processor = ShadowFMUFallbackWrapper(delegate=processor)
+
+    time_scale = handler_config.get("time_scale_coordination", {})
+    mode = time_scale.get("mode", "delegate")
+    component_step_size_h = float(time_scale.get("component_step_size_h", 0.0))
+    if mode == "runtime_coordinated" and component_step_size_h > 0:
+        import logging
+
+        from tricys.online_cosim.processor_wrappers import (
+            RuntimeTimeScaleCoordinatorWrapper,
+        )
+
+        logging.getLogger(__name__).info(
+            f"Enabling runtime time scale coordinator wrapper for {handler_config.get('instance_name', 'processor')} (step_size: {component_step_size_h}h)"
+        )
+        processor = RuntimeTimeScaleCoordinatorWrapper(
+            delegate=processor, component_step_size_h=component_step_size_h
+        )
+
+    mass_control = handler_config.get("local_mass_control", {})
+    if mass_control.get("enabled"):
+        deadband_g = float(mass_control.get("deadband_g", 0.1))
+        tau = float(mass_control.get("relaxation_time_h", 1.0))
+        import logging
+
+        from tricys.online_cosim.processor_wrappers import LocalMassCompensatorWrapper
+
+        logging.getLogger(__name__).info(
+            f"Enabling local mass control wrapper for {handler_config.get('instance_name', 'processor')}"
+        )
+        processor = LocalMassCompensatorWrapper(
+            delegate=processor, deadband_g=deadband_g, relaxation_time_h=tau
         )
 
     return processor
@@ -1059,15 +1136,44 @@ def run_online_cosimulation(
     if oms_runtime is None:
         oms_runtime = build_online_oms_runtime(config, omc=omc, job_params=job_params)
 
+    auditor_config = parse_auditor_config(config)
+    auditor = None
+    if auditor_config.enabled:
+        auditor = OnlineGlobalAuditor(auditor_config)
+
     handler_configs = list(config["co_simulation"].get("handlers", []))
     if not handler_configs:
+        system_name = config.get("co_simulation", {}).get("system_name", "default")
+        if auditor is not None:
+            fmu_dir, _ = resolve_online_fmu_dirs(config)
+            package_path = os.path.abspath(
+                config.get("paths", {}).get("package_path", "")
+            )
+            auditor.initialize(
+                oms_runtime,
+                fmu_dir,
+                getattr(oms_runtime, "topology_components", []),
+                system_name=system_name,
+                initial_processor_inventory=0.0,
+                package_path=package_path,
+            )
+
         step_size = float(config.get("simulation", {}).get("step_size", 1.0))
         start_time = float(config.get("simulation", {}).get("start_time", 0.0))
         stop_time = float(config.get("simulation", {}).get("stop_time", 2.0))
         current_time = start_time
         while current_time < stop_time - 1e-12:
             target_time = min(current_time + step_size, stop_time)
+            dt_slow_h = target_time - current_time
             oms_runtime.step_until(target_time)
+            if auditor is not None:
+                auditor.execute_audit_step(
+                    oms_runtime,
+                    dt_slow_h,
+                    system_name=system_name,
+                    processor_inventory=0.0,
+                    processor_decay_rate=0.0,
+                )
             current_time = target_time
 
         results = []
@@ -1078,8 +1184,9 @@ def run_online_cosimulation(
             build_online_processor(handler_config) for handler_config in handler_configs
         ]
         runner = OnlineCosimulationRunner(
-            processors=processors,
+            processors,
             recorder=recorder or InMemoryStepRecorder(),
+            auditor=auditor,
         )
         steps = build_online_oms_steps(config, omc=omc)
         contexts = []
@@ -1110,6 +1217,31 @@ def run_online_cosimulation(
             )
 
         runner.initialize(contexts=contexts)
+
+        system_name = config.get("co_simulation", {}).get("system_name", "default")
+        if auditor is not None:
+            fmu_dir, _ = resolve_online_fmu_dirs(config)
+            initial_processor_inventory = sum(
+                p.get_mass_inventory() for p in processors
+            )
+            package_path = os.path.abspath(
+                config.get("paths", {}).get("package_path", "")
+            )
+
+            # Exclude internal components that are overridden by Python handlers
+            ignored_instances = [
+                h.get("instance_name") for h in handler_configs if "instance_name" in h
+            ]
+
+            auditor.initialize(
+                oms_runtime,
+                fmu_dir,
+                getattr(oms_runtime, "topology_components", []),
+                system_name=system_name,
+                initial_processor_inventory=initial_processor_inventory,
+                package_path=package_path,
+                ignored_instances=ignored_instances,
+            )
 
         try:
             results = runner.run_oms_steps(
