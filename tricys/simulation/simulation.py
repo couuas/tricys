@@ -1194,18 +1194,19 @@ def _run_fast_subprocess_job(
         return ""
 
     override_pairs = [f"{k}={v}" for k, v in job_params.items()]
-    override_pairs.append(f"stopTime={sim_config['stop_time']}")
-    override_pairs.append(f"stepSize={sim_config['step_size']}")
-    override_str = ",".join(override_pairs)
 
     cmd = [
         run_exe_path,
-        "-override",
-        override_str,
         "-r",
         result_filename,
         "-outputFormat=csv",
+        f"-stopTime={sim_config['stop_time']}",
+        f"-stepSize={sim_config['step_size']}",
     ]
+
+    if override_pairs:
+        override_str = ",".join(override_pairs)
+        cmd.extend(["-override", override_str])
     if variable_filter:
         cmd.append(f"-variableFilter={variable_filter}")
 
