@@ -4698,10 +4698,7 @@ multi-file package structure and routes to appropriate handler.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>tricys/core/interceptor.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1338">1338</a></span>
-<span class="normal"><a href="#__codelineno-0-1339">1339</a></span>
-<span class="normal"><a href="#__codelineno-0-1340">1340</a></span>
-<span class="normal"><a href="#__codelineno-0-1341">1341</a></span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1341">1341</a></span>
 <span class="normal"><a href="#__codelineno-0-1342">1342</a></span>
 <span class="normal"><a href="#__codelineno-0-1343">1343</a></span>
 <span class="normal"><a href="#__codelineno-0-1344">1344</a></span>
@@ -4778,87 +4775,90 @@ multi-file package structure and routes to appropriate handler.</p>
 <span class="normal"><a href="#__codelineno-0-1415">1415</a></span>
 <span class="normal"><a href="#__codelineno-0-1416">1416</a></span>
 <span class="normal"><a href="#__codelineno-0-1417">1417</a></span>
-<span class="normal"><a href="#__codelineno-0-1418">1418</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1338" name="__codelineno-0-1338"></a><span class="k">def</span><span class="w"> </span><span class="nf">integrate_interceptor_model</span><span class="p">(</span>
-<a id="__codelineno-0-1339" name="__codelineno-0-1339"></a>    <span class="n">package_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">interception_configs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
-<a id="__codelineno-0-1340" name="__codelineno-0-1340"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<a id="__codelineno-0-1341" name="__codelineno-0-1341"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Integrates CSV data replacement into a system model.</span>
-<a id="__codelineno-0-1342" name="__codelineno-0-1342"></a>
-<a id="__codelineno-0-1343" name="__codelineno-0-1343"></a><span class="sd">    This function supports two modes (all handlers must use the same mode):</span>
-<a id="__codelineno-0-1344" name="__codelineno-0-1344"></a><span class="sd">    1. &quot;interceptor&quot; (default): Creates interceptor models between submodels and system.</span>
-<a id="__codelineno-0-1345" name="__codelineno-0-1345"></a><span class="sd">    2. &quot;replacement&quot;: Directly modifies submodels to use CSV data.</span>
-<a id="__codelineno-0-1346" name="__codelineno-0-1346"></a>
-<a id="__codelineno-0-1347" name="__codelineno-0-1347"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-1348" name="__codelineno-0-1348"></a><span class="sd">        package_path: The file path to the Modelica package. For multi-file packages,</span>
-<a id="__codelineno-0-1349" name="__codelineno-0-1349"></a><span class="sd">            this should be the path to `package.mo`. For single-file packages,</span>
-<a id="__codelineno-0-1350" name="__codelineno-0-1350"></a><span class="sd">            this should be the path to the `.mo` file containing the package.</span>
-<a id="__codelineno-0-1351" name="__codelineno-0-1351"></a><span class="sd">        model_name: The full name of the system model to be modified.</span>
-<a id="__codelineno-0-1352" name="__codelineno-0-1352"></a><span class="sd">        interception_configs: A list of dictionaries, each defining an interception task.</span>
-<a id="__codelineno-0-1353" name="__codelineno-0-1353"></a><span class="sd">            All configs must have the same &#39;mode&#39; field. Each dict should contain</span>
-<a id="__codelineno-0-1354" name="__codelineno-0-1354"></a><span class="sd">            &#39;submodel_name&#39;, &#39;csv_uri&#39;, &#39;instance_name&#39;, &#39;output_placeholder&#39;, and</span>
-<a id="__codelineno-0-1355" name="__codelineno-0-1355"></a><span class="sd">            optionally &#39;mode&#39; (defaults to &#39;interceptor&#39;).</span>
-<a id="__codelineno-0-1356" name="__codelineno-0-1356"></a>
-<a id="__codelineno-0-1357" name="__codelineno-0-1357"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-1358" name="__codelineno-0-1358"></a><span class="sd">        A dictionary containing the paths to modified models. Structure varies by mode:</span>
-<a id="__codelineno-0-1359" name="__codelineno-0-1359"></a><span class="sd">            - interceptor mode: interceptor_model_paths, system_model_path</span>
-<a id="__codelineno-0-1360" name="__codelineno-0-1360"></a><span class="sd">            - replacement mode: replaced_models, system_model_path</span>
-<a id="__codelineno-0-1361" name="__codelineno-0-1361"></a>
-<a id="__codelineno-0-1362" name="__codelineno-0-1362"></a><span class="sd">    Raises:</span>
-<a id="__codelineno-0-1363" name="__codelineno-0-1363"></a><span class="sd">        ValueError: If interception_configs is empty or if mixed modes are detected.</span>
-<a id="__codelineno-0-1364" name="__codelineno-0-1364"></a><span class="sd">        FileNotFoundError: If package_path is invalid or package.mo not found.</span>
-<a id="__codelineno-0-1365" name="__codelineno-0-1365"></a>
-<a id="__codelineno-0-1366" name="__codelineno-0-1366"></a><span class="sd">    Note:</span>
-<a id="__codelineno-0-1367" name="__codelineno-0-1367"></a><span class="sd">        Mode is determined from the first config&#39;s &#39;mode&#39; field. All configs must use</span>
-<a id="__codelineno-0-1368" name="__codelineno-0-1368"></a><span class="sd">        the same mode or ValueError is raised. Automatically detects single-file vs</span>
-<a id="__codelineno-0-1369" name="__codelineno-0-1369"></a><span class="sd">        multi-file package structure and routes to appropriate handler.</span>
-<a id="__codelineno-0-1370" name="__codelineno-0-1370"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-1371" name="__codelineno-0-1371"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">interception_configs</span><span class="p">:</span>
-<a id="__codelineno-0-1372" name="__codelineno-0-1372"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;interception_configs cannot be empty&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-1373" name="__codelineno-0-1373"></a>
-<a id="__codelineno-0-1374" name="__codelineno-0-1374"></a>    <span class="c1"># Get mode from first config (all should be the same)</span>
-<a id="__codelineno-0-1375" name="__codelineno-0-1375"></a>    <span class="n">mode</span> <span class="o">=</span> <span class="n">interception_configs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;interceptor&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-1418">1418</a></span>
+<span class="normal"><a href="#__codelineno-0-1419">1419</a></span>
+<span class="normal"><a href="#__codelineno-0-1420">1420</a></span>
+<span class="normal"><a href="#__codelineno-0-1421">1421</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1341" name="__codelineno-0-1341"></a><span class="k">def</span><span class="w"> </span><span class="nf">integrate_interceptor_model</span><span class="p">(</span>
+<a id="__codelineno-0-1342" name="__codelineno-0-1342"></a>    <span class="n">package_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">interception_configs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
+<a id="__codelineno-0-1343" name="__codelineno-0-1343"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<a id="__codelineno-0-1344" name="__codelineno-0-1344"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Integrates CSV data replacement into a system model.</span>
+<a id="__codelineno-0-1345" name="__codelineno-0-1345"></a>
+<a id="__codelineno-0-1346" name="__codelineno-0-1346"></a><span class="sd">    This function supports two modes (all handlers must use the same mode):</span>
+<a id="__codelineno-0-1347" name="__codelineno-0-1347"></a><span class="sd">    1. &quot;interceptor&quot; (default): Creates interceptor models between submodels and system.</span>
+<a id="__codelineno-0-1348" name="__codelineno-0-1348"></a><span class="sd">    2. &quot;replacement&quot;: Directly modifies submodels to use CSV data.</span>
+<a id="__codelineno-0-1349" name="__codelineno-0-1349"></a>
+<a id="__codelineno-0-1350" name="__codelineno-0-1350"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-1351" name="__codelineno-0-1351"></a><span class="sd">        package_path: The file path to the Modelica package. For multi-file packages,</span>
+<a id="__codelineno-0-1352" name="__codelineno-0-1352"></a><span class="sd">            this should be the path to `package.mo`. For single-file packages,</span>
+<a id="__codelineno-0-1353" name="__codelineno-0-1353"></a><span class="sd">            this should be the path to the `.mo` file containing the package.</span>
+<a id="__codelineno-0-1354" name="__codelineno-0-1354"></a><span class="sd">        model_name: The full name of the system model to be modified.</span>
+<a id="__codelineno-0-1355" name="__codelineno-0-1355"></a><span class="sd">        interception_configs: A list of dictionaries, each defining an interception task.</span>
+<a id="__codelineno-0-1356" name="__codelineno-0-1356"></a><span class="sd">            All configs must have the same &#39;mode&#39; field. Each dict should contain</span>
+<a id="__codelineno-0-1357" name="__codelineno-0-1357"></a><span class="sd">            &#39;submodel_name&#39;, &#39;csv_uri&#39;, &#39;instance_name&#39;, &#39;output_placeholder&#39;, and</span>
+<a id="__codelineno-0-1358" name="__codelineno-0-1358"></a><span class="sd">            optionally &#39;mode&#39; (defaults to &#39;interceptor&#39;).</span>
+<a id="__codelineno-0-1359" name="__codelineno-0-1359"></a>
+<a id="__codelineno-0-1360" name="__codelineno-0-1360"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-1361" name="__codelineno-0-1361"></a><span class="sd">        A dictionary containing the paths to modified models. Structure varies by mode:</span>
+<a id="__codelineno-0-1362" name="__codelineno-0-1362"></a><span class="sd">            - interceptor mode: interceptor_model_paths, system_model_path</span>
+<a id="__codelineno-0-1363" name="__codelineno-0-1363"></a><span class="sd">            - replacement mode: replaced_models, system_model_path</span>
+<a id="__codelineno-0-1364" name="__codelineno-0-1364"></a>
+<a id="__codelineno-0-1365" name="__codelineno-0-1365"></a><span class="sd">    Raises:</span>
+<a id="__codelineno-0-1366" name="__codelineno-0-1366"></a><span class="sd">        ValueError: If interception_configs is empty or if mixed modes are detected.</span>
+<a id="__codelineno-0-1367" name="__codelineno-0-1367"></a><span class="sd">        FileNotFoundError: If package_path is invalid or package.mo not found.</span>
+<a id="__codelineno-0-1368" name="__codelineno-0-1368"></a>
+<a id="__codelineno-0-1369" name="__codelineno-0-1369"></a><span class="sd">    Note:</span>
+<a id="__codelineno-0-1370" name="__codelineno-0-1370"></a><span class="sd">        Mode is determined from the first config&#39;s &#39;mode&#39; field. All configs must use</span>
+<a id="__codelineno-0-1371" name="__codelineno-0-1371"></a><span class="sd">        the same mode or ValueError is raised. Automatically detects single-file vs</span>
+<a id="__codelineno-0-1372" name="__codelineno-0-1372"></a><span class="sd">        multi-file package structure and routes to appropriate handler.</span>
+<a id="__codelineno-0-1373" name="__codelineno-0-1373"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-1374" name="__codelineno-0-1374"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">interception_configs</span><span class="p">:</span>
+<a id="__codelineno-0-1375" name="__codelineno-0-1375"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;interception_configs cannot be empty&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-1376" name="__codelineno-0-1376"></a>
-<a id="__codelineno-0-1377" name="__codelineno-0-1377"></a>    <span class="c1"># Validate that all configs use the same mode</span>
-<a id="__codelineno-0-1378" name="__codelineno-0-1378"></a>    <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">interception_configs</span><span class="p">:</span>
-<a id="__codelineno-0-1379" name="__codelineno-0-1379"></a>        <span class="n">config_mode</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;interceptor&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-1380" name="__codelineno-0-1380"></a>        <span class="k">if</span> <span class="n">config_mode</span> <span class="o">!=</span> <span class="n">mode</span><span class="p">:</span>
-<a id="__codelineno-0-1381" name="__codelineno-0-1381"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<a id="__codelineno-0-1382" name="__codelineno-0-1382"></a>                <span class="sa">f</span><span class="s2">&quot;Mixed modes are not supported. All handlers must use the same mode. &quot;</span>
-<a id="__codelineno-0-1383" name="__codelineno-0-1383"></a>                <span class="sa">f</span><span class="s2">&quot;Expected &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;, but found &#39;</span><span class="si">{</span><span class="n">config_mode</span><span class="si">}</span><span class="s2">&#39; in config for &#39;</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;submodel_name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-<a id="__codelineno-0-1384" name="__codelineno-0-1384"></a>            <span class="p">)</span>
-<a id="__codelineno-0-1385" name="__codelineno-0-1385"></a>
-<a id="__codelineno-0-1386" name="__codelineno-0-1386"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-1387" name="__codelineno-0-1387"></a>        <span class="s2">&quot;Integrating CSV data replacement&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-1388" name="__codelineno-0-1388"></a>        <span class="n">extra</span><span class="o">=</span><span class="p">{</span>
-<a id="__codelineno-0-1389" name="__codelineno-0-1389"></a>            <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="n">mode</span><span class="p">,</span>
-<a id="__codelineno-0-1390" name="__codelineno-0-1390"></a>            <span class="s2">&quot;num_submodels&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">interception_configs</span><span class="p">),</span>
-<a id="__codelineno-0-1391" name="__codelineno-0-1391"></a>        <span class="p">},</span>
-<a id="__codelineno-0-1392" name="__codelineno-0-1392"></a>    <span class="p">)</span>
-<a id="__codelineno-0-1393" name="__codelineno-0-1393"></a>
-<a id="__codelineno-0-1394" name="__codelineno-0-1394"></a>    <span class="c1"># Route to appropriate handler based on mode</span>
-<a id="__codelineno-0-1395" name="__codelineno-0-1395"></a>    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;replacement&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-1396" name="__codelineno-0-1396"></a>        <span class="k">return</span> <span class="n">_integrate_replacement</span><span class="p">(</span><span class="n">package_path</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span><span class="p">)</span>
-<a id="__codelineno-0-1397" name="__codelineno-0-1397"></a>    <span class="k">else</span><span class="p">:</span>  <span class="c1"># mode == &quot;interceptor&quot;</span>
-<a id="__codelineno-0-1398" name="__codelineno-0-1398"></a>        <span class="c1"># Determine package type and route to appropriate handler</span>
-<a id="__codelineno-0-1399" name="__codelineno-0-1399"></a>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
-<a id="__codelineno-0-1400" name="__codelineno-0-1400"></a>            <span class="n">package_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_path</span><span class="p">,</span> <span class="s2">&quot;package.mo&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-1401" name="__codelineno-0-1401"></a>            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">package_file</span><span class="p">):</span>
-<a id="__codelineno-0-1402" name="__codelineno-0-1402"></a>                <span class="k">return</span> <span class="n">_integrate_interceptor_multi_file</span><span class="p">(</span>
-<a id="__codelineno-0-1403" name="__codelineno-0-1403"></a>                    <span class="n">package_file</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span>
-<a id="__codelineno-0-1404" name="__codelineno-0-1404"></a>                <span class="p">)</span>
-<a id="__codelineno-0-1405" name="__codelineno-0-1405"></a>            <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-1406" name="__codelineno-0-1406"></a>                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-<a id="__codelineno-0-1407" name="__codelineno-0-1407"></a>                    <span class="sa">f</span><span class="s2">&quot;No package.mo found in directory: </span><span class="si">{</span><span class="n">package_path</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-1408" name="__codelineno-0-1408"></a>                <span class="p">)</span>
-<a id="__codelineno-0-1409" name="__codelineno-0-1409"></a>        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">package_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;package.mo&quot;</span><span class="p">):</span>
-<a id="__codelineno-0-1410" name="__codelineno-0-1410"></a>            <span class="k">return</span> <span class="n">_integrate_interceptor_multi_file</span><span class="p">(</span>
-<a id="__codelineno-0-1411" name="__codelineno-0-1411"></a>                <span class="n">package_path</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span>
-<a id="__codelineno-0-1412" name="__codelineno-0-1412"></a>            <span class="p">)</span>
-<a id="__codelineno-0-1413" name="__codelineno-0-1413"></a>        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
-<a id="__codelineno-0-1414" name="__codelineno-0-1414"></a>            <span class="k">return</span> <span class="n">_integrate_interceptor_single_file</span><span class="p">(</span>
-<a id="__codelineno-0-1415" name="__codelineno-0-1415"></a>                <span class="n">package_path</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span>
-<a id="__codelineno-0-1416" name="__codelineno-0-1416"></a>            <span class="p">)</span>
-<a id="__codelineno-0-1417" name="__codelineno-0-1417"></a>        <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-1418" name="__codelineno-0-1418"></a>            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid package path: </span><span class="si">{</span><span class="n">package_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-1377" name="__codelineno-0-1377"></a>    <span class="c1"># Get mode from first config (all should be the same)</span>
+<a id="__codelineno-0-1378" name="__codelineno-0-1378"></a>    <span class="n">mode</span> <span class="o">=</span> <span class="n">interception_configs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;interceptor&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-1379" name="__codelineno-0-1379"></a>
+<a id="__codelineno-0-1380" name="__codelineno-0-1380"></a>    <span class="c1"># Validate that all configs use the same mode</span>
+<a id="__codelineno-0-1381" name="__codelineno-0-1381"></a>    <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">interception_configs</span><span class="p">:</span>
+<a id="__codelineno-0-1382" name="__codelineno-0-1382"></a>        <span class="n">config_mode</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;interceptor&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-1383" name="__codelineno-0-1383"></a>        <span class="k">if</span> <span class="n">config_mode</span> <span class="o">!=</span> <span class="n">mode</span><span class="p">:</span>
+<a id="__codelineno-0-1384" name="__codelineno-0-1384"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<a id="__codelineno-0-1385" name="__codelineno-0-1385"></a>                <span class="sa">f</span><span class="s2">&quot;Mixed modes are not supported. All handlers must use the same mode. &quot;</span>
+<a id="__codelineno-0-1386" name="__codelineno-0-1386"></a>                <span class="sa">f</span><span class="s2">&quot;Expected &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;, but found &#39;</span><span class="si">{</span><span class="n">config_mode</span><span class="si">}</span><span class="s2">&#39; in config for &#39;</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;submodel_name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<a id="__codelineno-0-1387" name="__codelineno-0-1387"></a>            <span class="p">)</span>
+<a id="__codelineno-0-1388" name="__codelineno-0-1388"></a>
+<a id="__codelineno-0-1389" name="__codelineno-0-1389"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-1390" name="__codelineno-0-1390"></a>        <span class="s2">&quot;Integrating CSV data replacement&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-1391" name="__codelineno-0-1391"></a>        <span class="n">extra</span><span class="o">=</span><span class="p">{</span>
+<a id="__codelineno-0-1392" name="__codelineno-0-1392"></a>            <span class="s2">&quot;mode&quot;</span><span class="p">:</span> <span class="n">mode</span><span class="p">,</span>
+<a id="__codelineno-0-1393" name="__codelineno-0-1393"></a>            <span class="s2">&quot;num_submodels&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">interception_configs</span><span class="p">),</span>
+<a id="__codelineno-0-1394" name="__codelineno-0-1394"></a>        <span class="p">},</span>
+<a id="__codelineno-0-1395" name="__codelineno-0-1395"></a>    <span class="p">)</span>
+<a id="__codelineno-0-1396" name="__codelineno-0-1396"></a>
+<a id="__codelineno-0-1397" name="__codelineno-0-1397"></a>    <span class="c1"># Route to appropriate handler based on mode</span>
+<a id="__codelineno-0-1398" name="__codelineno-0-1398"></a>    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;replacement&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-1399" name="__codelineno-0-1399"></a>        <span class="k">return</span> <span class="n">_integrate_replacement</span><span class="p">(</span><span class="n">package_path</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span><span class="p">)</span>
+<a id="__codelineno-0-1400" name="__codelineno-0-1400"></a>    <span class="k">else</span><span class="p">:</span>  <span class="c1"># mode == &quot;interceptor&quot;</span>
+<a id="__codelineno-0-1401" name="__codelineno-0-1401"></a>        <span class="c1"># Determine package type and route to appropriate handler</span>
+<a id="__codelineno-0-1402" name="__codelineno-0-1402"></a>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
+<a id="__codelineno-0-1403" name="__codelineno-0-1403"></a>            <span class="n">package_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_path</span><span class="p">,</span> <span class="s2">&quot;package.mo&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-1404" name="__codelineno-0-1404"></a>            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">package_file</span><span class="p">):</span>
+<a id="__codelineno-0-1405" name="__codelineno-0-1405"></a>                <span class="k">return</span> <span class="n">_integrate_interceptor_multi_file</span><span class="p">(</span>
+<a id="__codelineno-0-1406" name="__codelineno-0-1406"></a>                    <span class="n">package_file</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span>
+<a id="__codelineno-0-1407" name="__codelineno-0-1407"></a>                <span class="p">)</span>
+<a id="__codelineno-0-1408" name="__codelineno-0-1408"></a>            <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-1409" name="__codelineno-0-1409"></a>                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+<a id="__codelineno-0-1410" name="__codelineno-0-1410"></a>                    <span class="sa">f</span><span class="s2">&quot;No package.mo found in directory: </span><span class="si">{</span><span class="n">package_path</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-1411" name="__codelineno-0-1411"></a>                <span class="p">)</span>
+<a id="__codelineno-0-1412" name="__codelineno-0-1412"></a>        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">package_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;package.mo&quot;</span><span class="p">):</span>
+<a id="__codelineno-0-1413" name="__codelineno-0-1413"></a>            <span class="k">return</span> <span class="n">_integrate_interceptor_multi_file</span><span class="p">(</span>
+<a id="__codelineno-0-1414" name="__codelineno-0-1414"></a>                <span class="n">package_path</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span>
+<a id="__codelineno-0-1415" name="__codelineno-0-1415"></a>            <span class="p">)</span>
+<a id="__codelineno-0-1416" name="__codelineno-0-1416"></a>        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
+<a id="__codelineno-0-1417" name="__codelineno-0-1417"></a>            <span class="k">return</span> <span class="n">_integrate_interceptor_single_file</span><span class="p">(</span>
+<a id="__codelineno-0-1418" name="__codelineno-0-1418"></a>                <span class="n">package_path</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">interception_configs</span>
+<a id="__codelineno-0-1419" name="__codelineno-0-1419"></a>            <span class="p">)</span>
+<a id="__codelineno-0-1420" name="__codelineno-0-1420"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-1421" name="__codelineno-0-1421"></a>            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid package path: </span><span class="si">{</span><span class="n">package_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -4964,10 +4964,7 @@ and locating {ModelName}.mo in the package directory.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>tricys/core/interceptor.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-787">787</a></span>
-<span class="normal"><a href="#__codelineno-0-788">788</a></span>
-<span class="normal"><a href="#__codelineno-0-789">789</a></span>
-<span class="normal"><a href="#__codelineno-0-790">790</a></span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-790">790</a></span>
 <span class="normal"><a href="#__codelineno-0-791">791</a></span>
 <span class="normal"><a href="#__codelineno-0-792">792</a></span>
 <span class="normal"><a href="#__codelineno-0-793">793</a></span>
@@ -5050,93 +5047,96 @@ and locating {ModelName}.mo in the package directory.</p>
 <span class="normal"><a href="#__codelineno-0-870">870</a></span>
 <span class="normal"><a href="#__codelineno-0-871">871</a></span>
 <span class="normal"><a href="#__codelineno-0-872">872</a></span>
-<span class="normal"><a href="#__codelineno-0-873">873</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-787" name="__codelineno-0-787"></a><span class="k">def</span><span class="w"> </span><span class="nf">replace_submodels_with_csv</span><span class="p">(</span>
-<a id="__codelineno-0-788" name="__codelineno-0-788"></a>    <span class="n">package_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<a id="__codelineno-0-789" name="__codelineno-0-789"></a>    <span class="n">replacement_configs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
-<a id="__codelineno-0-790" name="__codelineno-0-790"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<a id="__codelineno-0-791" name="__codelineno-0-791"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Replaces multiple submodels with CSV data sources.</span>
-<a id="__codelineno-0-792" name="__codelineno-0-792"></a>
-<a id="__codelineno-0-793" name="__codelineno-0-793"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-794" name="__codelineno-0-794"></a><span class="sd">        package_path: Path to the Modelica package directory or package.mo file.</span>
-<a id="__codelineno-0-795" name="__codelineno-0-795"></a><span class="sd">        replacement_configs: A list of dictionaries, each defining a replacement task:</span>
-<a id="__codelineno-0-796" name="__codelineno-0-796"></a><span class="sd">            - submodel_name: Full name of the submodel (e.g., &#39;MyPackage.MyModel&#39;)</span>
-<a id="__codelineno-0-797" name="__codelineno-0-797"></a><span class="sd">            - output_ports: List of output port definitions</span>
-<a id="__codelineno-0-798" name="__codelineno-0-798"></a><span class="sd">            - csv_file: Path to the CSV file</span>
-<a id="__codelineno-0-799" name="__codelineno-0-799"></a>
-<a id="__codelineno-0-800" name="__codelineno-0-800"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-801" name="__codelineno-0-801"></a><span class="sd">        A dictionary containing:</span>
-<a id="__codelineno-0-802" name="__codelineno-0-802"></a><span class="sd">            - replaced_models: List of results from each replacement</span>
-<a id="__codelineno-0-803" name="__codelineno-0-803"></a><span class="sd">            - package_path: Original package path</span>
-<a id="__codelineno-0-804" name="__codelineno-0-804"></a>
-<a id="__codelineno-0-805" name="__codelineno-0-805"></a><span class="sd">    Note:</span>
-<a id="__codelineno-0-806" name="__codelineno-0-806"></a><span class="sd">        Automatically determines if package is directory-based or single-file.</span>
-<a id="__codelineno-0-807" name="__codelineno-0-807"></a><span class="sd">        Continues processing remaining models if one fails, but re-raises the error</span>
-<a id="__codelineno-0-808" name="__codelineno-0-808"></a><span class="sd">        after logging. Each submodel file is identified by splitting the full name</span>
-<a id="__codelineno-0-809" name="__codelineno-0-809"></a><span class="sd">        and locating {ModelName}.mo in the package directory.</span>
-<a id="__codelineno-0-810" name="__codelineno-0-810"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-811" name="__codelineno-0-811"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-812" name="__codelineno-0-812"></a>        <span class="s2">&quot;Starting batch submodel replacement&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-813" name="__codelineno-0-813"></a>        <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_configs&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">replacement_configs</span><span class="p">)},</span>
-<a id="__codelineno-0-814" name="__codelineno-0-814"></a>    <span class="p">)</span>
-<a id="__codelineno-0-815" name="__codelineno-0-815"></a>
-<a id="__codelineno-0-816" name="__codelineno-0-816"></a>    <span class="c1"># Determine package directory</span>
-<a id="__codelineno-0-817" name="__codelineno-0-817"></a>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
-<a id="__codelineno-0-818" name="__codelineno-0-818"></a>        <span class="n">package_dir</span> <span class="o">=</span> <span class="n">package_path</span>
-<a id="__codelineno-0-819" name="__codelineno-0-819"></a>    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">package_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;package.mo&quot;</span><span class="p">):</span>
-<a id="__codelineno-0-820" name="__codelineno-0-820"></a>        <span class="n">package_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span>
-<a id="__codelineno-0-821" name="__codelineno-0-821"></a>    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
-<a id="__codelineno-0-822" name="__codelineno-0-822"></a>        <span class="n">package_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span>
-<a id="__codelineno-0-823" name="__codelineno-0-823"></a>    <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-824" name="__codelineno-0-824"></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid package path: </span><span class="si">{</span><span class="n">package_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-825" name="__codelineno-0-825"></a>
-<a id="__codelineno-0-826" name="__codelineno-0-826"></a>    <span class="n">replaced_models</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-0-827" name="__codelineno-0-827"></a>
-<a id="__codelineno-0-828" name="__codelineno-0-828"></a>    <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">replacement_configs</span><span class="p">:</span>
-<a id="__codelineno-0-829" name="__codelineno-0-829"></a>        <span class="n">submodel_name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">]</span>
-<a id="__codelineno-0-830" name="__codelineno-0-830"></a>        <span class="n">output_ports</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;output_ports&quot;</span><span class="p">]</span>
-<a id="__codelineno-0-831" name="__codelineno-0-831"></a>        <span class="n">csv_file</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;csv_file&quot;</span><span class="p">]</span>
-<a id="__codelineno-0-832" name="__codelineno-0-832"></a>
-<a id="__codelineno-0-833" name="__codelineno-0-833"></a>        <span class="c1"># Construct submodel file path</span>
-<a id="__codelineno-0-834" name="__codelineno-0-834"></a>        <span class="n">model_simple_name</span> <span class="o">=</span> <span class="n">submodel_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<a id="__codelineno-0-835" name="__codelineno-0-835"></a>        <span class="n">submodel_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_simple_name</span><span class="si">}</span><span class="s2">.mo&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-836" name="__codelineno-0-836"></a>
-<a id="__codelineno-0-837" name="__codelineno-0-837"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">submodel_file</span><span class="p">):</span>
-<a id="__codelineno-0-838" name="__codelineno-0-838"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-<a id="__codelineno-0-839" name="__codelineno-0-839"></a>                <span class="s2">&quot;Submodel file not found, skipping&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-840" name="__codelineno-0-840"></a>                <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">:</span> <span class="n">submodel_name</span><span class="p">,</span> <span class="s2">&quot;expected_path&quot;</span><span class="p">:</span> <span class="n">submodel_file</span><span class="p">},</span>
-<a id="__codelineno-0-841" name="__codelineno-0-841"></a>            <span class="p">)</span>
-<a id="__codelineno-0-842" name="__codelineno-0-842"></a>            <span class="k">continue</span>
-<a id="__codelineno-0-843" name="__codelineno-0-843"></a>
-<a id="__codelineno-0-844" name="__codelineno-0-844"></a>        <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-845" name="__codelineno-0-845"></a>            <span class="n">result</span> <span class="o">=</span> <span class="n">_replace_submodel_with_csv</span><span class="p">(</span>
-<a id="__codelineno-0-846" name="__codelineno-0-846"></a>                <span class="n">submodel_path</span><span class="o">=</span><span class="n">submodel_file</span><span class="p">,</span>
-<a id="__codelineno-0-847" name="__codelineno-0-847"></a>                <span class="n">output_ports</span><span class="o">=</span><span class="n">output_ports</span><span class="p">,</span>
-<a id="__codelineno-0-848" name="__codelineno-0-848"></a>                <span class="n">csv_file</span><span class="o">=</span><span class="n">csv_file</span><span class="p">,</span>
-<a id="__codelineno-0-849" name="__codelineno-0-849"></a>            <span class="p">)</span>
-<a id="__codelineno-0-850" name="__codelineno-0-850"></a>            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">submodel_name</span>
-<a id="__codelineno-0-851" name="__codelineno-0-851"></a>            <span class="n">replaced_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-<a id="__codelineno-0-852" name="__codelineno-0-852"></a>
-<a id="__codelineno-0-853" name="__codelineno-0-853"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-854" name="__codelineno-0-854"></a>                <span class="s2">&quot;Successfully replaced submodel&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-855" name="__codelineno-0-855"></a>                <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">:</span> <span class="n">submodel_name</span><span class="p">},</span>
-<a id="__codelineno-0-856" name="__codelineno-0-856"></a>            <span class="p">)</span>
-<a id="__codelineno-0-857" name="__codelineno-0-857"></a>
-<a id="__codelineno-0-858" name="__codelineno-0-858"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-0-859" name="__codelineno-0-859"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-<a id="__codelineno-0-860" name="__codelineno-0-860"></a>                <span class="s2">&quot;Failed to replace submodel&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-861" name="__codelineno-0-861"></a>                <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">:</span> <span class="n">submodel_name</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span>
-<a id="__codelineno-0-862" name="__codelineno-0-862"></a>            <span class="p">)</span>
-<a id="__codelineno-0-863" name="__codelineno-0-863"></a>            <span class="k">raise</span>
-<a id="__codelineno-0-864" name="__codelineno-0-864"></a>
-<a id="__codelineno-0-865" name="__codelineno-0-865"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-<a id="__codelineno-0-866" name="__codelineno-0-866"></a>        <span class="s2">&quot;Batch replacement completed&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-867" name="__codelineno-0-867"></a>        <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_replaced&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">replaced_models</span><span class="p">)},</span>
-<a id="__codelineno-0-868" name="__codelineno-0-868"></a>    <span class="p">)</span>
-<a id="__codelineno-0-869" name="__codelineno-0-869"></a>
-<a id="__codelineno-0-870" name="__codelineno-0-870"></a>    <span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-871" name="__codelineno-0-871"></a>        <span class="s2">&quot;replaced_models&quot;</span><span class="p">:</span> <span class="n">replaced_models</span><span class="p">,</span>
-<a id="__codelineno-0-872" name="__codelineno-0-872"></a>        <span class="s2">&quot;package_path&quot;</span><span class="p">:</span> <span class="n">package_path</span><span class="p">,</span>
-<a id="__codelineno-0-873" name="__codelineno-0-873"></a>    <span class="p">}</span>
+<span class="normal"><a href="#__codelineno-0-873">873</a></span>
+<span class="normal"><a href="#__codelineno-0-874">874</a></span>
+<span class="normal"><a href="#__codelineno-0-875">875</a></span>
+<span class="normal"><a href="#__codelineno-0-876">876</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-790" name="__codelineno-0-790"></a><span class="k">def</span><span class="w"> </span><span class="nf">replace_submodels_with_csv</span><span class="p">(</span>
+<a id="__codelineno-0-791" name="__codelineno-0-791"></a>    <span class="n">package_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<a id="__codelineno-0-792" name="__codelineno-0-792"></a>    <span class="n">replacement_configs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+<a id="__codelineno-0-793" name="__codelineno-0-793"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<a id="__codelineno-0-794" name="__codelineno-0-794"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Replaces multiple submodels with CSV data sources.</span>
+<a id="__codelineno-0-795" name="__codelineno-0-795"></a>
+<a id="__codelineno-0-796" name="__codelineno-0-796"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-797" name="__codelineno-0-797"></a><span class="sd">        package_path: Path to the Modelica package directory or package.mo file.</span>
+<a id="__codelineno-0-798" name="__codelineno-0-798"></a><span class="sd">        replacement_configs: A list of dictionaries, each defining a replacement task:</span>
+<a id="__codelineno-0-799" name="__codelineno-0-799"></a><span class="sd">            - submodel_name: Full name of the submodel (e.g., &#39;MyPackage.MyModel&#39;)</span>
+<a id="__codelineno-0-800" name="__codelineno-0-800"></a><span class="sd">            - output_ports: List of output port definitions</span>
+<a id="__codelineno-0-801" name="__codelineno-0-801"></a><span class="sd">            - csv_file: Path to the CSV file</span>
+<a id="__codelineno-0-802" name="__codelineno-0-802"></a>
+<a id="__codelineno-0-803" name="__codelineno-0-803"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-804" name="__codelineno-0-804"></a><span class="sd">        A dictionary containing:</span>
+<a id="__codelineno-0-805" name="__codelineno-0-805"></a><span class="sd">            - replaced_models: List of results from each replacement</span>
+<a id="__codelineno-0-806" name="__codelineno-0-806"></a><span class="sd">            - package_path: Original package path</span>
+<a id="__codelineno-0-807" name="__codelineno-0-807"></a>
+<a id="__codelineno-0-808" name="__codelineno-0-808"></a><span class="sd">    Note:</span>
+<a id="__codelineno-0-809" name="__codelineno-0-809"></a><span class="sd">        Automatically determines if package is directory-based or single-file.</span>
+<a id="__codelineno-0-810" name="__codelineno-0-810"></a><span class="sd">        Continues processing remaining models if one fails, but re-raises the error</span>
+<a id="__codelineno-0-811" name="__codelineno-0-811"></a><span class="sd">        after logging. Each submodel file is identified by splitting the full name</span>
+<a id="__codelineno-0-812" name="__codelineno-0-812"></a><span class="sd">        and locating {ModelName}.mo in the package directory.</span>
+<a id="__codelineno-0-813" name="__codelineno-0-813"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-814" name="__codelineno-0-814"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-815" name="__codelineno-0-815"></a>        <span class="s2">&quot;Starting batch submodel replacement&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-816" name="__codelineno-0-816"></a>        <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_configs&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">replacement_configs</span><span class="p">)},</span>
+<a id="__codelineno-0-817" name="__codelineno-0-817"></a>    <span class="p">)</span>
+<a id="__codelineno-0-818" name="__codelineno-0-818"></a>
+<a id="__codelineno-0-819" name="__codelineno-0-819"></a>    <span class="c1"># Determine package directory</span>
+<a id="__codelineno-0-820" name="__codelineno-0-820"></a>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
+<a id="__codelineno-0-821" name="__codelineno-0-821"></a>        <span class="n">package_dir</span> <span class="o">=</span> <span class="n">package_path</span>
+<a id="__codelineno-0-822" name="__codelineno-0-822"></a>    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">package_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;package.mo&quot;</span><span class="p">):</span>
+<a id="__codelineno-0-823" name="__codelineno-0-823"></a>        <span class="n">package_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span>
+<a id="__codelineno-0-824" name="__codelineno-0-824"></a>    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">package_path</span><span class="p">):</span>
+<a id="__codelineno-0-825" name="__codelineno-0-825"></a>        <span class="n">package_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">package_path</span><span class="p">)</span>
+<a id="__codelineno-0-826" name="__codelineno-0-826"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-827" name="__codelineno-0-827"></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid package path: </span><span class="si">{</span><span class="n">package_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-828" name="__codelineno-0-828"></a>
+<a id="__codelineno-0-829" name="__codelineno-0-829"></a>    <span class="n">replaced_models</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-0-830" name="__codelineno-0-830"></a>
+<a id="__codelineno-0-831" name="__codelineno-0-831"></a>    <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">replacement_configs</span><span class="p">:</span>
+<a id="__codelineno-0-832" name="__codelineno-0-832"></a>        <span class="n">submodel_name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">]</span>
+<a id="__codelineno-0-833" name="__codelineno-0-833"></a>        <span class="n">output_ports</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;output_ports&quot;</span><span class="p">]</span>
+<a id="__codelineno-0-834" name="__codelineno-0-834"></a>        <span class="n">csv_file</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;csv_file&quot;</span><span class="p">]</span>
+<a id="__codelineno-0-835" name="__codelineno-0-835"></a>
+<a id="__codelineno-0-836" name="__codelineno-0-836"></a>        <span class="c1"># Construct submodel file path</span>
+<a id="__codelineno-0-837" name="__codelineno-0-837"></a>        <span class="n">model_simple_name</span> <span class="o">=</span> <span class="n">submodel_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-0-838" name="__codelineno-0-838"></a>        <span class="n">submodel_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_simple_name</span><span class="si">}</span><span class="s2">.mo&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-839" name="__codelineno-0-839"></a>
+<a id="__codelineno-0-840" name="__codelineno-0-840"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">submodel_file</span><span class="p">):</span>
+<a id="__codelineno-0-841" name="__codelineno-0-841"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+<a id="__codelineno-0-842" name="__codelineno-0-842"></a>                <span class="s2">&quot;Submodel file not found, skipping&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-843" name="__codelineno-0-843"></a>                <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">:</span> <span class="n">submodel_name</span><span class="p">,</span> <span class="s2">&quot;expected_path&quot;</span><span class="p">:</span> <span class="n">submodel_file</span><span class="p">},</span>
+<a id="__codelineno-0-844" name="__codelineno-0-844"></a>            <span class="p">)</span>
+<a id="__codelineno-0-845" name="__codelineno-0-845"></a>            <span class="k">continue</span>
+<a id="__codelineno-0-846" name="__codelineno-0-846"></a>
+<a id="__codelineno-0-847" name="__codelineno-0-847"></a>        <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-848" name="__codelineno-0-848"></a>            <span class="n">result</span> <span class="o">=</span> <span class="n">_replace_submodel_with_csv</span><span class="p">(</span>
+<a id="__codelineno-0-849" name="__codelineno-0-849"></a>                <span class="n">submodel_path</span><span class="o">=</span><span class="n">submodel_file</span><span class="p">,</span>
+<a id="__codelineno-0-850" name="__codelineno-0-850"></a>                <span class="n">output_ports</span><span class="o">=</span><span class="n">output_ports</span><span class="p">,</span>
+<a id="__codelineno-0-851" name="__codelineno-0-851"></a>                <span class="n">csv_file</span><span class="o">=</span><span class="n">csv_file</span><span class="p">,</span>
+<a id="__codelineno-0-852" name="__codelineno-0-852"></a>            <span class="p">)</span>
+<a id="__codelineno-0-853" name="__codelineno-0-853"></a>            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">submodel_name</span>
+<a id="__codelineno-0-854" name="__codelineno-0-854"></a>            <span class="n">replaced_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<a id="__codelineno-0-855" name="__codelineno-0-855"></a>
+<a id="__codelineno-0-856" name="__codelineno-0-856"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-857" name="__codelineno-0-857"></a>                <span class="s2">&quot;Successfully replaced submodel&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-858" name="__codelineno-0-858"></a>                <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">:</span> <span class="n">submodel_name</span><span class="p">},</span>
+<a id="__codelineno-0-859" name="__codelineno-0-859"></a>            <span class="p">)</span>
+<a id="__codelineno-0-860" name="__codelineno-0-860"></a>
+<a id="__codelineno-0-861" name="__codelineno-0-861"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-0-862" name="__codelineno-0-862"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+<a id="__codelineno-0-863" name="__codelineno-0-863"></a>                <span class="s2">&quot;Failed to replace submodel&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-864" name="__codelineno-0-864"></a>                <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;submodel_name&quot;</span><span class="p">:</span> <span class="n">submodel_name</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span>
+<a id="__codelineno-0-865" name="__codelineno-0-865"></a>            <span class="p">)</span>
+<a id="__codelineno-0-866" name="__codelineno-0-866"></a>            <span class="k">raise</span>
+<a id="__codelineno-0-867" name="__codelineno-0-867"></a>
+<a id="__codelineno-0-868" name="__codelineno-0-868"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+<a id="__codelineno-0-869" name="__codelineno-0-869"></a>        <span class="s2">&quot;Batch replacement completed&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-870" name="__codelineno-0-870"></a>        <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;num_replaced&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">replaced_models</span><span class="p">)},</span>
+<a id="__codelineno-0-871" name="__codelineno-0-871"></a>    <span class="p">)</span>
+<a id="__codelineno-0-872" name="__codelineno-0-872"></a>
+<a id="__codelineno-0-873" name="__codelineno-0-873"></a>    <span class="k">return</span> <span class="p">{</span>
+<a id="__codelineno-0-874" name="__codelineno-0-874"></a>        <span class="s2">&quot;replaced_models&quot;</span><span class="p">:</span> <span class="n">replaced_models</span><span class="p">,</span>
+<a id="__codelineno-0-875" name="__codelineno-0-875"></a>        <span class="s2">&quot;package_path&quot;</span><span class="p">:</span> <span class="n">package_path</span><span class="p">,</span>
+<a id="__codelineno-0-876" name="__codelineno-0-876"></a>    <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
