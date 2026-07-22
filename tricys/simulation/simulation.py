@@ -358,6 +358,8 @@ def run_co_simulation_job(config: dict, job_params: dict, job_id: int = 0) -> st
             # Old method: Load from module name (backward compatibility)
             elif "handler_module" in handler_config:
                 module_name = handler_config["handler_module"]
+                if os.getcwd() not in sys.path:
+                    sys.path.insert(0, os.getcwd())
                 logger.info(
                     "Loading co-simulation handler from module",
                     extra={
@@ -986,6 +988,11 @@ def run_post_processing(
         Logs errors for failed tasks but continues with remaining tasks.
     """
     post_processing_configs = config.get("post_processing")
+    if not post_processing_configs:
+        logger.info("No post-processing task configured, skipping this step.")
+        return
+    if isinstance(post_processing_configs, dict):
+        post_processing_configs = post_processing_configs.get("tasks", [])
     if not post_processing_configs:
         logger.info("No post-processing task configured, skipping this step.")
         return

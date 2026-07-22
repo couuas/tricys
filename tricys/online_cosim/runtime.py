@@ -6,6 +6,7 @@ import importlib.util
 import json
 import logging
 import os
+import sys
 from typing import Iterable, Sequence
 
 import pandas as pd
@@ -233,12 +234,14 @@ class OnlineCosimulationRunner:
             all_results.append(step_results)
 
         logger = logging.getLogger(__name__)
-        total_steps = len(steps) if hasattr(steps, '__len__') else "unknown"
+        total_steps = len(steps) if hasattr(steps, "__len__") else "unknown"
         logger.info(f"Starting online cosimulation with {total_steps} steps.")
 
         for i, step in enumerate(steps, 1):
             if i % 10 == 0 or i == 1:
-                logger.info(f"Processing co-simulation step {i}/{total_steps} (Time: {step.current_time_h:.3f}h -> {step.target_time_h:.3f}h)")
+                logger.info(
+                    f"Processing co-simulation step {i}/{total_steps} (Time: {step.current_time_h:.3f}h -> {step.target_time_h:.3f}h)"
+                )
 
             batch_key = (
                 step.step_id,
@@ -349,6 +352,8 @@ def load_handler_symbol(handler_config: dict):
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
     else:
+        if os.getcwd() not in sys.path:
+            sys.path.insert(0, os.getcwd())
         module = importlib.import_module(handler_config["handler_module"])
 
     return getattr(module, handler_config["handler_function"])

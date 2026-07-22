@@ -184,13 +184,16 @@ def _integrate_interceptor_single_file(
             for comp in components:
                 if comp[0] == "Modelica.Blocks.Interfaces.RealOutput":
                     dim = int(comp[11][0]) if comp[11] else 1
+                    default_col = column_config.get(comp[1], "")
+                    if not default_col:
+                        default_col = f"{{{','.join(['1'] * (dim + 1))}}}"
                     output_ports.append(
                         {
                             "name": comp[1],
                             "type": comp[0],
                             "dim": dim,
                             "comment": comp[2],
-                            "default_column": column_config.get(comp[1], ""),
+                            "default_column": default_col,
                         }
                     )
 

@@ -1,8 +1,14 @@
+import os
+import sys
+
+# Ensure UTF-8 mode globally on Windows before launching any subcommands or OpenModelica sessions
+if sys.platform == "win32":
+    os.environ["PYTHONUTF8"] = "1"
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+
 import argparse
 import json
-import os
 import subprocess
-import sys
 from pathlib import Path
 
 from tricys.simulation.simulation import main as simulation_main
