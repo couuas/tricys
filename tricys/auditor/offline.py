@@ -143,22 +143,25 @@ def perform_offline_audit(result_file: str, config: AuditorConfig) -> dict:
     cumulative_burn = 0.0
     cumulative_decay = 0.0
 
+    # NumPy 2.0+ compatibility (np.trapz removed in NumPy 2.0, replaced by np.trapezoid)
+    _trapz = getattr(np, "trapezoid", getattr(np, "trapz", None))
+
     if src_cols:
         src_rates = df[src_cols].sum(axis=1).values
         # Trapezoidal rule for integration
-        cumulative_sources = np.trapz(src_rates, times)
+        cumulative_sources = _trapz(src_rates, times)
 
     if leak_cols:
         leak_rates = df[leak_cols].sum(axis=1).values
-        cumulative_leak = np.trapz(leak_rates, times)
+        cumulative_leak = _trapz(leak_rates, times)
 
     if burn_cols:
         burn_rates = df[burn_cols].sum(axis=1).values
-        cumulative_burn = np.trapz(burn_rates, times)
+        cumulative_burn = _trapz(burn_rates, times)
 
     if decay_cols:
         decay_rates = df[decay_cols].sum(axis=1).values
-        cumulative_decay = np.trapz(decay_rates, times)
+        cumulative_decay = _trapz(decay_rates, times)
 
     if cum_src_cols:
         cumulative_sources += float(df[cum_src_cols].sum(axis=1).values[-1])
