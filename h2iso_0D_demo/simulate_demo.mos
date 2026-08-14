@@ -1,0 +1,2 @@
+loadFile("example_model.mo");
+simulate(example_model.Cycle, startTime=0, stopTime=5000, numberOfIntervals=500, tolerance=1e-6, method="dassl", outputFormat="csv", simflags="-overrideFile wang2022/override.txt", fileNamePrefix="example_model_coupled", variableFilter="time|sds\\.I\\[1\\]|o_iss\\.to_SDS\\[1\\]|i_iss\\.to_SDS\\[1\\]|tep_fep\\.to_SDS\\[1\\]|wds\\.to_O_ISS\\[1\\]|wds\\.to_O_ISS\\[2\\]|wds\\.to_O_ISS\\[3\\]|tes\\.to_O_ISS\\[1\\]|tes\\.to_O_ISS\\[2\\]|tes\\.to_O_ISS\\[3\\]");

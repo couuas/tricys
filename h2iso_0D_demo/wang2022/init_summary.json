@@ -1,0 +1,10 @@
+{
+  "source_config": "wang2022\\wang2022_isso.json",
+  "converged": true,
+  "iterations": 27,
+  "columns_initialized": [
+    "CD1",
+    "CD2",
+    "CD3"
+  ]
+}
