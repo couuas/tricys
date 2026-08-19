@@ -2305,9 +2305,9 @@
 <h1 id="tricys">TRICYS 并发执行<a class="headerlink" href="#tricys" title="Permanent link">&para;</a></h1>
 <p>TRICYS 旨在充分利用现代多核处理器的计算能力，通过并发执行来显著缩短参数扫描和批量仿真的总耗时。根据仿真类型的不同，TRICYS 会智能地采用两种不同的并发策略：<strong>多线程</strong>（用于标准仿真）和<strong>多进程</strong>（用于协同仿真）。</p>
 <p>您可以在 <code>config.json</code> 中通过以下参数来控制并发行为：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&quot;simulation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;concurrent&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="c1">// 设置为 true 来开启并发模式</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;max_workers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w">     </span><span class="c1">// 设置最大并发工作单元数，默认为 CPU 核心数</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"simulation"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"concurrent"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="c1">// 设置为 true 来开启并发模式</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"max_workers"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w">     </span><span class="c1">// 设置最大并发工作单元数，默认为 CPU 核心数</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="1">1. 标准仿真：多线程并发<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>

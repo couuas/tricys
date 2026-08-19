@@ -2485,8 +2485,8 @@
 <p>此阶段由 <code>simulation_analysis.py</code> 中的 <code>run_salib_analysis()</code> 函数调度，它会调用 TRICYS 的核心仿真引擎来执行计算。</p>
 <ol>
 <li><strong>生成特定配置</strong>：<code>salib.py</code> 中的 <code>generate_tricys_config()</code> 会创建一个临时的 TRICYS 配置文件。这个配置文件的关键之处在于，它将 <code>simulation_parameters</code> 指向了上一步生成的 <code>salib_sampling.csv</code> 文件。
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&quot;simulation_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/salib_sampling.csv&quot;</span>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"simulation_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/path/to/salib_sampling.csv"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
 </code></pre></div></li>
 <li><strong>TRICYS 启动与执行</strong>：当 <code>simulation_analysis.py</code> 使用这个特殊配置启动时，它会识别出这是一个基于文件的任务。TRICYS 会<strong>逐行读取</strong> <code>salib_sampling.csv</code>，并将每一行（即一组完整的参数）作为一个独立的仿真任务来执行。</li>

@@ -2489,8 +2489,8 @@
 <p>This stage is orchestrated by the <code>run_salib_analysis()</code> function in <code>simulation_analysis.py</code>, which calls TRICYS's core simulation engine to perform the calculations.</p>
 <ol>
 <li><strong>Generate Specific Configuration</strong>: The <code>generate_tricys_config()</code> function in <code>salib.py</code> creates a temporary TRICYS configuration file. The key aspect of this configuration file is that it points <code>simulation_parameters</code> to the <code>salib_sampling.csv</code> file generated in the previous step.
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&quot;simulation_parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/salib_sampling.csv&quot;</span>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">"simulation_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/path/to/salib_sampling.csv"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
 </code></pre></div></li>
 <li><strong>TRICYS Startup and Execution</strong>: When <code>simulation_analysis.py</code> starts with this special configuration, it recognizes it as a file-based task. TRICYS will <strong>read <code>salib_sampling.csv</code> line by line</strong>, treating each row (i.e., a complete set of parameters) as an independent simulation job.</li>
